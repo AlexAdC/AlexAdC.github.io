@@ -272,6 +272,7 @@ function initMap() {
 }
 
 function sendEmail() {
+	var db = firebase.firestore();
 	db.collection("leads").doc().set({
 		email: $('.email-input').val(),
 		added: Date.now()/1000

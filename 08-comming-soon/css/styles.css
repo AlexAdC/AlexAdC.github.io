@@ -131,6 +131,20 @@ html {
 
 .main-area .notify-btn:hover{ background: none; }
 
+.main-area .email-input-area{ margin: 40px auto; position: relative; width: 400px; height: 47px; text-align: center}
+
+.main-area .email-input-area .email-input{ width: 100%; position: absolute; top: 0; bottom: 0; left: 0; 
+	border-radius: 2px; border: 0; outline: 0; padding: 0 140px 0 25px; transition: all .2s; background: #F1F2F3; 
+	box-shadow: inset 0 0 1px rgba(0,0,0,.1); border: 1px solid transparent; }
+
+.main-area .email-input-area .email-input:focus{ border-color: #f89fbc; }
+
+
+.main-area .email-input-area .submit-btn{ width: 120px; text-align: center; position: absolute; top: 0; bottom: 0; 
+	right: 0; font-size: .9em; outline: 0; border-radius: 0 2px 2px 0; transition: all .3s; background: #F84982; color: #fff; }
+
+.main-area .email-input-area .submit-btn:hover{ background: #e40b52; }
+
 
 /* TIME COUNTDOWN */
 
