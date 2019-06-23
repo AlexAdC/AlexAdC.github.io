@@ -270,3 +270,16 @@ function initMap() {
 	map.mapTypes.set('styled_map', styledMapType);
 	map.setMapTypeId('styled_map');
 }
+
+function sendEmail() {
+	db.collection("leads").doc().set({
+		email: $('.email-input').val(),
+		added: Date.now()/1000
+	})
+	.then(function() {
+		console.log("Document successfully written!");
+	})
+	.catch(function(error) {
+		console.error("Error writing document: ", error);
+	});
+}
