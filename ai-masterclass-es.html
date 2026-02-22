@@ -1,0 +1,2076 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Revolución de la Inteligencia — Cómo la IA está reestructurando el trabajo cualificado</title>
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&f[]=cabinet-grotesk@500,700,800&display=swap">
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES (ELECTRIC STUDIO THEME)
+           =========================================== */
+        :root {
+            --bg: #f4f1eb;
+            --bg-dark: #1a1a2e;
+            --bg-card: #ffffff;
+            --bg-card-alt: rgba(45, 45, 255, 0.04);
+            --accent: #2d2dff;
+            --accent-light: rgba(45, 45, 255, 0.08);
+            --accent-mid: rgba(45, 45, 255, 0.15);
+            --accent-warm: #ff6b35;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --accent-yellow: #eab308;
+            --text: #1a1a2e;
+            --text-muted: #6b6b80;
+            --text-light: #9090a8;
+            --text-on-dark: #e8e4de;
+            --text-muted-dark: #a0a0b8;
+            --border: rgba(26, 26, 46, 0.08);
+
+            --font-display: 'Cabinet Grotesk', sans-serif;
+            --font-body: 'General Sans', sans-serif;
+
+            --title-size: clamp(2rem, 5.5vw, 4.5rem);
+            --h2-size: clamp(1.4rem, 3.5vw, 2.8rem);
+            --h3-size: clamp(1rem, 2vw, 1.5rem);
+            --body-size: clamp(0.75rem, 1.3vw, 1.05rem);
+            --small-size: clamp(0.65rem, 1vw, 0.85rem);
+            --stat-size: clamp(1.8rem, 4.5vw, 3.5rem);
+
+            --slide-padding: clamp(1.5rem, 4vw, 4rem);
+            --content-gap: clamp(0.75rem, 2vw, 1.5rem);
+            --element-gap: clamp(0.3rem, 1vw, 0.75rem);
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration: 0.7s;
+        }
+
+        /* ===========================================
+           BASE / RESET
+           =========================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            height: 100%;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===========================================
+           SLIDE CONTAINER — VIEWPORT FIT
+           =========================================== */
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding: var(--slide-padding);
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           DARK SLIDES
+           =========================================== */
+        .slide.dark {
+            background: var(--bg-dark);
+            color: var(--text-on-dark);
+        }
+
+        .slide.dark .text-muted {
+            color: var(--text-muted-dark);
+        }
+
+        .slide.dark .eyebrow {
+            color: var(--accent-warm);
+        }
+
+        .slide.dark .eyebrow::before {
+            background: var(--accent-warm);
+        }
+
+        /* ===========================================
+           TYPOGRAPHY
+           =========================================== */
+        .eyebrow {
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: clamp(0.5rem, 1.5vw, 1.25rem);
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: clamp(16px, 3vw, 32px);
+            height: 2px;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: var(--title-size);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        p, li {
+            font-size: var(--body-size);
+            line-height: 1.55;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-warm {
+            color: var(--accent-warm);
+        }
+
+        /* ===========================================
+           GEOMETRIC DECORATIONS
+           =========================================== */
+        .geo {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .geo-circle {
+            border: 2px solid var(--accent-mid);
+            border-radius: 50%;
+        }
+
+        .geo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .geo-square {
+            background: var(--accent-light);
+            border-radius: 8px;
+        }
+
+        .slide-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ===========================================
+           STAT CARDS
+           =========================================== */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 2vw, 1.5rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--element-gap);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-display);
+            font-size: var(--stat-size);
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-card .label {
+            font-size: var(--small-size);
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .stat-card .source {
+            font-size: clamp(0.55rem, 0.8vw, 0.7rem);
+            color: var(--text-light);
+            margin-top: auto;
+        }
+
+        .slide.dark .stat-card {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.08);
+        }
+
+        .slide.dark .stat-card .label {
+            color: var(--text-muted-dark);
+        }
+
+        .slide.dark .stat-card .source {
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* ===========================================
+           COMPANY GRID
+           =========================================== */
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+            gap: clamp(0.4rem, 1vw, 0.75rem);
+        }
+
+        .company-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: clamp(0.6rem, 1.5vw, 1.25rem);
+        }
+
+        .company-card .name {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+            margin-bottom: var(--element-gap);
+        }
+
+        .company-card .stat {
+            font-size: var(--small-size);
+            color: var(--text-muted-dark);
+            line-height: 1.4;
+        }
+
+        .company-card .stat strong {
+            color: var(--accent-warm);
+            font-weight: 600;
+        }
+
+        /* ===========================================
+           QUOTE SLIDE
+           =========================================== */
+        .big-quote {
+            font-family: var(--font-display);
+            font-size: clamp(1.4rem, 3.5vw, 3rem);
+            font-weight: 500;
+            line-height: 1.25;
+            font-style: italic;
+            max-width: 900px;
+        }
+
+        .big-quote .mark {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        .attribution {
+            font-family: var(--font-body);
+            font-size: var(--body-size);
+            font-weight: 500;
+            margin-top: clamp(0.75rem, 2vw, 1.5rem);
+            opacity: 0.7;
+        }
+
+        /* ===========================================
+           TWO-COLUMN LAYOUT
+           =========================================== */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(1rem, 3vw, 2.5rem);
+            align-items: start;
+        }
+
+        @media (max-width: 700px) {
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: clamp(0.5rem, 2vw, 1rem);
+            }
+        }
+
+        .col-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 2vw, 1.5rem);
+        }
+
+        .col-card.accent-border {
+            border-left: 3px solid var(--accent);
+        }
+
+        .col-card.warm-border {
+            border-left: 3px solid var(--accent-warm);
+        }
+
+        .slide.dark .col-card {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.08);
+        }
+
+        .slide.dark .col-card.accent-border {
+            border-left-color: var(--accent);
+        }
+
+        .slide.dark .col-card.warm-border {
+            border-left-color: var(--accent-warm);
+        }
+
+        /* ===========================================
+           LISTS
+           =========================================== */
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.3rem, 0.8vh, 0.6rem);
+        }
+
+        .feature-list li {
+            font-size: var(--body-size);
+            line-height: 1.45;
+            padding-left: 1.2em;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .feature-list.warm li::before {
+            background: var(--accent-warm);
+        }
+
+        /* ===========================================
+           THREE TIER / PATH CARDS
+           =========================================== */
+        .tier-grid, .path-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        @media (max-width: 700px) {
+            .tier-grid, .path-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tier-card {
+            border-radius: 12px;
+            padding: clamp(0.75rem, 1.5vw, 1.25rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--element-gap);
+        }
+
+        .tier-card.red {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .tier-card.yellow {
+            background: rgba(234, 179, 8, 0.08);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+        }
+
+        .tier-card.green {
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .tier-card .tier-label {
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .tier-card.red .tier-label { color: var(--accent-red); }
+        .tier-card.yellow .tier-label { color: var(--accent-yellow); }
+        .tier-card.green .tier-label { color: var(--accent-green); }
+
+        .tier-card .tier-title {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+        }
+
+        .tier-card .tier-desc {
+            font-size: var(--small-size);
+            line-height: 1.45;
+            color: var(--text-muted);
+        }
+
+        .path-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 1.5vw, 1.25rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--element-gap);
+        }
+
+        .path-card .path-num {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: var(--accent);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .path-card .path-title {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+        }
+
+        .path-card .path-desc {
+            font-size: var(--small-size);
+            line-height: 1.45;
+            color: var(--text-muted-dark);
+        }
+
+        .path-card.highlight {
+            border-color: var(--accent);
+            background: rgba(45, 45, 255, 0.08);
+        }
+
+        /* ===========================================
+           FLOW DIAGRAM
+           =========================================== */
+        .flow {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.3rem, 1vw, 0.75rem);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .flow-step {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: clamp(0.4rem, 1vw, 0.75rem) clamp(0.6rem, 1.2vw, 1rem);
+            font-size: var(--small-size);
+            text-align: center;
+            max-width: 160px;
+        }
+
+        .flow-arrow {
+            font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+            color: var(--accent-warm);
+            flex-shrink: 0;
+        }
+
+        /* ===========================================
+           TOOL GRID
+           =========================================== */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+            gap: clamp(0.3rem, 0.8vw, 0.5rem);
+        }
+
+        .tool-cat {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: clamp(0.5rem, 1.2vw, 0.75rem);
+        }
+
+        .tool-cat .cat-name {
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-cat .cat-tools {
+            font-size: clamp(0.6rem, 0.9vw, 0.78rem);
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* ===========================================
+           NUMBERED LIST
+           =========================================== */
+        .numbered-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.4rem, 1vh, 0.75rem);
+            counter-reset: item;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            font-size: var(--body-size);
+            line-height: 1.45;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            color: var(--accent);
+            flex-shrink: 0;
+            width: 1.5em;
+            text-align: center;
+        }
+
+        /* ===========================================
+           COMPARISON BLOCK
+           =========================================== */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(0.75rem, 2vw, 1.5rem);
+        }
+
+        @media (max-width: 600px) {
+            .comparison { grid-template-columns: 1fr; }
+        }
+
+        .comparison .bad {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 1.5vw, 1.25rem);
+        }
+
+        .comparison .good {
+            background: rgba(34, 197, 94, 0.06);
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 1.5vw, 1.25rem);
+        }
+
+        .comparison .comp-label {
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--element-gap);
+        }
+
+        .comparison .bad .comp-label { color: var(--accent-red); }
+        .comparison .good .comp-label { color: var(--accent-green); }
+
+        .comparison p {
+            font-size: var(--small-size);
+            line-height: 1.5;
+        }
+
+        /* ===========================================
+           TIMELINE / ACTION PLAN
+           =========================================== */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.5rem, 1.2vh, 0.75rem);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+            align-items: flex-start;
+        }
+
+        .timeline-month {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: var(--h3-size);
+            color: var(--accent);
+            flex-shrink: 0;
+            width: clamp(60px, 8vw, 90px);
+        }
+
+        .timeline-body {
+            font-size: var(--body-size);
+            line-height: 1.5;
+            border-left: 2px solid var(--accent-mid);
+            padding-left: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        .timeline-body strong {
+            display: block;
+            font-family: var(--font-display);
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        /* ===========================================
+           SLIDE COUNTER
+           =========================================== */
+        .slide-num {
+            position: absolute;
+            bottom: clamp(1rem, 2.5vw, 2rem);
+            right: clamp(1rem, 2.5vw, 2rem);
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 800;
+            opacity: 0.04;
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .slide.dark .slide-num {
+            opacity: 0.03;
+        }
+
+        .act-label {
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-warm);
+            margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        /* ===========================================
+           INVERTED PYRAMID
+           =========================================== */
+        .pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(0.2rem, 0.5vh, 0.35rem);
+            margin: clamp(0.5rem, 1.5vh, 1rem) 0;
+        }
+
+        .pyramid-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: var(--small-size);
+            font-weight: 600;
+            border-radius: 6px;
+            padding: clamp(0.35rem, 0.8vh, 0.5rem) 0;
+            color: #fff;
+        }
+
+        .pyramid-row:nth-child(1) { width: 90%; background: var(--accent); }
+        .pyramid-row:nth-child(2) { width: 75%; background: rgba(45, 45, 255, 0.75); }
+        .pyramid-row:nth-child(3) { width: 60%; background: rgba(45, 45, 255, 0.55); }
+        .pyramid-row:nth-child(4) { width: 45%; background: rgba(45, 45, 255, 0.35); color: var(--text); }
+        .pyramid-row:nth-child(5) { width: 30%; background: rgba(45, 45, 255, 0.2); color: var(--text); }
+
+        /* ===========================================
+           DISCUSSION SLIDE
+           =========================================== */
+        .discussion-prompt {
+            font-family: var(--font-display);
+            font-size: clamp(1.2rem, 3vw, 2.2rem);
+            font-weight: 700;
+            line-height: 1.3;
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .discussion-icon {
+            font-size: clamp(2rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        .discussion-time {
+            font-size: var(--small-size);
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        /* ===========================================
+           DEMO SLIDE
+           =========================================== */
+        .demo-box {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: clamp(1rem, 2.5vw, 2rem);
+            color: var(--text-on-dark);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .demo-box .demo-label {
+            font-size: var(--small-size);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-warm);
+            margin-bottom: var(--element-gap);
+        }
+
+        .demo-box .demo-task {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+            margin-bottom: clamp(0.5rem, 1.2vw, 0.75rem);
+        }
+
+        .demo-box p {
+            font-size: var(--small-size);
+            color: var(--text-muted-dark);
+            line-height: 1.5;
+        }
+
+        /* ===========================================
+           RESOURCES
+           =========================================== */
+        .resources-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.25rem, 0.6vh, 0.4rem);
+        }
+
+        .resources-list li {
+            font-size: clamp(0.6rem, 0.9vw, 0.78rem);
+            line-height: 1.4;
+            padding-left: 0.8em;
+            position: relative;
+            color: var(--text-muted-dark);
+        }
+
+        .resources-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .resources-list li strong {
+            color: var(--text-on-dark);
+            font-weight: 600;
+        }
+
+        .full-message {
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .full-message h2 {
+            font-size: clamp(1.5rem, 4vw, 3.2rem);
+            margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        /* ===========================================
+           SKILL RANKING
+           =========================================== */
+        .skill-rank {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.3rem, 0.7vh, 0.5rem);
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.5rem, 1.2vw, 0.75rem);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: clamp(0.4rem, 1vw, 0.65rem) clamp(0.6rem, 1.2vw, 1rem);
+        }
+
+        .skill-item .rank {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: var(--h3-size);
+            color: var(--accent);
+            width: 1.5em;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .skill-item .skill-name {
+            font-weight: 600;
+            font-size: var(--body-size);
+        }
+
+        .skill-item .skill-why {
+            font-size: var(--small-size);
+            color: var(--text-muted-dark);
+            margin-left: auto;
+        }
+
+        /* ===========================================
+           FAILURE MODES
+           =========================================== */
+        .failure-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.5rem, 1.2vw, 0.75rem);
+        }
+
+        @media (max-width: 700px) {
+            .failure-grid { grid-template-columns: 1fr; }
+        }
+
+        .failure-card {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.12);
+            border-radius: 10px;
+            padding: clamp(0.6rem, 1.3vw, 1rem);
+        }
+
+        .failure-card .fail-label {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: var(--h3-size);
+            color: var(--accent-red);
+            margin-bottom: var(--element-gap);
+        }
+
+        .failure-card p {
+            font-size: var(--small-size);
+            color: var(--text-muted-dark);
+            line-height: 1.45;
+        }
+
+        /* ===========================================
+           PROGRESS BAR
+           =========================================== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 1000;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* ===========================================
+           NAV DOTS
+           =========================================== */
+        .nav-dots {
+            position: fixed;
+            right: clamp(0.5rem, 1.5vw, 1.5rem);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(45, 45, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0;
+        }
+
+        .nav-dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
+
+        .nav-dot.dark-ctx {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .nav-dot.dark-ctx.active {
+            background: var(--accent-warm);
+        }
+
+        /* ===========================================
+           ANIMATIONS
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity var(--duration) var(--ease-out-expo),
+                        transform var(--duration) var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal:nth-child(1) { transition-delay: 0.08s; }
+        .reveal:nth-child(2) { transition-delay: 0.16s; }
+        .reveal:nth-child(3) { transition-delay: 0.24s; }
+        .reveal:nth-child(4) { transition-delay: 0.32s; }
+        .reveal:nth-child(5) { transition-delay: 0.4s; }
+        .reveal:nth-child(6) { transition-delay: 0.48s; }
+
+        /* ===========================================
+           RESPONSIVE BREAKPOINTS
+           =========================================== */
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 3vw, 2rem);
+                --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+                --title-size: clamp(1.5rem, 4.5vw, 3rem);
+                --h2-size: clamp(1.2rem, 3vw, 2rem);
+                --stat-size: clamp(1.5rem, 3.5vw, 2.5rem);
+            }
+        }
+
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+                --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+                --title-size: clamp(1.25rem, 4vw, 2.2rem);
+                --body-size: clamp(0.65rem, 1.1vw, 0.9rem);
+            }
+            .nav-dots { display: none; }
+        }
+
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: clamp(0.4rem, 2vw, 1rem);
+                --title-size: clamp(1rem, 3.5vw, 1.8rem);
+                --h2-size: clamp(0.9rem, 2.5vw, 1.5rem);
+            }
+        }
+
+        @media (max-width: 600px) {
+            :root {
+                --title-size: clamp(1.5rem, 8vw, 2.5rem);
+            }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .company-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html { scroll-behavior: auto; }
+            .reveal { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de progreso -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Puntos de navegación -->
+    <nav class="nav-dots" id="navDots"></nav>
+
+    <!-- =========================================
+         ACTO 1 — LA LLAMADA DE ATENCIÓN
+         ========================================= -->
+
+    <!-- DIAPOSITIVA 1: Título -->
+    <section class="slide dark" data-act="1">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Masterclass IA — 2026</div>
+                <h1 class="reveal" style="margin-bottom: clamp(0.5rem, 1.5vw, 1rem);">La Revolución de<br>la Inteligencia</h1>
+                <p class="reveal text-muted" style="font-size: var(--h3-size); max-width: 650px;">Cómo la IA está reestructurando el trabajo cualificado</p>
+                <p class="reveal" style="font-size: var(--small-size); color: var(--text-muted-dark); margin-top: clamp(1rem, 3vw, 2.5rem);">Alejandro Aguirre de Cárcer Domínguez &nbsp;·&nbsp; Universidad de Navarra &nbsp;·&nbsp; 25/2/2026</p>
+            </div>
+        </div>
+        <div class="slide-num">01</div>
+    </section>
+
+    <!-- DIAPOSITIVA 2: Cita de apertura -->
+    <section class="slide dark" data-act="1">
+        <div class="slide-inner">
+            <div class="slide-content" style="align-items: center; text-align: center;">
+                <p class="big-quote reveal"><span class="mark">&laquo;</span>La IA está empezando a superar a los humanos en casi todas las tareas intelectuales.<span class="mark">&raquo;</span></p>
+                <p class="attribution reveal">— Dario Amodei, CEO de Anthropic, mayo 2025</p>
+            </div>
+        </div>
+        <div class="slide-num">02</div>
+    </section>
+
+    <!-- DIAPOSITIVA 3: Las cifras que importan -->
+    <section class="slide" data-act="1">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">La magnitud</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Las cifras que importan</h2>
+                <div class="stat-grid reveal">
+                    <div class="stat-card">
+                        <div class="number">50%</div>
+                        <div class="label">de empleos cualificados de entrada en riesgo en 5 años</div>
+                        <div class="source">CEO de Anthropic, mayo 2025</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">40%</div>
+                        <div class="label">de los empleos contienen tareas técnicamente automatizables hoy</div>
+                        <div class="source">McKinsey, noviembre 2025</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">39%</div>
+                        <div class="label">de las competencias clave cambiarán para 2030</div>
+                        <div class="source">WEF Future of Jobs 2025</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">300M</div>
+                        <div class="label">de empleos a tiempo completo podrían verse afectados a nivel global</div>
+                        <div class="source">Goldman Sachs, 2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">04</div>
+    </section>
+
+    <!-- DIAPOSITIVA 5: Ya está ocurriendo — Muro de evidencias -->
+    <section class="slide dark" data-act="1">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Muro de evidencias</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Ya está ocurriendo</h2>
+                <div class="company-grid reveal">
+                    <div class="company-card">
+                        <div class="name">Klarna</div>
+                        <div class="stat">De 7.000 a 3.000 empleados. La IA gestiona la carga de trabajo de <strong>700 empleados</strong>.</div>
+                    </div>
+                    <div class="company-card">
+                        <div class="name">Salesforce</div>
+                        <div class="stat">Soporte de 9.000 a 5.000. La IA gestiona el <strong>50% de la carga de trabajo</strong>.</div>
+                    </div>
+                    <div class="company-card">
+                        <div class="name">McKinsey</div>
+                        <div class="stat"><strong>12.000 agentes de IA</strong> desplegados. ~5.000 puestos eliminados. 1,5M de horas ahorradas.</div>
+                    </div>
+                    <div class="company-card">
+                        <div class="name">IBM</div>
+                        <div class="stat"><strong>~8.000 puestos de RRHH</strong> eliminados. La IA sustituyó a cientos en la división de RRHH.</div>
+                    </div>
+                    <div class="company-card">
+                        <div class="name">Shopify</div>
+                        <div class="stat">Memo del CEO: los equipos deben <strong>demostrar por qué la IA no puede hacerlo</strong> antes de contratar.</div>
+                    </div>
+                    <div class="company-card">
+                        <div class="name">Duolingo</div>
+                        <div class="stat">IA-first desde mayo 2025. Uso de IA en <strong>evaluaciones de rendimiento</strong>.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">05</div>
+    </section>
+
+    <!-- DIAPOSITIVA 6: La escalera profesional se rompe -->
+    <section class="slide" data-act="1">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Impacto profesional</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">La escalera profesional se está rompiendo</h2>
+                <div class="stat-grid reveal" style="margin-bottom: var(--content-gap);">
+                    <div class="stat-card">
+                        <div class="number" style="color: var(--accent-red);">-24pp</div>
+                        <div class="label">Puestos de entrada en finanzas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" style="color: var(--accent-red);">-34%</div>
+                        <div class="label">Ofertas de prácticas en tecnología (2022–2024)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" style="color: var(--accent-red);">-30–40%</div>
+                        <div class="label">Contratación de analistas junior en consultoría</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" style="color: var(--accent-red);">-22%</div>
+                        <div class="label">Ofertas de prácticas en Fortune 500</div>
+                    </div>
+                </div>
+                <p class="reveal" style="text-align: center; font-size: var(--body-size); max-width: 600px; margin: 0 auto;"><em>&laquo;La IA está rompiendo primero el peldaño más bajo de la escalera profesional.&raquo;</em> <span class="text-muted">— Aneesh Raman, LinkedIn</span></p>
+            </div>
+        </div>
+        <div class="slide-num">06</div>
+    </section>
+
+    <!-- DIAPOSITIVA 7: ¿Por qué ahora? Economía de tokens -->
+    <section class="slide dark" data-act="1">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">El motor económico</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">¿Por qué ahora? La inteligencia se abarató.</h2>
+                <div class="two-col reveal">
+                    <div>
+                        <h3 style="margin-bottom: var(--element-gap);">Economía de tokens</h3>
+                        <p class="text-muted" style="font-size: var(--body-size); line-height: 1.55;">El precio de los tokens de IA se desploma a un ritmo de <strong style="color: var(--accent-warm);">10x&ndash;200x por año</strong>. La unidad fundamental de valor del software está pasando de instrucciones escritas por humanos a inteligencia artificial adquirible.</p>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: var(--element-gap);">Paradoja de Jevons</h3>
+                        <p class="text-muted" style="font-size: var(--body-size); line-height: 1.55;">Cuando el precio de un recurso cae drásticamente, el consumo <strong style="color: var(--accent-warm);">se dispara</strong>. Electricidad barata → todo se electrifica. Inteligencia barata → todos los flujos de trabajo se automatizan.</p>
+                    </div>
+                </div>
+                <p class="reveal" style="font-size: var(--body-size); text-align: center; margin-top: var(--content-gap); color: var(--text-muted-dark);">Esto no se está frenando. La lógica económica garantiza la aceleración.</p>
+            </div>
+        </div>
+        <div class="slide-num">07</div>
+    </section>
+
+    <!-- DIAPOSITIVA 8: Debate -->
+    <section class="slide" data-act="1">
+        <div class="slide-inner">
+            <div class="slide-content" style="align-items: center;">
+                <div class="discussion-icon reveal">&#128172;</div>
+                <p class="discussion-prompt reveal">¿Qué parte de vuestro futuro trabajo creéis que la IA tocará primero?</p>
+                <p class="discussion-time reveal">Debate en grupo — 3 minutos</p>
+            </div>
+        </div>
+        <div class="slide-num">08</div>
+    </section>
+
+    <!-- =========================================
+         ACTO 2 — CÓMO FUNCIONA LA MÁQUINA
+         ========================================= -->
+
+    <!-- DIAPOSITIVA 9: IA vs. Humanos -->
+    <section class="slide" data-act="2">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Cómo funciona</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Fortalezas de la IA vs. fortalezas humanas</h2>
+                <div class="two-col reveal">
+                    <div class="col-card accent-border">
+                        <h3 style="color: var(--accent); margin-bottom: var(--element-gap);">La IA destaca en</h3>
+                        <ul class="feature-list">
+                            <li>Síntesis y resumen a gran escala</li>
+                            <li>Reconocimiento de patrones en grandes conjuntos de datos</li>
+                            <li>Redacción de documentos y generación de plantillas</li>
+                            <li>Agregación de investigación y análisis de datos</li>
+                            <li>Tareas cognitivas repetitivas — 24/7, coste casi nulo</li>
+                        </ul>
+                    </div>
+                    <div class="col-card warm-border">
+                        <h3 style="color: var(--accent-warm); margin-bottom: var(--element-gap);">Los humanos dominan</h3>
+                        <ul class="feature-list warm">
+                            <li>Juicio en situaciones verdaderamente ambiguas</li>
+                            <li>Gestión de relaciones basadas en confianza</li>
+                            <li>Estrategia creativa y razonamiento ético</li>
+                            <li>Leer una sala — inteligencia social</li>
+                            <li>Saber qué pregunta hacer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">09</div>
+    </section>
+
+    <!-- DIAPOSITIVA 10: Autopsia del flujo de trabajo -->
+    <section class="slide dark" data-act="2">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Cambio en el flujo de trabajo</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">El trabajo se comprime, no se elimina</h2>
+                <div class="two-col reveal">
+                    <div>
+                        <h3 style="margin-bottom: var(--element-gap); opacity: 0.5;">Antes de la IA</h3>
+                        <ul class="feature-list" style="opacity: 0.6;">
+                            <li>3 horas — investigación y recopilación de datos</li>
+                            <li>2 horas — borrador del informe</li>
+                            <li>1 hora — maquetación y control de calidad</li>
+                            <li>1 hora — comunicación con el cliente</li>
+                            <li>1 hora — decisiones estratégicas</li>
+                        </ul>
+                        <p style="font-size: var(--small-size); color: var(--text-muted-dark); margin-top: var(--element-gap);">Jornada de 8 horas &middot; 1 analista</p>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: var(--element-gap); color: var(--accent);">Después de la IA</h3>
+                        <ul class="feature-list">
+                            <li><strong style="color: var(--accent);">20 min</strong> — Investigación IA + revisión humana</li>
+                            <li><strong style="color: var(--accent);">30 min</strong> — Borrador IA + edición humana</li>
+                            <li><strong style="color: var(--accent);">10 min</strong> — Maquetación automatizada</li>
+                            <li>1 hora — Comunicación con el cliente (humano)</li>
+                            <li>1 hora — Decisiones estratégicas (humano)</li>
+                        </ul>
+                        <p style="font-size: var(--small-size); color: var(--accent); margin-top: var(--element-gap);">3 horas &middot; Mismo resultado &middot; Menos personas necesarias</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">10</div>
+    </section>
+
+    <!-- DIAPOSITIVA 11: Panorama de herramientas -->
+    <section class="slide" data-act="2">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Desplegadas hoy</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">El panorama de herramientas</h2>
+                <div class="tool-grid reveal">
+                    <div class="tool-cat">
+                        <div class="cat-name">Redacción</div>
+                        <div class="cat-tools">Claude, ChatGPT, Gemini</div>
+                    </div>
+                    <div class="tool-cat">
+                        <div class="cat-name">Investigación</div>
+                        <div class="cat-tools">Perplexity, Claude, NotebookLM</div>
+                    </div>
+                    <div class="tool-cat">
+                        <div class="cat-name">Presentaciones</div>
+                        <div class="cat-tools">Gamma, Beautiful.ai</div>
+                    </div>
+                    <div class="tool-cat">
+                        <div class="cat-name">Datos</div>
+                        <div class="cat-tools">Julius AI, Excel Copilot</div>
+                    </div>
+                    <div class="tool-cat">
+                        <div class="cat-name">Legal</div>
+                        <div class="cat-tools">Harvey AI, Casetext</div>
+                    </div>
+                    <div class="tool-cat">
+                        <div class="cat-name">Código</div>
+                        <div class="cat-tools">GitHub Copilot, Cursor, Claude Code</div>
+                    </div>
+                    <div class="tool-cat">
+                        <div class="cat-name">Reuniones</div>
+                        <div class="cat-tools">Fireflies, Otter.ai, Granola</div>
+                    </div>
+                    <div class="tool-cat">
+                        <div class="cat-name">Imágenes</div>
+                        <div class="cat-tools">Midjourney, DALL-E, Firefly</div>
+                    </div>
+                </div>
+                <p class="reveal text-muted" style="text-align: center; margin-top: var(--content-gap); font-size: var(--small-size);">El 90% de las empresas Fortune 100 han adoptado GitHub Copilot. Microsoft Copilot está en Word, Excel y Outlook. No son herramientas del futuro.</p>
+            </div>
+        </div>
+        <div class="slide-num">11</div>
+    </section>
+
+    <!-- DIAPOSITIVA 12: IA Agéntica -->
+    <section class="slide dark" data-act="2">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">La próxima ola</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">De asistente a agente</h2>
+                <div class="two-col reveal">
+                    <div class="col-card" style="text-align: center;">
+                        <h3 style="margin-bottom: var(--element-gap); opacity: 0.5;">Asistente IA</h3>
+                        <p style="font-size: var(--body-size); color: var(--text-muted-dark);">Responde preguntas cuando se le pregunta. Espera el siguiente prompt. Una tarea a la vez.</p>
+                    </div>
+                    <div class="col-card accent-border" style="text-align: center;">
+                        <h3 style="margin-bottom: var(--element-gap); color: var(--accent);">Agente IA</h3>
+                        <p style="font-size: var(--body-size); color: var(--text-muted-dark);">Trabaja de forma autónoma hacia un objetivo durante horas. Gestiona subtareas. Toma decisiones. Informa de vuelta.</p>
+                    </div>
+                </div>
+                <p class="reveal" style="font-size: var(--body-size); text-align: center; margin-top: var(--content-gap); color: var(--text-muted-dark);">Datos de Anthropic: <strong style="color: var(--accent-warm);">60% aumentación vs. 40% automatización</strong> — y la cuota de automatización está creciendo. El salto a agentes es cuando la disrupción pasa de gradual a repentina.</p>
+            </div>
+        </div>
+        <div class="slide-num">13</div>
+    </section>
+
+    <!-- DIAPOSITIVA 14: La crisis del aprendizaje -->
+    <section class="slide" data-act="2">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">La crisis oculta</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">El modelo de aprendizaje se está rompiendo</h2>
+                <p class="reveal text-muted" style="max-width: 650px; margin-bottom: var(--content-gap);">Los profesionales junior aprendían juicio haciendo trabajo de bajo valor bajo supervisión senior. La IA ahora hace ese trabajo. Esto crea dos crisis simultáneas:</p>
+                <div class="two-col reveal">
+                    <div class="col-card accent-border">
+                        <h3 style="margin-bottom: var(--element-gap);">1. La crisis de contratación</h3>
+                        <p style="font-size: var(--body-size); color: var(--text-muted);">Las empresas necesitan menos juniors, así que la contratación de entrada colapsa. La vía de acceso a las carreras profesionales se estrecha drásticamente.</p>
+                    </div>
+                    <div class="col-card warm-border">
+                        <h3 style="margin-bottom: var(--element-gap);">2. La crisis de formación</h3>
+                        <p style="font-size: var(--body-size); color: var(--text-muted);">El camino por el cual los juniors desarrollaban su criterio profesional desaparece. ¿Quién formará a los profesionales senior del mañana si no hay años de junior?</p>
+                    </div>
+                </div>
+                <p class="reveal" style="font-size: var(--small-size); text-align: center; margin-top: var(--element-gap); color: var(--text-light);">Fuente: Fortune / Thomson Reuters, noviembre 2025</p>
+            </div>
+        </div>
+        <div class="slide-num">14</div>
+    </section>
+
+    <!-- DIAPOSITIVA 15: Los tres niveles de riesgo IA -->
+    <section class="slide" data-act="2">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Marco de riesgo</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Los tres niveles de riesgo de la IA</h2>
+                <div class="tier-grid reveal">
+                    <div class="tier-card red">
+                        <div class="tier-label">Nivel 1 — Inmediato</div>
+                        <div class="tier-title">Disrupción real</div>
+                        <div class="tier-desc">La IA ya está desplazando empleo hoy. Desarrollo de software, atención al cliente, investigación básica, análisis de datos rutinario.</div>
+                    </div>
+                    <div class="tier-card yellow">
+                        <div class="tier-label">Nivel 2 — Transicional</div>
+                        <div class="tier-title">Cambio a largo plazo</div>
+                        <div class="tier-desc">La IA asiste, pero la confianza y las relaciones siguen siendo el núcleo. Gestión patrimonial, consultoría senior, operaciones complejas.</div>
+                    </div>
+                    <div class="tier-card green">
+                        <div class="tier-label">Nivel 3 — Sobredimensionado</div>
+                        <div class="tier-title">Pánico irracional</div>
+                        <div class="tier-desc">Los mercados &laquo;han perdido el norte&raquo;. Una empresa de karaoke de 6M$ provocó una venta masiva multimillonaria en el sector de transporte.</div>
+                    </div>
+                </div>
+                <p class="reveal text-muted" style="text-align: center; margin-top: var(--element-gap); font-size: var(--small-size);">Saber en qué nivel estáis cambia toda vuestra estrategia.</p>
+            </div>
+        </div>
+        <div class="slide-num">15</div>
+    </section>
+
+    <!-- DIAPOSITIVA 16: Demo en vivo 1 -->
+    <section class="slide" data-act="2">
+        <div class="slide-inner">
+            <div class="slide-content" style="align-items: center;">
+                <div class="eyebrow reveal" style="justify-content: center;">Demo en vivo</div>
+                <h2 class="reveal" style="text-align: center; margin-bottom: var(--content-gap);">Veámoslo funcionar</h2>
+                <div class="demo-box reveal">
+                    <div class="demo-label">Tarea</div>
+                    <div class="demo-task">&laquo;Resume la tesis de inversión para un edificio de oficinas en un mercado con teletrabajo creciente&raquo;</div>
+                    <p>Herramienta: Claude o Perplexity &nbsp;·&nbsp; Tiempo: 8&ndash;10 minutos</p>
+                    <p style="margin-top: var(--element-gap);">Debate: ¿Qué ha acertado? ¿Qué ha fallado? ¿Qué aporta el humano?</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">16</div>
+    </section>
+
+    <!-- =========================================
+         ACTO 3 — EL MERCADO ESTÁ EN PÁNICO
+         ========================================= -->
+
+    <!-- DIAPOSITIVA 15: La profecía autocumplida -->
+    <section class="slide dark" data-act="3">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Bucle de retroalimentación</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">La profecía autocumplida</h2>
+                <div class="flow reveal">
+                    <div class="flow-step">Anuncio sobre IA</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Caída en bolsa</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Presión del consejo</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">CEO anuncia giro &laquo;IA-first&raquo;</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Congelación de contrataciones</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Puestos junior eliminados</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step" style="border-color: var(--accent-warm);">El pánico parece justificado</div>
+                </div>
+                <p class="reveal" style="font-size: var(--body-size); text-align: center; margin-top: var(--content-gap); color: var(--text-muted-dark); max-width: 650px; margin-left: auto; margin-right: auto;">Los consejos de administración y los CEO, por miedo a las caídas bursátiles, están forzando giros &laquo;performativos&raquo; hacia la IA — no porque la IA haya sustituido a nadie aún, sino porque temen parecer rezagados.</p>
+            </div>
+        </div>
+        <div class="slide-num">18</div>
+    </section>
+
+    <!-- DIAPOSITIVA 19: Lo que el mercado se equivoca -->
+    <section class="slide" data-act="3">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Contranarrativa</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">En qué se equivoca el mercado</h2>
+                <ul class="feature-list reveal" style="max-width: 700px; margin-bottom: var(--content-gap);">
+                    <li>Yale Budget Lab: <strong>&laquo;Escasa disrupción perceptible&raquo;</strong> en los datos laborales generales de EE.UU. desde el lanzamiento de ChatGPT.</li>
+                    <li>Goldman Sachs (julio 2025): <strong>&laquo;Sin indicios de impacto significativo en la mayoría de indicadores del mercado laboral.&raquo;</strong></li>
+                    <li>Algunas empresas usan &laquo;IA&raquo; como excusa conveniente para corregir la sobrecontratación de la pandemia.</li>
+                    <li>Klarna <strong>recontrató</strong> agentes de atención al cliente tras la caída de calidad: &laquo;Lo que acabas teniendo es peor calidad.&raquo;</li>
+                </ul>
+                <p class="reveal text-muted" style="font-size: var(--body-size); max-width: 650px;">La disrupción es real — pero la línea temporal que maneja el mercado es &laquo;descabellada&raquo;. Entender la brecha entre el pánico y la realidad es donde vive la oportunidad.</p>
+            </div>
+        </div>
+        <div class="slide-num">19</div>
+    </section>
+
+    <!-- DIAPOSITIVA 20: El cambio del presupuesto de inteligencia -->
+    <section class="slide dark" data-act="3">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Nueva economía</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">El cambio del presupuesto de inteligencia</h2>
+                <div class="stat-grid reveal">
+                    <div class="stat-card">
+                        <div class="number">3–5x</div>
+                        <div class="label">más ingresos por empleado en equipos nativos de IA vs. tradicionales</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">50 → 500</div>
+                        <div class="label">Un equipo de 50 gestionando agentes supera a 500 escribiendo código a mano</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">100%+</div>
+                        <div class="label">de ingresos gastados en computación por Anthropic, Perplexity — la inteligencia como materia prima</div>
+                    </div>
+                </div>
+                <p class="reveal" style="font-size: var(--body-size); text-align: center; margin-top: var(--content-gap); color: var(--text-muted-dark);">Las organizaciones están redirigiendo presupuestos enteros hacia un &laquo;gasto en inteligencia&raquo; centralizado — gestionado como la electricidad o el ancho de banda.</p>
+            </div>
+        </div>
+        <div class="slide-num">20</div>
+    </section>
+
+    <!-- DIAPOSITIVA 21: Hacia dónde se mueve la ventaja competitiva -->
+    <section class="slide" data-act="3">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Ventaja competitiva</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Hacia dónde se mueve la ventaja</h2>
+                <div class="two-col reveal">
+                    <div class="col-card" style="opacity: 0.5;">
+                        <h3 style="margin-bottom: var(--element-gap);">Ventaja antigua</h3>
+                        <ul class="feature-list">
+                            <li>Escala y número de empleados</li>
+                            <li>Eficiencia de procesos</li>
+                            <li>Asimetría de información</li>
+                            <li>Credenciales y prestigio</li>
+                        </ul>
+                    </div>
+                    <div class="col-card accent-border">
+                        <h3 style="margin-bottom: var(--element-gap); color: var(--accent);">Ventaja nueva</h3>
+                        <ul class="feature-list">
+                            <li><strong>Distribución</strong> — acceso al deal flow y a clientes</li>
+                            <li><strong>Expertise de dominio</strong> — conocimiento profundo de nicho</li>
+                            <li><strong>Relaciones con clientes</strong> — confianza a escala</li>
+                            <li><strong>Inteligencia de mercado local</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="reveal" style="font-size: var(--body-size); text-align: center; margin-top: var(--content-gap); max-width: 650px; margin-left: auto; margin-right: auto;">Goldman Sachs puede gastar más que nadie en tokens. <strong class="text-accent">No puede competir en todos los nichos.</strong> En inmobiliario: el conocimiento local, la confianza del cliente y las relaciones de negocio no se compran con tokens.</p>
+            </div>
+        </div>
+        <div class="slide-num">21</div>
+    </section>
+
+    <!-- DIAPOSITIVA 22: Debate en grupo -->
+    <section class="slide dark" data-act="3">
+        <div class="slide-inner">
+            <div class="slide-content" style="align-items: center;">
+                <div class="discussion-icon reveal">&#128161;</div>
+                <p class="discussion-prompt reveal">¿Qué tareas de vuestro futuro trabajo automatizaría primero vuestra empresa — y cuáles no automatizaría nunca?</p>
+                <p class="discussion-time reveal">Debate de 5 minutos &middot; Recoged 3&ndash;4 respuestas en público</p>
+            </div>
+        </div>
+        <div class="slide-num">22</div>
+    </section>
+
+    <!-- =========================================
+         ACTO 4 — LAS TRES CARRERAS QUE MERECE LA PENA CONSTRUIR
+         ========================================= -->
+
+    <!-- DIAPOSITIVA 23: Marco de los tres caminos -->
+    <section class="slide dark" data-act="4">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Acto 4 — Tres carreras que merece la pena construir</div>
+                <h2 class="reveal" style="margin-bottom: var(--element-gap);">El marco: tres caminos</h2>
+                <p class="reveal" style="font-size: var(--small-size); color: var(--text-muted-dark); margin-bottom: var(--content-gap);">Este marco aparece de forma independiente en dos fuentes distintas. Esa convergencia es la señal.</p>
+                <div class="path-grid reveal">
+                    <div class="path-card">
+                        <div class="path-num">01</div>
+                        <div class="path-title">El Orquestador</div>
+                        <div class="path-desc">Director de fábrica de inteligencia. Define resultados, gestiona presupuestos de IA, diseña flujos de agentes.</div>
+                    </div>
+                    <div class="path-card">
+                        <div class="path-num">02</div>
+                        <div class="path-title">El Constructor de Sistemas</div>
+                        <div class="path-desc">Infraestructura técnica profunda. Capas de enrutamiento, pipelines de evaluación, gestión de contexto.</div>
+                    </div>
+                    <div class="path-card highlight">
+                        <div class="path-num">03</div>
+                        <div class="path-title">El Traductor de Dominio</div>
+                        <div class="path-desc">Conocimiento profundo del sector + dominio de IA. Resuelve problemas de nicho que antes eran demasiado caros de automatizar. Vuestro camino.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">23</div>
+    </section>
+
+    <!-- DIAPOSITIVA 24: El Orquestador -->
+    <section class="slide" data-act="4">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Camino 1</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">El Orquestador</h2>
+                <div class="two-col reveal">
+                    <div>
+                        <p style="font-size: var(--body-size); color: var(--text-muted); margin-bottom: var(--content-gap);">Gestionar 10 agentes de IA en lugar de 10 analistas humanos. Define resultados, gestiona presupuestos de tokens, evalúa calidad.</p>
+                        <h3 style="margin-bottom: var(--element-gap);">Competencias clave</h3>
+                        <ul class="feature-list">
+                            <li>Pensamiento sistémico y definición de resultados</li>
+                            <li>Evaluación de calidad y bucles de retroalimentación</li>
+                            <li>Diseño de flujos de trabajo y arquitectura de agentes</li>
+                            <li>Optimización de presupuesto y recursos</li>
+                        </ul>
+                    </div>
+                    <div class="col-card accent-border">
+                        <h3 style="margin-bottom: var(--element-gap); color: var(--accent);">Ejemplo inmobiliario</h3>
+                        <p style="font-size: var(--body-size); color: var(--text-muted);">Un gestor de fondos que diseña pipelines de búsqueda y análisis de operaciones con IA — eliminando la necesidad de contratar a 3 analistas junior y mejorando la velocidad y cobertura de evaluación.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">24</div>
+    </section>
+
+    <!-- DIAPOSITIVA 25: El Constructor de Sistemas -->
+    <section class="slide" data-act="4">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Camino 2</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">El Constructor de Sistemas</h2>
+                <div class="two-col reveal">
+                    <div>
+                        <p style="font-size: var(--body-size); color: var(--text-muted); margin-bottom: var(--content-gap);">El camino más técnico. Construye la infraestructura que hace que los sistemas de IA sean fiables, escalables y de confianza.</p>
+                        <h3 style="margin-bottom: var(--element-gap);">Áreas clave</h3>
+                        <ul class="feature-list">
+                            <li>Capas de enrutamiento y orquestación de modelos</li>
+                            <li>Pipelines de evaluación y testing</li>
+                            <li>Sistemas de gestión de contexto</li>
+                            <li>Infraestructura de datos e integración</li>
+                        </ul>
+                    </div>
+                    <div class="col-card" style="display: flex; align-items: center; justify-content: center; text-align: center;">
+                        <div>
+                            <p style="font-size: var(--h3-size); font-family: var(--font-display); font-weight: 700; margin-bottom: var(--element-gap);">El camino más técnico</p>
+                            <p style="font-size: var(--body-size); color: var(--text-muted);">Requiere una inversión técnica importante. Merece la pena conocerlo — aunque no sea vuestra vía principal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">25</div>
+    </section>
+
+    <!-- DIAPOSITIVA 26: El Traductor de Dominio -->
+    <section class="slide dark" data-act="4">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal" style="color: var(--accent);">Camino 3 — Vuestro camino</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">El Traductor de Dominio</h2>
+                <p class="reveal" style="font-size: var(--body-size); color: var(--text-muted-dark); margin-bottom: var(--content-gap); max-width: 700px;">Conocimiento profundo del sector + dominio de IA. Los tecnólogos puros no entienden las operaciones. Los directivos senior no entienden las herramientas. La persona que está en medio es extraordinariamente escasa.</p>
+                <ul class="feature-list reveal" style="max-width: 750px;">
+                    <li>Modelización de flujos de caja + IA construyendo un <strong style="color: var(--accent);">análisis de sensibilidad de 50 escenarios en minutos</strong></li>
+                    <li>Psicología del inversor + IA personalizando <strong style="color: var(--accent);">200 comunicaciones a inversores</strong> sin perder el matiz</li>
+                    <li>Due diligence + agente IA que <strong style="color: var(--accent);">detecta señales de alerta</strong> antes de la revisión humana</li>
+                    <li>Estudios de mercado + IA sintetizando un <strong style="color: var(--accent);">resumen de mercado en 20 minutos</strong> en lugar de 3 días</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-num">26</div>
+    </section>
+
+    <!-- DIAPOSITIVA 27: El empleado indispensable -->
+    <section class="slide" data-act="4">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">La ejecución gana</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">El empleado indispensable</h2>
+                <div class="comparison reveal">
+                    <div class="bad">
+                        <div class="comp-label">Vago</div>
+                        <p>&laquo;Deberíamos integrar IA en nuestro proceso de inversión.&raquo;</p>
+                    </div>
+                    <div class="good">
+                        <div class="comp-label">Concreto</div>
+                        <p>&laquo;He pasado nuestros últimos 20 memos de operación por Claude. El tiempo de primer borrador bajó de 4 horas a 45 minutos. Aquí está la plantilla de prompts. Aquí está lo que falla. Podríamos implantarlo en todo el equipo el mes que viene.&raquo;</p>
+                    </div>
+                </div>
+                <p class="reveal" style="font-size: var(--body-size); text-align: center; margin-top: var(--content-gap); max-width: 600px; margin-left: auto; margin-right: auto;"><strong class="text-accent">La concreción y la ejecución</strong> son los bienes más escasos en la transición hacia la IA.</p>
+            </div>
+        </div>
+        <div class="slide-num">27</div>
+    </section>
+
+    <!-- DIAPOSITIVA 28: La Solo-Corporación -->
+    <section class="slide dark" data-act="4">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Idea provocadora</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">La Solo-Corporación</h2>
+                <p class="reveal" style="font-size: var(--body-size); color: var(--text-muted-dark); max-width: 700px; margin-bottom: var(--content-gap);">A medida que el equipo mínimo viable se acerca a una sola persona, ser independiente se convierte en una elección económica racional.</p>
+                <div class="two-col reveal">
+                    <div>
+                        <h3 style="margin-bottom: var(--element-gap);">Ya está ocurriendo</h3>
+                        <ul class="feature-list">
+                            <li>Asesoría legal y financiera</li>
+                            <li>Servicios creativos y de marketing</li>
+                            <li>Consultoría estratégica</li>
+                        </ul>
+                    </div>
+                    <div class="col-card accent-border">
+                        <h3 style="margin-bottom: var(--element-gap); color: var(--accent);">Ángulo inmobiliario</h3>
+                        <p style="font-size: var(--body-size); color: var(--text-muted-dark);">Un solo profesional con dominio de IA, red de contactos sólida y profundo conocimiento de mercado puede dirigir una operación de asesoría de inversión que antes requería un equipo entero. Cambia el cálculo por completo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">28</div>
+    </section>
+
+    <!-- DIAPOSITIVA 29: Competencias a desarrollar -->
+    <section class="slide dark" data-act="4">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Construid ahora</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Las competencias a desarrollar ya</h2>
+                <div class="skill-rank reveal">
+                    <div class="skill-item">
+                        <div class="rank">1</div>
+                        <div><span class="skill-name">Dominio de IA</span></div>
+                        <div class="skill-why">Prompt engineering, evaluación de herramientas, diseño de flujos</div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="rank">2</div>
+                        <div><span class="skill-name">Criterio y pensamiento crítico</span></div>
+                        <div class="skill-why">Evaluar resultados, detectar alucinaciones</div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="rank">3</div>
+                        <div><span class="skill-name">Capital relacional</span></div>
+                        <div class="skill-why">Lo único que la IA no puede replicar a escala</div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="rank">4</div>
+                        <div><span class="skill-name">Pensamiento sistémico</span></div>
+                        <div class="skill-why">Entender los flujos de trabajo de principio a fin</div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="rank">5</div>
+                        <div><span class="skill-name">Profundidad de dominio</span></div>
+                        <div class="skill-why">Vuestra experiencia se vuelve MÁS valiosa con la IA</div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="rank">6</div>
+                        <div><span class="skill-name">Adaptabilidad</span></div>
+                        <div class="skill-why">La metacompetencia por encima de todas las demás</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">29</div>
+    </section>
+
+    <!-- DIAPOSITIVA 30: Demo en vivo 2 -->
+    <section class="slide" data-act="4">
+        <div class="slide-inner">
+            <div class="slide-content" style="align-items: center;">
+                <div class="eyebrow reveal" style="justify-content: center;">Ejercicio práctico</div>
+                <h2 class="reveal" style="text-align: center; margin-bottom: var(--content-gap);">Construyamos algo juntos</h2>
+                <div class="demo-box reveal">
+                    <div class="demo-label">Ejercicio en vivo</div>
+                    <div class="demo-task">Pasar un trabajo real de estudiante por un flujo de IA</div>
+                    <p>Opciones: One-pager para inversores &middot; Checklist de due diligence &middot; Análisis de mercado</p>
+                    <p style="margin-top: var(--element-gap);">Debate: ¿Qué cambiaríais? ¿Qué ha fallado? ¿Cuánto tiempo vs. manual?</p>
+                    <p style="margin-top: var(--element-gap); color: var(--accent-warm);">Tiempo: 10&ndash;12 minutos</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">30</div>
+    </section>
+
+    <!-- =========================================
+         ACTO 5 — VUESTRO TURNO
+         ========================================= -->
+
+    <!-- DIAPOSITIVA 31: La evaluación honesta -->
+    <section class="slide" data-act="5">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Acto 5 — Vuestro turno</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">La evaluación honesta</h2>
+                <div class="reveal" style="display: flex; flex-direction: column; gap: var(--content-gap); max-width: 700px;">
+                    <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <span style="color: var(--accent-red); font-weight: 700; font-size: var(--h3-size); flex-shrink: 0;">&#9679;</span>
+                        <p style="font-size: var(--body-size);"><strong>La disrupción ES real</strong> — los datos son demasiado consistentes en demasiadas fuentes independientes para descartarlos.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <span style="color: var(--accent-yellow); font-weight: 700; font-size: var(--h3-size); flex-shrink: 0;">&#9679;</span>
+                        <p style="font-size: var(--body-size);"><strong>La línea temporal ES incierta</strong> — desde 1&ndash;5 años (Amodei) hasta &laquo;impacto limitado actual&raquo; (Yale).</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: flex-start;">
+                        <span style="color: var(--accent-green); font-weight: 700; font-size: var(--h3-size); flex-shrink: 0;">&#9679;</span>
+                        <p style="font-size: var(--body-size);"><strong>La oportunidad ES genuina</strong> — la brecha del Traductor de Dominio es real y enorme ahora mismo.</p>
+                    </div>
+                </div>
+                <p class="reveal" style="font-size: var(--body-size); margin-top: var(--content-gap); max-width: 600px;"><strong style="color: var(--accent-red);">La peor respuesta:</strong> no hacer nada y asumir que vuestro título os protegerá.</p>
+            </div>
+        </div>
+        <div class="slide-num">31</div>
+    </section>
+
+    <!-- DIAPOSITIVA 32: Lo que vuestros compañeros hacen mal -->
+    <section class="slide dark" data-act="5">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Modos de fallo</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Lo que vuestros compañeros hacen mal</h2>
+                <div class="failure-grid reveal">
+                    <div class="failure-card">
+                        <div class="fail-label">Negación</div>
+                        <p>&laquo;La IA es solo una herramienta, no sustituirá a los profesionales de verdad.&raquo;</p>
+                        <p style="margin-top: var(--element-gap); color: var(--text-muted-dark); font-style: italic;">Lo mismo que dijeron los abogados sobre el software de investigación legal en 2010.</p>
+                    </div>
+                    <div class="failure-card">
+                        <div class="fail-label">Parálisis</div>
+                        <p>&laquo;Todo cambia tan rápido que no sé por dónde empezar.&raquo;</p>
+                        <p style="margin-top: var(--element-gap); color: var(--text-muted-dark); font-style: italic;">La respuesta: empezad por cualquier sitio. Ya perfeccionaréis después.</p>
+                    </div>
+                    <div class="failure-card">
+                        <div class="fail-label">Superficialidad</div>
+                        <p>&laquo;Yo uso ChatGPT.&raquo;</p>
+                        <p style="margin-top: var(--element-gap); color: var(--text-muted-dark); font-style: italic;">Como decir &laquo;yo uso Excel&raquo; cuando quieres decir que sabes escribir en celdas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">32</div>
+    </section>
+
+    <!-- DIAPOSITIVA 33: Plan de acción de 90 días -->
+    <section class="slide" data-act="5">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">A partir del lunes</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Vuestro plan de acción de 90 días</h2>
+                <div class="timeline reveal">
+                    <div class="timeline-item">
+                        <div class="timeline-month">Mes 1</div>
+                        <div class="timeline-body">
+                            <strong>Elegid una herramienta de IA. Usadla cada día.</strong>
+                            Aprended sus límites tanto como sus fortalezas. Haced trabajo real con ella — no ejemplos de juguete.
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-month">Mes 2</div>
+                        <div class="timeline-body">
+                            <strong>Mapeád un flujo de trabajo que encontraréis en vuestra carrera.</strong>
+                            Identificad qué pasos gestiona la IA, cuáles asiste y cuáles son irreductiblemente humanos. Construid un prototipo.
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-month">Mes 3</div>
+                        <div class="timeline-body">
+                            <strong>Compartid lo que habéis construido.</strong>
+                            Escribid sobre ello en LinkedIn. Presentadlo en una entrevista. Una implementación específica y funcional de IA ya es lo suficientemente rara como para llamar la atención.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">33</div>
+    </section>
+
+    <!-- DIAPOSITIVA 34: El contexto generacional -->
+    <section class="slide" data-act="5">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Patrón histórico</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Ya habéis visto esto antes</h2>
+                <div class="reveal" style="display: flex; flex-direction: column; gap: var(--content-gap); max-width: 700px;">
+                    <div style="display: flex; gap: clamp(0.5rem, 1.5vw, 1rem); align-items: flex-start;">
+                        <span style="font-family: var(--font-display); font-weight: 800; font-size: var(--h3-size); color: var(--accent); flex-shrink: 0; width: 3.5em;">1985</span>
+                        <p style="font-size: var(--body-size);">Las hojas de cálculo. Los contables que las aprendieron se volvieron más valiosos, no reemplazables.</p>
+                    </div>
+                    <div style="display: flex; gap: clamp(0.5rem, 1.5vw, 1rem); align-items: flex-start;">
+                        <span style="font-family: var(--font-display); font-weight: 800; font-size: var(--h3-size); color: var(--accent); flex-shrink: 0; width: 3.5em;">1996</span>
+                        <p style="font-size: var(--body-size);">Internet. Quienes lo aprendieron construyeron la nueva economía. Quienes lo descartaron perdieron la ventana.</p>
+                    </div>
+                    <div style="display: flex; gap: clamp(0.5rem, 1.5vw, 1rem); align-items: flex-start;">
+                        <span style="font-family: var(--font-display); font-weight: 800; font-size: var(--h3-size); color: var(--accent-warm); flex-shrink: 0; width: 3.5em;">2026</span>
+                        <p style="font-size: var(--body-size);"><strong>IA.</strong> La ventana en la que el dominio de IA es un diferenciador en lugar de una expectativa mínima es estrecha. Estáis sentados en ella ahora mismo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">34</div>
+    </section>
+
+    <!-- DIAPOSITIVA 35: Lo único que importa -->
+    <section class="slide dark" data-act="5">
+        <div class="slide-inner">
+            <div class="slide-content" style="align-items: center; text-align: center;">
+                <p class="big-quote reveal" style="font-style: normal; font-size: clamp(1.2rem, 3vw, 2.5rem);"><span class="mark">&laquo;</span>El profesional más valioso de la próxima década no es el que mejor conoce la IA. Es el que mejor conoce su sector <em style="color: var(--accent-warm);">Y</em> conoce la IA lo suficiente como para desplegarla sobre ese conocimiento.<span class="mark">&raquo;</span></p>
+                <p class="reveal" style="font-size: var(--h3-size); margin-top: var(--content-gap); color: var(--accent);">Eso es el Traductor de Dominio.<br>Eso es lo que estáis construyendo.</p>
+            </div>
+        </div>
+        <div class="slide-num">35</div>
+    </section>
+
+    <!-- DIAPOSITIVA 36: Preguntas y debate -->
+    <section class="slide" data-act="5">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal" style="justify-content: center;">Debate abierto</div>
+                <h2 class="reveal" style="text-align: center; margin-bottom: var(--content-gap);">Preguntas y respuestas</h2>
+                <div class="reveal" style="display: flex; flex-direction: column; gap: var(--content-gap); max-width: 700px; margin: 0 auto;">
+                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: clamp(0.6rem, 1.5vw, 1rem);">
+                        <p style="font-size: var(--body-size); font-style: italic;">&laquo;¿Cuál es la tarea de vuestro futuro trabajo que os daría vergüenza admitir que la IA hace mejor que vosotros?&raquo;</p>
+                    </div>
+                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: clamp(0.6rem, 1.5vw, 1rem);">
+                        <p style="font-size: var(--body-size); font-style: italic;">&laquo;Si tuvierais que apostar por un puesto en vuestro sector que desaparece en 10 años, ¿cuál sería?&raquo;</p>
+                    </div>
+                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: clamp(0.6rem, 1.5vw, 1rem);">
+                        <p style="font-size: var(--body-size); font-style: italic;">&laquo;¿Cuál sería vuestro primer proyecto de implementación de IA si empezarais en una empresa el próximo lunes?&raquo;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">36</div>
+    </section>
+
+    <!-- DIAPOSITIVA 37: Recursos -->
+    <section class="slide dark" data-act="5">
+        <div class="slide-inner">
+            <div class="slide-content">
+                <div class="eyebrow reveal">Lecturas recomendadas</div>
+                <h2 class="reveal" style="margin-bottom: var(--content-gap);">Recursos</h2>
+                <ul class="resources-list reveal">
+                    <li><strong>McKinsey (nov. 2025)</strong> — &laquo;Agents, robots, and us: Skill partnerships in the age of AI&raquo;</li>
+                    <li><strong>WEF</strong> — Future of Jobs Report 2025</li>
+                    <li><strong>Goldman Sachs (ago. 2025)</strong> — &laquo;How Will AI Affect the Global Workforce?&raquo;</li>
+                    <li><strong>CEO de Anthropic</strong> — Entrevista a Dario Amodei, Axios (mayo 2025)</li>
+                    <li><strong>CNBC (oct. 2025)</strong> — &laquo;AI is already taking white-collar jobs&raquo;</li>
+                    <li><strong>HBR (sep. 2025)</strong> — &laquo;AI Is Changing the Structure of Consulting Firms&raquo;</li>
+                    <li><strong>Fortune (nov. 2025)</strong> — &laquo;AI requires a rethink of the apprenticeship model&raquo;</li>
+                    <li><strong>TIME (oct. 2025)</strong> — &laquo;AI Is Learning to Do the Jobs of Doctors, Lawyers, and Consultants&raquo;</li>
+                    <li><strong>Vídeo</strong> — &laquo;Why the Biggest AI Career Opportunity Just Appeared&raquo;</li>
+                    <li><strong>Vídeo</strong> — &laquo;The Shift to Token Economics&raquo;</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-num">37</div>
+    </section>
+
+    <!-- DIAPOSITIVA 38: Cierre -->
+    <section class="slide dark" data-act="5">
+        <div class="slide-inner">
+            <div class="slide-content" style="align-items: center; text-align: center;">
+                <h1 class="reveal" style="margin-bottom: var(--content-gap);">La Revolución de<br>la Inteligencia</h1>
+                <div class="reveal" style="width: 40px; height: 2px; background: var(--accent-warm); margin: 0 auto clamp(0.75rem, 2vw, 1.5rem);"></div>
+                <p class="reveal" style="font-size: var(--body-size); color: var(--text-muted-dark); margin-bottom: var(--content-gap);">Masterclass IA &middot; 2026</p>
+                <p class="reveal" style="font-size: var(--h3-size); font-family: var(--font-display); font-weight: 500; font-style: italic; max-width: 550px; color: var(--text-muted-dark);">&laquo;El tren está en marcha. La única pregunta es si lo estáis conduciendo vosotros.&raquo;</p>
+            </div>
+        </div>
+        <div class="slide-num">38</div>
+    </section>
+
+    <!-- ===========================================
+         JAVASCRIPT: Controlador de presentación
+         =========================================== -->
+    <script>
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.currentSlide = 0;
+                this.totalSlides = this.slides.length;
+                this.progressBar = document.getElementById('progressBar');
+                this.navDotsContainer = document.getElementById('navDots');
+                this.isScrolling = false;
+                this.touchStartY = 0;
+
+                this.init();
+            }
+
+            init() {
+                this.createNavDots();
+                this.setupIntersectionObserver();
+                this.setupKeyboardNav();
+                this.setupTouchNav();
+                this.setupWheelNav();
+                this.updateProgress();
+            }
+
+            createNavDots() {
+                this.slides.forEach((_, i) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'nav-dot';
+                    dot.setAttribute('aria-label', `Ir a diapositiva ${i + 1}`);
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    this.navDotsContainer.appendChild(dot);
+                });
+                this.updateNavDots();
+            }
+
+            updateNavDots() {
+                const dots = this.navDotsContainer.querySelectorAll('.nav-dot');
+                const currentSlideEl = this.slides[this.currentSlide];
+                const isDark = currentSlideEl && currentSlideEl.classList.contains('dark');
+
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === this.currentSlide);
+                    dot.classList.toggle('dark-ctx', isDark);
+                });
+            }
+
+            setupIntersectionObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            const index = Array.from(this.slides).indexOf(entry.target);
+                            if (index !== -1) {
+                                this.currentSlide = index;
+                                this.updateProgress();
+                                this.updateNavDots();
+                            }
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                this.slides.forEach(slide => observer.observe(slide));
+            }
+
+            setupKeyboardNav() {
+                document.addEventListener('keydown', (e) => {
+                    switch(e.key) {
+                        case 'ArrowDown':
+                        case 'ArrowRight':
+                        case ' ':
+                        case 'PageDown':
+                            e.preventDefault();
+                            this.nextSlide();
+                            break;
+                        case 'ArrowUp':
+                        case 'ArrowLeft':
+                        case 'PageUp':
+                            e.preventDefault();
+                            this.prevSlide();
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            this.goToSlide(0);
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            this.goToSlide(this.totalSlides - 1);
+                            break;
+                    }
+                });
+            }
+
+            setupTouchNav() {
+                document.addEventListener('touchstart', (e) => {
+                    this.touchStartY = e.touches[0].clientY;
+                }, { passive: true });
+
+                document.addEventListener('touchend', (e) => {
+                    const diff = this.touchStartY - e.changedTouches[0].clientY;
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) this.nextSlide();
+                        else this.prevSlide();
+                    }
+                }, { passive: true });
+            }
+
+            setupWheelNav() {
+                let lastWheel = 0;
+                document.addEventListener('wheel', (e) => {
+                    const now = Date.now();
+                    if (now - lastWheel < 800) return;
+                    lastWheel = now;
+
+                    if (e.deltaY > 30) this.nextSlide();
+                    else if (e.deltaY < -30) this.prevSlide();
+                }, { passive: true });
+            }
+
+            goToSlide(index) {
+                if (index < 0 || index >= this.totalSlides) return;
+                this.slides[index].scrollIntoView({ behavior: 'smooth' });
+                this.currentSlide = index;
+                this.updateProgress();
+                this.updateNavDots();
+            }
+
+            nextSlide() {
+                this.goToSlide(this.currentSlide + 1);
+            }
+
+            prevSlide() {
+                this.goToSlide(this.currentSlide - 1);
+            }
+
+            updateProgress() {
+                const progress = ((this.currentSlide + 1) / this.totalSlides) * 100;
+                this.progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new SlidePresentation();
+        });
+    </script>
+</body>
+</html>
