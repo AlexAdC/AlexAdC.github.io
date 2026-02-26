@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+
+<!-- saved from url=(0048)https://alexadc.github.io/ai-masterclass-es.html -->
+<html lang="es"><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>La Revolución de la Inteligencia — Cómo la IA está reestructurando el trabajo cualificado</title>
+<link href="./La Revolución de la Inteligencia_files/css" rel="stylesheet"/>
+<style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES (ELECTRIC STUDIO THEME)
+           =========================================== */
+        :root {
+            --bg: #ffffff;
+            --bg-dark: #002147;
+            --bg-card: #f0f4fa;
+            --bg-card-alt: rgba(0, 82, 165, 0.06);
+            --accent: #0052a5;
+            --accent-light: rgba(0, 82, 165, 0.1);
+            --accent-mid: rgba(0, 82, 165, 0.2);
+            --accent-warm: #00aaff;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --accent-yellow: #eab308;
+            --text: #002147;
+            --text-muted: #3a5068;
+            --text-light: #6080a0;
+            --text-on-dark: #ffffff;
+            --text-muted-dark: #a0c0d8;
+            --border: rgba(0, 33, 71, 0.12);
+
+            --font-display: 'Cabinet Grotesk', sans-serif;
+            --font-body: 'General Sans', sans-serif;
+
+            --title-size: clamp(3rem, 7.5vw, 6.5rem);
+            --h2-size: clamp(2.2rem, 5vw, 4rem);
+            --h3-size: clamp(1.5rem, 3vw, 2.2rem);
+            --body-size: clamp(1.15rem, 2vw, 1.6rem);
+            --small-size: clamp(1rem, 1.6vw, 1.3rem);
+            --stat-size: clamp(2.8rem, 6.5vw, 5rem);
+
+            --slide-padding: clamp(1.5rem, 4vw, 4rem);
+            --content-gap: clamp(0.75rem, 2vw, 1.5rem);
+            --element-gap: clamp(0.3rem, 1vw, 0.75rem);
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration: 0.7s;
+        }
+
+        /* ===========================================
+           BASE / RESET
+           =========================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            height: 100%;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===========================================
+           SLIDE CONTAINER — VIEWPORT FIT
+           =========================================== */
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding: var(--slide-padding);
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden;
+        }
+
+        /* ===========================================
+           DARK SLIDES
+           =========================================== */
+        .slide.dark {
+            background: var(--bg-dark);
+            color: var(--text-on-dark);
+        }
+
+        .slide.dark .text-muted {
+            color: var(--text-muted-dark);
+        }
+
+        .slide.dark .eyebrow {
+            color: var(--accent-warm);
+        }
+
+        .slide.dark .eyebrow::before {
+            background: var(--accent-warm);
+        }
+
+        /* ===========================================
+           TYPOGRAPHY
+           =========================================== */
+        .eyebrow {
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: clamp(0.5rem, 1.5vw, 1.25rem);
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: clamp(16px, 3vw, 32px);
+            height: 2px;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: var(--title-size);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        p, li {
+            font-size: var(--body-size);
+            line-height: 1.55;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-warm {
+            color: var(--accent-warm);
+        }
+
+        /* ===========================================
+           GEOMETRIC DECORATIONS
+           =========================================== */
+        .geo {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .geo-circle {
+            border: 2px solid var(--accent-mid);
+            border-radius: 50%;
+        }
+
+        .geo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .geo-square {
+            background: var(--accent-light);
+            border-radius: 8px;
+        }
+
+        .slide-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ===========================================
+           STAT CARDS
+           =========================================== */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 2vw, 1.5rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--element-gap);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-display);
+            font-size: var(--stat-size);
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stat-card .label {
+            font-size: var(--small-size);
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .stat-card .source {
+            font-size: clamp(0.7rem, 1vw, 0.88rem);
+            color: var(--text-light);
+            margin-top: auto;
+        }
+
+        .slide.dark .stat-card {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.08);
+        }
+
+        .slide.dark .stat-card .label {
+            color: var(--text-muted-dark);
+        }
+
+        .slide.dark .stat-card .source {
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* ===========================================
+           COMPANY GRID
+           =========================================== */
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+            gap: clamp(0.4rem, 1vw, 0.75rem);
+        }
+
+        .company-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: clamp(0.6rem, 1.5vw, 1.25rem);
+        }
+
+        .company-card .name {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+            margin-bottom: var(--element-gap);
+        }
+
+        .company-card .stat {
+            font-size: var(--small-size);
+            color: var(--text-muted-dark);
+            line-height: 1.4;
+        }
+
+        .company-card .stat strong {
+            color: var(--accent-warm);
+            font-weight: 600;
+        }
+
+        /* ===========================================
+           QUOTE SLIDE
+           =========================================== */
+        .big-quote {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4.2vw, 3.6rem);
+            font-weight: 500;
+            line-height: 1.25;
+            font-style: italic;
+            max-width: 900px;
+        }
+
+        .big-quote .mark {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        .attribution {
+            font-family: var(--font-body);
+            font-size: var(--body-size);
+            font-weight: 500;
+            margin-top: clamp(0.75rem, 2vw, 1.5rem);
+            opacity: 0.7;
+        }
+
+        /* ===========================================
+           TWO-COLUMN LAYOUT
+           =========================================== */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(1rem, 3vw, 2.5rem);
+            align-items: start;
+        }
+
+        @media (max-width: 700px) {
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: clamp(0.5rem, 2vw, 1rem);
+            }
+        }
+
+        .col-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 2vw, 1.5rem);
+        }
+
+        .col-card.accent-border {
+            border-left: 3px solid var(--accent);
+        }
+
+        .col-card.warm-border {
+            border-left: 3px solid var(--accent-warm);
+        }
+
+        .slide.dark .col-card {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.08);
+        }
+
+        .slide.dark .col-card.accent-border {
+            border-left-color: var(--accent);
+        }
+
+        .slide.dark .col-card.warm-border {
+            border-left-color: var(--accent-warm);
+        }
+
+        /* ===========================================
+           LISTS
+           =========================================== */
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.3rem, 0.8vh, 0.6rem);
+        }
+
+        .feature-list li {
+            font-size: var(--body-size);
+            line-height: 1.45;
+            padding-left: 1.2em;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .feature-list.warm li::before {
+            background: var(--accent-warm);
+        }
+
+        /* ===========================================
+           THREE TIER / PATH CARDS
+           =========================================== */
+        .tier-grid, .path-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        @media (max-width: 700px) {
+            .tier-grid, .path-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tier-card {
+            border-radius: 12px;
+            padding: clamp(0.75rem, 1.5vw, 1.25rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--element-gap);
+        }
+
+        .tier-card.red {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .tier-card.yellow {
+            background: rgba(234, 179, 8, 0.08);
+            border: 1px solid rgba(234, 179, 8, 0.2);
+        }
+
+        .tier-card.green {
+            background: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .tier-card .tier-label {
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .tier-card.red .tier-label { color: var(--accent-red); }
+        .tier-card.yellow .tier-label { color: var(--accent-yellow); }
+        .tier-card.green .tier-label { color: var(--accent-green); }
+
+        .tier-card .tier-title {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+        }
+
+        .tier-card .tier-desc {
+            font-size: var(--small-size);
+            line-height: 1.45;
+            color: var(--text-muted);
+        }
+
+        .path-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 1.5vw, 1.25rem);
+            display: flex;
+            flex-direction: column;
+            gap: var(--element-gap);
+        }
+
+        .path-card .path-num {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 3.6rem);
+            font-weight: 800;
+            color: var(--accent);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .path-card .path-title {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+        }
+
+        .path-card .path-desc {
+            font-size: var(--small-size);
+            line-height: 1.45;
+            color: var(--text-muted-dark);
+        }
+
+        .path-card.highlight {
+            border-color: var(--accent);
+            background: rgba(45, 45, 255, 0.08);
+        }
+
+        /* ===========================================
+           FLOW DIAGRAM
+           =========================================== */
+        .flow {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.3rem, 1vw, 0.75rem);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .flow-step {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: clamp(0.4rem, 1vw, 0.75rem) clamp(0.6rem, 1.2vw, 1rem);
+            font-size: var(--small-size);
+            text-align: center;
+            max-width: 160px;
+        }
+
+        .flow-arrow {
+            font-size: clamp(1rem, 1.8vw, 1.45rem);
+            color: var(--accent-warm);
+            flex-shrink: 0;
+        }
+
+        /* ===========================================
+           TOOL GRID
+           =========================================== */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+            gap: clamp(0.3rem, 0.8vw, 0.5rem);
+        }
+
+        .tool-cat {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: clamp(0.5rem, 1.2vw, 0.75rem);
+        }
+
+        .tool-cat .cat-name {
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .tool-cat .cat-tools {
+            font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* ===========================================
+           NUMBERED LIST
+           =========================================== */
+        .numbered-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.4rem, 1vh, 0.75rem);
+            counter-reset: item;
+        }
+
+        .numbered-list li {
+            counter-increment: item;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            font-size: var(--body-size);
+            line-height: 1.45;
+        }
+
+        .numbered-list li::before {
+            content: counter(item);
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+            color: var(--accent);
+            flex-shrink: 0;
+            width: 1.5em;
+            text-align: center;
+        }
+
+        /* ===========================================
+           COMPARISON BLOCK
+           =========================================== */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(0.75rem, 2vw, 1.5rem);
+        }
+
+        @media (max-width: 600px) {
+            .comparison { grid-template-columns: 1fr; }
+        }
+
+        .comparison .bad {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 1.5vw, 1.25rem);
+        }
+
+        .comparison .good {
+            background: rgba(34, 197, 94, 0.06);
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            border-radius: 12px;
+            padding: clamp(0.75rem, 1.5vw, 1.25rem);
+        }
+
+        .comparison .comp-label {
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--element-gap);
+        }
+
+        .comparison .bad .comp-label { color: var(--accent-red); }
+        .comparison .good .comp-label { color: var(--accent-green); }
+
+        .comparison p {
+            font-size: var(--small-size);
+            line-height: 1.5;
+        }
+
+        /* ===========================================
+           TIMELINE / ACTION PLAN
+           =========================================== */
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.5rem, 1.2vh, 0.75rem);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+            align-items: flex-start;
+        }
+
+        .timeline-month {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: var(--h3-size);
+            color: var(--accent);
+            flex-shrink: 0;
+            width: clamp(60px, 8vw, 90px);
+        }
+
+        .timeline-body {
+            font-size: var(--body-size);
+            line-height: 1.5;
+            border-left: 2px solid var(--accent-mid);
+            padding-left: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        .timeline-body strong {
+            display: block;
+            font-family: var(--font-display);
+            font-weight: 700;
+            margin-bottom: 0.15rem;
+        }
+
+        /* ===========================================
+           SLIDE COUNTER
+           =========================================== */
+        .slide-num {
+            position: absolute;
+            bottom: clamp(1rem, 2.5vw, 2rem);
+            right: clamp(1rem, 2.5vw, 2rem);
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-weight: 800;
+            opacity: 0.04;
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .slide.dark .slide-num {
+            opacity: 0.03;
+        }
+
+        .act-label {
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-warm);
+            margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        /* ===========================================
+           INVERTED PYRAMID
+           =========================================== */
+        .pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(0.2rem, 0.5vh, 0.35rem);
+            margin: clamp(0.5rem, 1.5vh, 1rem) 0;
+        }
+
+        .pyramid-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: var(--small-size);
+            font-weight: 600;
+            border-radius: 6px;
+            padding: clamp(0.35rem, 0.8vh, 0.5rem) 0;
+            color: #fff;
+        }
+
+        .pyramid-row:nth-child(1) { width: 90%; background: var(--accent); }
+        .pyramid-row:nth-child(2) { width: 75%; background: rgba(45, 45, 255, 0.75); }
+        .pyramid-row:nth-child(3) { width: 60%; background: rgba(45, 45, 255, 0.55); }
+        .pyramid-row:nth-child(4) { width: 45%; background: rgba(45, 45, 255, 0.35); color: var(--text); }
+        .pyramid-row:nth-child(5) { width: 30%; background: rgba(45, 45, 255, 0.2); color: var(--text); }
+
+        /* ===========================================
+           DISCUSSION SLIDE
+           =========================================== */
+        .discussion-prompt {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3.5vw, 2.7rem);
+            font-weight: 700;
+            line-height: 1.3;
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .discussion-icon {
+            font-size: clamp(2.5rem, 6vw, 4.8rem);
+            text-align: center;
+            margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        .discussion-time {
+            font-size: var(--small-size);
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        /* ===========================================
+           DEMO SLIDE
+           =========================================== */
+        .demo-box {
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: clamp(1rem, 2.5vw, 2rem);
+            color: var(--text-on-dark);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .demo-box .demo-label {
+            font-size: var(--small-size);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-warm);
+            margin-bottom: var(--element-gap);
+        }
+
+        .demo-box .demo-task {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+            margin-bottom: clamp(0.5rem, 1.2vw, 0.75rem);
+        }
+
+        .demo-box p {
+            font-size: var(--small-size);
+            color: var(--text-muted-dark);
+            line-height: 1.5;
+        }
+
+        /* ===========================================
+           RESOURCES
+           =========================================== */
+        .resources-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.25rem, 0.6vh, 0.4rem);
+        }
+
+        .resources-list li {
+            font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+            line-height: 1.4;
+            padding-left: 0.8em;
+            position: relative;
+            color: var(--text-muted-dark);
+        }
+
+        .resources-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .resources-list li strong {
+            color: var(--text-on-dark);
+            font-weight: 600;
+        }
+
+        .full-message {
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .full-message h2 {
+            font-size: clamp(1.9rem, 4.8vw, 3.8rem);
+            margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        /* ===========================================
+           SKILL RANKING
+           =========================================== */
+        .skill-rank {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.3rem, 0.7vh, 0.5rem);
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.5rem, 1.2vw, 0.75rem);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: clamp(0.4rem, 1vw, 0.65rem) clamp(0.6rem, 1.2vw, 1rem);
+        }
+
+        .skill-item .rank {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: var(--h3-size);
+            color: var(--accent);
+            width: 1.5em;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .skill-item .skill-name {
+            font-weight: 600;
+            font-size: var(--body-size);
+        }
+
+        .skill-item .skill-why {
+            font-size: var(--small-size);
+            color: var(--text-muted-dark);
+            margin-left: auto;
+        }
+
+        /* ===========================================
+           FAILURE MODES
+           =========================================== */
+        .failure-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.5rem, 1.2vw, 0.75rem);
+        }
+
+        @media (max-width: 700px) {
+            .failure-grid { grid-template-columns: 1fr; }
+        }
+
+        .failure-card {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.12);
+            border-radius: 10px;
+            padding: clamp(0.6rem, 1.3vw, 1rem);
+        }
+
+        .failure-card .fail-label {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: var(--h3-size);
+            color: var(--accent-red);
+            margin-bottom: var(--element-gap);
+        }
+
+        .failure-card p {
+            font-size: var(--small-size);
+            color: var(--text-muted-dark);
+            line-height: 1.45;
+        }
+
+        /* ===========================================
+           PROGRESS BAR
+           =========================================== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 1000;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* ===========================================
+           NAV DOTS
+           =========================================== */
+        .nav-dots {
+            position: fixed;
+            right: clamp(0.5rem, 1.5vw, 1.5rem);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(45, 45, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0;
+        }
+
+        .nav-dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
+
+        .nav-dot.dark-ctx {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .nav-dot.dark-ctx.active {
+            background: var(--accent-warm);
+        }
+
+        /* ===========================================
+           ANIMATIONS
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity var(--duration) var(--ease-out-expo),
+                        transform var(--duration) var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal:nth-child(1) { transition-delay: 0.08s; }
+        .reveal:nth-child(2) { transition-delay: 0.16s; }
+        .reveal:nth-child(3) { transition-delay: 0.24s; }
+        .reveal:nth-child(4) { transition-delay: 0.32s; }
+        .reveal:nth-child(5) { transition-delay: 0.4s; }
+        .reveal:nth-child(6) { transition-delay: 0.48s; }
+
+        /* ===========================================
+           RESPONSIVE BREAKPOINTS
+           =========================================== */
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 3vw, 2rem);
+                --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+                --title-size: clamp(1.8rem, 5vw, 3.5rem);
+                --h2-size: clamp(1.5rem, 3.5vw, 2.5rem);
+                --stat-size: clamp(1.8rem, 4vw, 3rem);
+            }
+        }
+
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+                --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+                --title-size: clamp(1.5rem, 4.5vw, 2.8rem);
+                --body-size: clamp(0.8rem, 1.3vw, 1.1rem);
+            }
+            .nav-dots { display: none; }
+        }
+
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: clamp(0.4rem, 2vw, 1rem);
+                --title-size: clamp(1.25rem, 4vw, 2.2rem);
+                --h2-size: clamp(1.1rem, 3vw, 1.8rem);
+            }
+        }
+
+        @media (max-width: 600px) {
+            :root {
+                --title-size: clamp(1.8rem, 9vw, 3rem);
+            }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .company-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html { scroll-behavior: auto; }
+            .reveal { opacity: 1; transform: none; }
+        }
+
+        /* ===========================================
+           TIMESTAMPS
+           =========================================== */
+        .slide-timestamp {
+            position: absolute;
+            bottom: clamp(1rem, 2.5vw, 2rem);
+            left: clamp(1rem, 2.5vw, 2rem);
+            font-family: var(--font-body);
+            font-size: clamp(0.7rem, 1vw, 0.9rem);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            opacity: 0.35;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<!-- Barra de progreso -->
+<div class="progress-bar" id="progressBar" style="width: 5.71429%;"></div>
+<!-- Puntos de navegación -->
+<nav class="nav-dots" id="navDots"><button aria-label="Ir a diapositiva 1" class="nav-dot dark-ctx active"></button><button aria-label="Ir a diapositiva 2" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 3" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 4" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 5" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 6" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 7" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 8" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 9" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 10" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 11" class="nav-dot dark-ctx"></button><button aria-label="Ir a diapositiva 12" class="nav-dot dark-ctx"></button></nav><section class="slide dark visible" data-act="0">
+<div class="slide-inner">
+<div class="slide-content" style="align-items: center; text-align: center; justify-content: center;">
+<div class="eyebrow reveal" style="justify-content: center;">Programa Avanzado Gestión Patrimonial de Activos Inmobiliarios</div>
+<h1 class="reveal" style="margin-bottom: var(--content-gap);">La Revolución<br/>de la Inteligencia</h1>
+<p class="reveal text-muted" style="font-size: var(--h3-size); max-width: 700px; margin: 0 auto;">Cómo la IA está reestructurando el trabajo cualificado</p>
+</div>
+</div>
+<div class="slide-num">00</div>
+</section><section class="slide visible" data-act="2">
+<div class="slide-inner">
+<div class="slide-content">
+<div class="eyebrow reveal">La próxima ola</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">De asistente a agente</h2>
+<div class="two-col reveal" style="align-items: stretch;">
+<div class="col-card" style="text-align: center;; height: 100%;">
+<h3 style="margin-bottom: var(--element-gap); opacity: 0.5;">Asistente IA</h3>
+<p style="font-size: var(--body-size); color: var(--text-muted);; color: var(--text-muted);">Responde preguntas cuando se le pregunta. Espera el siguiente prompt. Una tarea a la vez.</p>
+</div>
+<div class="col-card accent-border" style="text-align: center;; height: 100%;">
+<h3 style="margin-bottom: var(--element-gap); color: var(--accent);">Agente IA</h3>
+<p style="font-size: var(--body-size); color: var(--text-muted);; color: var(--text-muted);">Trabaja de forma autónoma hacia un objetivo durante horas. Gestiona subtareas. Toma decisiones. Informa de vuelta.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="slide-num">01</div>
+</section><section class="slide dark visible" data-act="2">
+<div class="slide-inner">
+<div class="slide-content">
+<div class="eyebrow reveal">Cambio en el flujo de trabajo</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">El trabajo se comprime, no se elimina</h2>
+<div class="two-col reveal" style="; align-items: stretch;">
+<div style="; height: 100%;">
+<h3 style="margin-bottom: var(--element-gap); opacity: 0.5;">Antes de la IA</h3>
+<ul class="feature-list" style="opacity: 0.85;">
+<li>3 horas — investigación y recopilación de datos</li>
+<li>2 horas — borrador del informe</li>
+<li>1 hora — maquetación y control de calidad</li>
+<li>1 hora — comunicación con el cliente</li>
+<li>1 hora — decisiones estratégicas</li>
+</ul>
+</div>
+<div style="; height: 100%;">
+<h3 style="margin-bottom: var(--element-gap); color: var(--accent);">Después de la IA</h3>
+<ul class="feature-list">
+<li><strong style="color: var(--accent);">20 min</strong> — Investigación IA + revisión humana</li>
+<li><strong style="color: var(--accent);">30 min</strong> — Borrador IA + edición humana</li>
+<li><strong style="color: var(--accent);">10 min</strong> — Maquetación automatizada</li>
+<li>1 hora — Comunicación con el cliente (humano)</li>
+<li>1 hora — Decisiones estratégicas (humano)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="slide-num">02</div>
+</section><section class="slide visible" data-act="3">
+<div class="slide-inner">
+<div class="slide-content">
+<div class="eyebrow reveal">Ventaja competitiva</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">Hacia dónde se mueve la ventaja</h2>
+<div class="two-col reveal" style="; align-items: stretch;">
+<div class="col-card" style="opacity: 1;; height: 100%;">
+<h3 style="margin-bottom: var(--element-gap);">Ventaja antigua</h3>
+<ul class="feature-list">
+<li>Escala y número de empleados</li>
+<li>Eficiencia de procesos</li>
+<li>Asimetría de información</li>
+<li>Credenciales y prestigio</li>
+</ul>
+</div>
+<div class="col-card accent-border" style="; height: 100%;">
+<h3 style="margin-bottom: var(--element-gap); color: var(--accent);">Ventaja nueva</h3>
+<ul class="feature-list">
+<li><strong>Distribución</strong> — acceso al deal flow y a clientes</li>
+<li><strong>Expertise de dominio</strong> — conocimiento profundo de nicho</li>
+<li><strong>Relaciones con clientes</strong> — confianza a escala</li>
+<li><strong>Inteligencia de mercado local</strong></li>
+</ul>
+</div>
+</div>
+<p class="reveal" style="font-size: var(--body-size); text-align: center; margin-top: var(--content-gap); max-width: 650px; margin-left: auto; margin-right: auto;">Goldman Sachs puede gastar más que nadie en tokens. <strong class="text-accent">No puede competir en todos los nichos.</strong> En inmobiliario: el conocimiento local, la confianza del cliente y las relaciones de negocio no se compran con tokens.</p>
+</div>
+</div>
+<div class="slide-num">03</div>
+</section><section class="slide dark visible" data-act="1">
+<div class="slide-inner">
+<div class="slide-content">
+<div class="eyebrow reveal">El motor económico</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">¿Por qué ahora? La inteligencia se abarató.</h2>
+<div class="two-col reveal">
+<div>
+<h3 style="margin-bottom: var(--element-gap);">Economía de tokens</h3>
+<p class="text-muted" style="font-size: var(--body-size); line-height: 1.55;">El precio de los tokens de IA se desploma a un ritmo de <strong style="color: var(--accent-warm);">10x–200x por año</strong>. La unidad fundamental de valor del software está pasando de instrucciones escritas por humanos a inteligencia artificial adquirible.</p>
+</div>
+<div>
+<h3 style="margin-bottom: var(--element-gap);">Paradoja de Jevons</h3>
+<p class="text-muted" style="font-size: var(--body-size); line-height: 1.55;">Cuando el precio de un recurso cae drásticamente, el consumo <strong style="color: var(--accent-warm);">se dispara</strong>. Electricidad barata → todo se electrifica. Inteligencia barata → todos los flujos de trabajo se automatizan.</p>
+</div>
+</div>
+<p class="reveal" style="font-size: var(--body-size); text-align: center; margin-top: var(--content-gap); color: var(--text-muted-dark);">Esto no se está frenando. La lógica económica garantiza la aceleración.</p>
+</div>
+</div>
+<div class="slide-num">04</div>
+</section><section class="slide visible" data-act="2">
+<div class="slide-inner">
+<div class="slide-content">
+<div class="eyebrow reveal">La crisis oculta</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">El modelo de aprendizaje se está rompiendo</h2>
+<p class="reveal text-muted" style="max-width: 650px; margin-bottom: var(--content-gap);">Los profesionales junior aprendían juicio haciendo trabajo de bajo valor bajo supervisión senior. La IA ahora hace ese trabajo. Esto crea dos crisis simultáneas:</p>
+<div class="two-col reveal" style="; align-items: stretch;">
+<div class="col-card accent-border" style="; height: 100%;">
+<h3 style="margin-bottom: var(--element-gap);">1. La crisis de contratación</h3>
+<p style="font-size: var(--body-size); color: var(--text-muted);">Las empresas necesitan menos juniors, así que la contratación de entrada colapsa. La vía de acceso a las carreras profesionales se estrecha drásticamente.</p>
+</div>
+<div class="col-card warm-border" style="; height: 100%;">
+<h3 style="margin-bottom: var(--element-gap);">2. La crisis de formación</h3>
+<p style="font-size: var(--body-size); color: var(--text-muted);">El camino por el cual los juniors desarrollaban su criterio profesional desaparece. ¿Quién formará a los profesionales senior del mañana si no hay años de junior?</p>
+</div>
+</div>
+<p class="reveal" style="font-size: var(--small-size); text-align: center; margin-top: var(--element-gap); color: var(--text-light);">Fuente: Fortune / Thomson Reuters, noviembre 2025</p>
+</div>
+</div>
+<div class="slide-num">05</div>
+</section><section class="slide dark visible" data-act="2">
+<div class="slide-inner">
+<div class="slide-content">
+<div class="eyebrow reveal">Marco de riesgo</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">Los tres niveles de riesgo de la IA</h2>
+<div class="tier-grid reveal">
+<div class="tier-card red">
+<div class="tier-label" style="; color: rgba(255,255,255,0.75);">Nivel 1 — Inmediato</div>
+<div class="tier-title" style="; color: #ffffff;">Disrupción real</div>
+<div class="tier-desc" style="; color: var(--text-on-dark); opacity: 0.9;">La IA ya está desplazando empleo hoy. Desarrollo de software, atención al cliente, investigación básica, análisis de datos rutinario.</div>
+</div>
+<div class="tier-card yellow">
+<div class="tier-label" style="; color: rgba(255,255,255,0.75);">Nivel 2 — Transicional</div>
+<div class="tier-title" style="; color: #ffffff;">Cambio a largo plazo</div>
+<div class="tier-desc" style="; color: var(--text-on-dark); opacity: 0.9;">La IA asiste, pero la confianza y las relaciones siguen siendo el núcleo. Gestión patrimonial, consultoría senior, operaciones complejas.</div>
+</div>
+<div class="tier-card green">
+<div class="tier-label" style="; color: rgba(255,255,255,0.75);">Nivel 3 — Sobredimensionado</div>
+<div class="tier-title" style="; color: #ffffff;">Pánico irracional</div>
+<div class="tier-desc" style="; color: var(--text-on-dark); opacity: 0.9;">Los mercados «han perdido el norte». Una empresa de karaoke de 6M$ provocó una venta masiva multimillonaria en el sector de transporte.</div>
+</div>
+</div>
+<p class="reveal text-muted" style="text-align: center; margin-top: var(--element-gap); font-size: var(--small-size);">Saber en qué nivel estáis cambia toda vuestra estrategia.</p>
+</div>
+</div>
+<div class="slide-num">06</div>
+</section><section class="slide visible" data-act="4">
+<div class="slide-inner"><div class="slide-content" style="justify-content: center;">
+<div class="eyebrow reveal" style="color: var(--accent);">Camino 3</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">El Traductor de Dominio</h2>
+<p class="reveal" style="font-size: var(--h3-size); line-height: 1.5; max-width: 800px; color: var(--text-muted-dark); margin-bottom: var(--content-gap);">Conocimiento profundo del sector + dominio de IA.</p>
+<p class="reveal" style="font-size: var(--body-size); line-height: 1.7; max-width: 800px; color: var(--text-muted-dark);">Los tecnólogos puros no entienden las operaciones. Los directivos senior no entienden las herramientas. <strong style="color: var(--accent);">La persona que está en medio es extraordinariamente escasa.</strong></p>
+</div></div>
+<div class="slide-num">07</div>
+</section><section class="slide dark visible" data-act="4">
+<div class="slide-inner">
+<div class="slide-content">
+<div class="eyebrow reveal">Idea provocadora</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">La Solo-Corporación</h2>
+<p class="reveal" style="font-size: var(--body-size); color: var(--text-muted-dark); max-width: 700px; margin-bottom: var(--content-gap);">A medida que el equipo mínimo viable se acerca a una sola persona, ser independiente se convierte en una elección económica racional.</p>
+<div class="two-col reveal">
+<div>
+<h3 style="margin-bottom: var(--element-gap);">Ya está ocurriendo</h3>
+<ul class="feature-list">
+<li>Asesoría legal y financiera</li>
+<li>Servicios creativos y de marketing</li>
+<li>Consultoría estratégica</li>
+</ul>
+</div>
+<div class="col-card accent-border">
+<h3 style="margin-bottom: var(--element-gap); color: var(--accent);">Ángulo inmobiliario</h3>
+<p style="font-size: var(--body-size); color: var(--text-muted-dark);">Un solo profesional con dominio de IA, red de contactos sólida y profundo conocimiento de mercado puede dirigir una operación de asesoría de inversión que antes requería un equipo entero. Cambia el cálculo por completo.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="slide-num">08</div>
+</section><section class="slide visible" data-act="2">
+<div class="slide-inner">
+<div class="slide-content" style="align-items: center; text-align: center;">
+<div class="eyebrow reveal" style="justify-content: center;">Ejemplo práctico</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">Cómo creé esta presentación</h2>
+<div class="reveal" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.5rem, 1.5vw, 1rem); margin-bottom: var(--content-gap);">
+<div class="stat-card">
+<div class="number">12</div>
+<div class="label">prompts en total</div>
+</div>
+<div class="stat-card">
+<div class="number">1.400</div>
+<div class="label">palabras escritas por un humano</div>
+</div>
+<div class="stat-card">
+<div class="number">4</div>
+<div class="label">herramientas IA diferentes</div>
+</div>
+</div>
+<div class="flow reveal" style="margin-bottom: var(--content-gap);">
+<div class="flow-step">1.400 palabras de input</div>
+<div class="flow-arrow">→</div>
+<div class="flow-step">Plan de acción de 5.000 palabras</div>
+<div class="flow-arrow">→</div>
+<div class="flow-step" style="border-color: var(--accent);">2.040 líneas de código</div>
+</div>
+<p class="reveal" style="font-size: var(--body-size); color: var(--text-muted-dark); max-width: 600px; margin: 0 auto;">Lo que estáis viendo no es el futuro. Es lo que ocurrió la semana pasada.</p>
+</div>
+</div>
+<div class="slide-num">09</div>
+<div class="slide-timestamp">18:45</div>
+</section><section class="slide visible" data-act="new">
+<div class="slide-inner">
+<div class="slide-content">
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">Repensar el trabajo con la IA como principio</h2>
+<div class="reveal" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.6rem; margin-top: 0.5rem;">
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">01</span> Escritura</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">02</span> Lectura</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">03</span> Email</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">04</span> Calendario</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">05</span> Excel</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">06</span> Powerpoint</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">07</span> HTML</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">08</span> Teams</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">09</span> Investigación</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">10</span> Tratamiento de datos</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">11</span> PDFs</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">12</span> Tu escritorio</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">13</span> Lectura imágenes</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">14</span> Creación Imágenes</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">15</span> Creación de video</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">16</span> Redes Sociales</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">17</span> Browser</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">18</span> Plataformas</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">19</span> Orquestación</div>
+<div class="reveal" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 0.5rem; text-align: center; font-size: var(--small-size); font-weight: 600; color: var(--text); display: flex; align-items: center; justify-content: center; gap: 0.4rem;"><span style="color: var(--accent); font-size: 0.75em; font-weight: 700;">20</span> Programación</div>
+</div>
+</div>
+</div>
+<div class="slide-num">10</div>
+</section><section class="slide dark visible" data-act="5">
+<div class="slide-inner">
+<div class="slide-content">
+<div class="eyebrow reveal">Lecturas recomendadas</div>
+<h2 class="reveal" style="margin-bottom: var(--content-gap);">Recursos</h2>
+<ul class="resources-list reveal">
+<li><strong>McKinsey (nov. 2025)</strong> — «Agents, robots, and us: Skill partnerships in the age of AI»</li>
+<li><strong>WEF</strong> — Future of Jobs Report 2025</li>
+<li><strong>Goldman Sachs (ago. 2025)</strong> — «How Will AI Affect the Global Workforce?»</li>
+<li><strong>CEO de Anthropic</strong> — Entrevista a Dario Amodei, Axios (mayo 2025)</li>
+<li><strong>CNBC (oct. 2025)</strong> — «AI is already taking white-collar jobs»</li>
+<li><strong>HBR (sep. 2025)</strong> — «AI Is Changing the Structure of Consulting Firms»</li>
+<li><strong>Fortune (nov. 2025)</strong> — «AI requires a rethink of the apprenticeship model»</li>
+<li><strong>TIME (oct. 2025)</strong> — «AI Is Learning to Do the Jobs of Doctors, Lawyers, and Consultants»</li>
+<li><strong>Vídeo</strong> — «Why the Biggest AI Career Opportunity Just Appeared»</li>
+<li><strong>Vídeo</strong> — «The Shift to Token Economics»</li>
+</ul>
+</div>
+</div>
+<div class="slide-num">11</div>
+</section><section class="slide dark visible" data-act="end">
+<div class="slide-inner">Programa Avanzado Gestión Patrimonial de Activos Inmobiliarios 2026</div><div class="reveal" style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.4rem; align-items: center;">
+<div style="font-size: var(--body-size); font-weight: 700; color: var(--text-on-dark);">Alejandro Aguirre de Cárcer Domínguez</div>
+<div style="display: flex; gap: 1.5rem; font-size: var(--small-size); color: var(--text-muted-dark); flex-wrap: wrap; justify-content: center;">
+<a href="mailto:alejandro.aguirre@brainsre.com" style="color: var(--accent-warm); text-decoration: none;">alejandro.aguirre@brainsre.com</a>
+<a href="mailto:alejandroadc@gmail.com" style="color: var(--accent-warm); text-decoration: none;">alejandroadc@gmail.com</a>
+<a href="https://www.linkedin.com/in/alejandroaguirredecarcer/" style="color: var(--accent-warm); text-decoration: none;" target="_blank">linkedin.com/in/alejandroaguirredecarcer</a>
+</div>
+</div>
+<div class="slide-num">12</div>
+</section>
+<!-- =========================================
+         ACTO 1 — LA LLAMADA DE ATENCIÓN
+         ========================================= -->
+<!-- DIAPOSITIVA 1: Título -->
+<!-- DIAPOSITIVA 2: Cita de apertura -->
+<!-- DIAPOSITIVA 3: Las cifras que importan -->
+<!-- DIAPOSITIVA 4: Ya está ocurriendo — Muro de evidencias -->
+<!-- DIAPOSITIVA 5: La escalera profesional se rompe -->
+<!-- DIAPOSITIVA 6: ¿Por qué ahora? Economía de tokens -->
+<!-- DIAPOSITIVA 7: Debate -->
+<!-- =========================================
+         ACTO 2 — CÓMO FUNCIONA LA MÁQUINA
+         ========================================= -->
+<!-- DIAPOSITIVA 8: IA vs. Humanos -->
+<!-- DIAPOSITIVA 9: Autopsia del flujo de trabajo -->
+<!-- DIAPOSITIVA 10: Panorama de herramientas -->
+<!-- DIAPOSITIVA 11: IA Agéntica -->
+<!-- DIAPOSITIVA 12: La crisis del aprendizaje -->
+<!-- DIAPOSITIVA 13: Los tres niveles de riesgo IA -->
+<!-- DIAPOSITIVA 14: Cómo se creó esta presentación -->
+<!-- DIAPOSITIVA 15: Demo en vivo 1 -->
+<!-- =========================================
+         ACTO 3 — EL MERCADO ESTÁ EN PÁNICO
+         ========================================= -->
+<!-- DIAPOSITIVA 15: La profecía autocumplida -->
+<!-- DIAPOSITIVA 16: Lo que el mercado se equivoca -->
+<!-- DIAPOSITIVA 17: El cambio del presupuesto de inteligencia -->
+<!-- DIAPOSITIVA 18: Hacia dónde se mueve la ventaja competitiva -->
+<!-- DIAPOSITIVA 19: Debate en grupo -->
+<!-- =========================================
+         ACTO 4 — LAS TRES CARRERAS QUE MERECE LA PENA CONSTRUIR
+         ========================================= -->
+<!-- DIAPOSITIVA 20: Marco de los tres caminos -->
+<!-- DIAPOSITIVA 21: El Orquestador -->
+<!-- DIAPOSITIVA 22: El Constructor de Sistemas -->
+<!-- DIAPOSITIVA 23: El Traductor de Dominio -->
+<!-- DIAPOSITIVA 24: El empleado indispensable -->
+<!-- DIAPOSITIVA 25: La Solo-Corporación -->
+<!-- DIAPOSITIVA 26: Competencias a desarrollar -->
+<!-- DIAPOSITIVA 27: Demo en vivo 2 -->
+<!-- =========================================
+         ACTO 5 — VUESTRO TURNO
+         ========================================= -->
+<!-- DIAPOSITIVA 28: La evaluación honesta -->
+<!-- DIAPOSITIVA 29: Lo que vuestros compañeros hacen mal -->
+<!-- DIAPOSITIVA 30: Presentación de trabajos de los alumnos -->
+<!-- DIAPOSITIVA 31: Plan de acción de 90 días -->
+<!-- DIAPOSITIVA 31: El contexto generacional -->
+<!-- DIAPOSITIVA 32: Recursos -->
+<!-- DIAPOSITIVA 33: Cierre -->
+<!-- ===========================================
+         JAVASCRIPT: Controlador de presentación
+         =========================================== -->
+<script>
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.currentSlide = 0;
+                this.totalSlides = this.slides.length;
+                this.progressBar = document.getElementById('progressBar');
+                this.navDotsContainer = document.getElementById('navDots');
+                this.isScrolling = false;
+                this.touchStartY = 0;
+
+                this.init();
+            }
+
+            init() {
+                this.createNavDots();
+                this.setupIntersectionObserver();
+                this.setupKeyboardNav();
+                this.setupTouchNav();
+                this.setupWheelNav();
+                this.updateProgress();
+            }
+
+            createNavDots() {
+                this.slides.forEach((_, i) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'nav-dot';
+                    dot.setAttribute('aria-label', `Ir a diapositiva ${i + 1}`);
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    this.navDotsContainer.appendChild(dot);
+                });
+                this.updateNavDots();
+            }
+
+            updateNavDots() {
+                const dots = this.navDotsContainer.querySelectorAll('.nav-dot');
+                const currentSlideEl = this.slides[this.currentSlide];
+                const isDark = currentSlideEl && currentSlideEl.classList.contains('dark');
+
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === this.currentSlide);
+                    dot.classList.toggle('dark-ctx', isDark);
+                });
+            }
+
+            setupIntersectionObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            const index = Array.from(this.slides).indexOf(entry.target);
+                            if (index !== -1) {
+                                this.currentSlide = index;
+                                this.updateProgress();
+                                this.updateNavDots();
+                            }
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                this.slides.forEach(slide => observer.observe(slide));
+            }
+
+            setupKeyboardNav() {
+                document.addEventListener('keydown', (e) => {
+                    switch(e.key) {
+                        case 'ArrowDown':
+                        case 'ArrowRight':
+                        case ' ':
+                        case 'PageDown':
+                            e.preventDefault();
+                            this.nextSlide();
+                            break;
+                        case 'ArrowUp':
+                        case 'ArrowLeft':
+                        case 'PageUp':
+                            e.preventDefault();
+                            this.prevSlide();
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            this.goToSlide(0);
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            this.goToSlide(this.totalSlides - 1);
+                            break;
+                    }
+                });
+            }
+
+            setupTouchNav() {
+                document.addEventListener('touchstart', (e) => {
+                    this.touchStartY = e.touches[0].clientY;
+                }, { passive: true });
+
+                document.addEventListener('touchend', (e) => {
+                    const diff = this.touchStartY - e.changedTouches[0].clientY;
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) this.nextSlide();
+                        else this.prevSlide();
+                    }
+                }, { passive: true });
+            }
+
+            setupWheelNav() {
+                let lastWheel = 0;
+                document.addEventListener('wheel', (e) => {
+                    const now = Date.now();
+                    if (now - lastWheel < 800) return;
+                    lastWheel = now;
+
+                    if (e.deltaY > 30) this.nextSlide();
+                    else if (e.deltaY < -30) this.prevSlide();
+                }, { passive: true });
+            }
+
+            goToSlide(index) {
+                if (index < 0 || index >= this.totalSlides) return;
+                this.slides[index].scrollIntoView({ behavior: 'smooth' });
+                this.currentSlide = index;
+                this.updateProgress();
+                this.updateNavDots();
+            }
+
+            nextSlide() {
+                this.goToSlide(this.currentSlide + 1);
+            }
+
+            prevSlide() {
+                this.goToSlide(this.currentSlide - 1);
+            }
+
+            updateProgress() {
+                const progress = ((this.currentSlide + 1) / this.totalSlides) * 100;
+                this.progressBar.style.width = `${progress}%`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new SlidePresentation();
+        });
+    </script>
+</body></html>
