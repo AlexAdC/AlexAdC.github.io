@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alquiler Vacacional — Reunión de Auditoría de Procesos con IA</title>
+<style>
+  /* ============================
+     RESET & BASE
+     ============================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sky:    #0EA5E9;
+    --teal:   #0D9488;
+    --night:  #0F172A;
+    --slate:  #1E293B;
+    --mid:    #334155;
+    --muted:  #64748B;
+    --light:  #CBD5E1;
+    --white:  #F8FAFC;
+    --gold:   #F59E0B;
+    --rose:   #F43F5E;
+    --green:  #10B981;
+
+    --title-size: clamp(1.6rem, 5vw, 3.6rem);
+    --h2-size:    clamp(1.25rem, 3.5vw, 2.2rem);
+    --h3-size:    clamp(1rem, 2.5vw, 1.4rem);
+    --body-size:  clamp(0.78rem, 1.4vw, 1.05rem);
+    --small-size: clamp(0.68rem, 1vw, 0.85rem);
+    --slide-pad:  clamp(1.5rem, 5vw, 5rem);
+    --gap:        clamp(0.5rem, 1.5vw, 1.2rem);
+
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html, body {
+    height: 100%; overflow-x: hidden;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--night); color: var(--white);
+  }
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  /* ============================
+     SLIDE SYSTEM
+     ============================ */
+  .slide {
+    width: 100vw; height: 100vh; height: 100dvh;
+    overflow: hidden;
+    scroll-snap-align: start;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .slide-content {
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: center; padding: var(--slide-pad);
+    max-height: 100%; overflow: hidden;
+  }
+  .slide-content.top { justify-content: flex-start; padding-top: clamp(1rem, 4vh, 3rem); }
+
+  /* ============================
+     BACKGROUNDS
+     ============================ */
+  .bg-dark   { background: var(--night); }
+  .bg-slate  { background: var(--slate); }
+  .bg-hero {
+    background: radial-gradient(ellipse at 70% 30%, rgba(14,165,233,.25) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 80%, rgba(13,148,136,.2) 0%, transparent 50%),
+                var(--night);
+  }
+  .bg-teal   { background: linear-gradient(135deg, #0D9488 0%, #065A82 100%); }
+  .bg-ai {
+    background: radial-gradient(ellipse at 30% 20%, rgba(245,158,11,.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(14,165,233,.2) 0%, transparent 50%),
+                var(--slate);
+  }
+  .bg-close {
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0D9488 150%);
+  }
+
+  /* Grid background texture */
+  .grid-texture::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .grid-texture > * { position: relative; z-index: 1; }
+
+  /* ============================
+     ANIMATIONS
+     ============================ */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+  }
+  .reveal-left {
+    opacity: 0; transform: translateX(-35px);
+    transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+  }
+  .reveal-scale {
+    opacity: 0; transform: scale(0.88);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  }
+  .slide.visible .reveal,
+  .slide.visible .reveal-left,
+  .slide.visible .reveal-scale { opacity: 1; transform: none; }
+
+  .d1 { transition-delay: 0.1s; }
+  .d2 { transition-delay: 0.2s; }
+  .d3 { transition-delay: 0.3s; }
+  .d4 { transition-delay: 0.4s; }
+  .d5 { transition-delay: 0.5s; }
+  .d6 { transition-delay: 0.6s; }
+  .d7 { transition-delay: 0.7s; }
+
+  /* ============================
+     TYPOGRAPHY
+     ============================ */
+  h1 { font-size: var(--title-size); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+  h2 { font-size: var(--h2-size); font-weight: 700; line-height: 1.2; }
+  h3 { font-size: var(--h3-size); font-weight: 600; line-height: 1.3; }
+  p, li { font-size: var(--body-size); line-height: 1.55; color: var(--light); }
+
+  .accent { color: var(--sky); }
+  .accent-teal { color: var(--teal); }
+  .accent-gold { color: var(--gold); }
+  .accent-rose { color: var(--rose); }
+  .accent-green { color: var(--green); }
+  .muted { color: var(--muted); font-size: var(--small-size); }
+
+  .overline {
+    font-size: var(--small-size); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--sky); margin-bottom: 0.5rem;
+  }
+  .overline.gold { color: var(--gold); }
+  .overline.teal { color: var(--teal); }
+
+  /* ============================
+     CHIPS & BADGES
+     ============================ */
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.3em;
+    background: rgba(14,165,233,.15); border: 1px solid rgba(14,165,233,.3);
+    color: var(--sky); border-radius: 999px;
+    padding: 0.2em 0.75em; font-size: var(--small-size); font-weight: 600;
+  }
+  .chip.gold { background: rgba(245,158,11,.15); border-color: rgba(245,158,11,.3); color: var(--gold); }
+  .chip.teal { background: rgba(13,148,136,.15); border-color: rgba(13,148,136,.3); color: #2DD4BF; }
+  .chip.rose { background: rgba(244,63,94,.15); border-color: rgba(244,63,94,.3); color: var(--rose); }
+  .chip.green { background: rgba(16,185,129,.15); border-color: rgba(16,185,129,.3); color: var(--green); }
+
+  /* ============================
+     CARDS
+     ============================ */
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: clamp(0.75rem, 2vw, 1.4rem);
+  }
+  .card.accent-border { border-left: 3px solid var(--sky); }
+  .card.teal-border   { border-left: 3px solid var(--teal); }
+  .card.gold-border   { border-left: 3px solid var(--gold); }
+  .card.green-border  { border-left: 3px solid var(--green); }
+  .card.rose-border   { border-left: 3px solid var(--rose); }
+
+  /* ============================
+     GRID LAYOUTS
+     ============================ */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: var(--gap); }
+
+  @media (max-width: 700px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  /* ============================
+     TIMELINE
+     ============================ */
+  .timeline { display: flex; flex-direction: column; gap: var(--gap); }
+  .tl-item { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1rem; align-items: start; }
+  .tl-time {
+    background: rgba(14,165,233,.12); border: 1px solid rgba(14,165,233,.25);
+    border-radius: 8px; padding: 0.35rem 0.6rem;
+    font-size: var(--small-size); font-weight: 700; color: var(--sky);
+    text-align: center; white-space: nowrap;
+  }
+  .tl-time.gold { background: rgba(245,158,11,.12); border-color: rgba(245,158,11,.25); color: var(--gold); }
+  .tl-time.teal { background: rgba(13,148,136,.12); border-color: rgba(13,148,136,.25); color: #2DD4BF; }
+  .tl-time.green { background: rgba(16,185,129,.12); border-color: rgba(16,185,129,.25); color: var(--green); }
+  .tl-body h3 { font-size: var(--body-size); font-weight: 700; color: var(--white); margin-bottom: 0.2rem; }
+  .tl-body p  { font-size: var(--small-size); color: var(--muted); }
+
+  /* ============================
+     PROCESS TABLE
+     ============================ */
+  .proc-row {
+    display: grid; grid-template-columns: 1.8rem 1fr 1fr;
+    gap: 0.75rem; align-items: start;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .proc-row:last-child { border-bottom: none; }
+  .proc-num {
+    width: 1.6rem; height: 1.6rem; border-radius: 50%;
+    background: rgba(14,165,233,.2); border: 1px solid rgba(14,165,233,.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 800; color: var(--sky);
+    flex-shrink: 0;
+  }
+  .proc-area { font-size: var(--small-size); font-weight: 600; color: var(--white); }
+  .proc-q { font-size: var(--small-size); color: var(--muted); }
+
+  /* ============================
+     AI MATRIX
+     ============================ */
+  .matrix-row {
+    display: grid; grid-template-columns: 1.4fr 0.9fr 0.9fr 1.2fr;
+    gap: 0.5rem; align-items: center;
+    padding: 0.45rem 0.6rem; border-radius: 8px;
+    margin-bottom: 0.3rem;
+  }
+  .matrix-head { background: rgba(255,255,255,.06); font-weight: 700; font-size: var(--small-size); color: var(--light); }
+  .matrix-row:not(.matrix-head) { background: rgba(255,255,255,.025); }
+  .matrix-row:not(.matrix-head):hover { background: rgba(255,255,255,.05); }
+  .matrix-cell { font-size: var(--small-size); color: var(--light); }
+  .matrix-cell.process { font-weight: 600; color: var(--white); }
+  .dot-high  { color: var(--green); font-weight: 700; }
+  .dot-mid   { color: var(--gold);  font-weight: 700; }
+  .dot-low   { color: var(--muted); font-weight: 700; }
+
+  /* ============================
+     BIG STAT
+     ============================ */
+  .big-stat { text-align: center; }
+  .big-stat .num { font-size: clamp(2.5rem, 8vw, 5.5rem); font-weight: 900; letter-spacing: -0.04em; }
+  .big-stat .label { font-size: var(--small-size); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+
+  /* ============================
+     QUESTION LIST
+     ============================ */
+  .q-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+  .q-list li {
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    padding: 0.45rem 0.6rem; border-radius: 8px;
+    background: rgba(255,255,255,.03);
+    font-size: var(--small-size); color: var(--light);
+  }
+  .q-list li::before {
+    content: '?'; flex-shrink: 0;
+    width: 1.4rem; height: 1.4rem;
+    border-radius: 50%; background: rgba(14,165,233,.2); border: 1px solid rgba(14,165,233,.3);
+    color: var(--sky); font-size: 0.65rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .q-list.gold li::before { background: rgba(245,158,11,.15); border-color: rgba(245,158,11,.3); color: var(--gold); }
+
+  /* ============================
+     NAV DOTS
+     ============================ */
+  #nav-dots {
+    position: fixed; right: 1.2rem; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 0.5rem; z-index: 999;
+  }
+  .dot-nav {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); cursor: pointer;
+    transition: all 0.3s; border: none;
+  }
+  .dot-nav.active { background: var(--sky); transform: scale(1.35); }
+  .dot-nav:hover  { background: rgba(255,255,255,0.5); }
+
+  /* ============================
+     SLIDE NUMBER
+     ============================ */
+  .slide-num {
+    position: absolute; bottom: 1.2rem; right: 1.6rem;
+    font-size: 0.7rem; color: var(--muted); font-weight: 600; letter-spacing: 0.05em;
+  }
+
+  /* ============================
+     SECTION DIVIDER HEADER
+     ============================ */
+  .section-label {
+    position: absolute; top: 1.2rem; left: var(--slide-pad);
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: var(--small-size); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted);
+  }
+  .section-label::before {
+    content: ''; width: 1.8rem; height: 2px; background: var(--sky); border-radius: 2px;
+  }
+
+  /* ============================
+     DIVIDER SLIDE
+     ============================ */
+  .divider-slide {
+    background: linear-gradient(135deg, var(--slate) 0%, var(--night) 100%);
+  }
+  .divider-num {
+    font-size: clamp(5rem, 18vw, 12rem); font-weight: 900;
+    color: rgba(255,255,255,.04); line-height: 1;
+    position: absolute; right: 5%; bottom: -2%;
+    user-select: none; pointer-events: none;
+  }
+
+  /* ============================
+     PROGRESS BAR
+     ============================ */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; width: 0%;
+    height: 3px; background: linear-gradient(90deg, var(--teal), var(--sky));
+    z-index: 1000; transition: width 0.3s;
+  }
+
+  /* ============================
+     RESPONSIVE SCALING
+     ============================ */
+  @media (max-height: 700px) {
+    :root {
+      --slide-pad: clamp(0.8rem, 3vw, 2rem);
+      --gap: clamp(0.3rem, 1vw, 0.7rem);
+      --title-size: clamp(1.3rem, 4vw, 2.8rem);
+      --h2-size: clamp(1.1rem, 3vw, 1.8rem);
+      --body-size: clamp(0.72rem, 1.2vw, 0.95rem);
+    }
+  }
+  @media (max-height: 600px) {
+    :root {
+      --slide-pad: clamp(0.6rem, 2.5vw, 1.5rem);
+      --body-size: clamp(0.68rem, 1vw, 0.88rem);
+    }
+    .tl-item { grid-template-columns: 4.5rem 1fr; }
+    #nav-dots { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav id="nav-dots" aria-label="Navegación por diapositivas"></nav>
+
+<!-- =====================================================================
+     DIAPOSITIVA 1 — PORTADA
+     ===================================================================== -->
+<section class="slide bg-hero grid-texture" id="slide-0">
+  <div class="slide-content" style="justify-content:center;">
+    <div class="reveal d1" style="margin-bottom:1rem;">
+      <span class="chip">🏖️ Gestión de Alquiler Vacacional</span>
+      &nbsp;<span class="chip gold">⚡ Auditoría de IA</span>
+    </div>
+    <h1 class="reveal d2">
+      Optimización de Procesos<br><span class="accent">10toSEA</span>
+    </h1>
+    <p class="reveal d3" style="margin-top:1rem; max-width:560px; color:var(--light);">
+      Una sesión de 90 minutos para mapear los procesos internos e identificar dónde la inteligencia artificial puede generar mayor impacto.
+    </p>
+    <div class="reveal d4" style="margin-top:1.5rem; display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center;">
+      <span class="chip teal">⏱ 90 minutos</span>
+      <span class="chip">📋 6 áreas de proceso</span>
+      <span class="chip gold">🤖 Diagnóstico de madurez IA</span>
+    </div>
+  </div>
+  <div class="slide-num">1 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 2 — OBJETIVOS DE LA REUNIÓN
+     ===================================================================== -->
+<section class="slide bg-slate" id="slide-1">
+  <div class="section-label">Objetivos</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div class="overline reveal d1">Para qué estamos aquí</div>
+    <h2 class="reveal d2" style="margin-bottom:var(--gap);">Qué queremos <span class="accent">conseguir hoy</span></h2>
+
+    <div class="grid-2 reveal d3" style="margin-bottom:var(--gap);">
+      <div class="card accent-border">
+        <div style="font-size:1.4rem; margin-bottom:0.4rem;">🗺️</div>
+        <h3 style="color:var(--sky); margin-bottom:0.3rem;">Mapear todos los procesos</h3>
+        <p>Construir una visión completa de cómo opera la empresa hoy: desde la captación de reservas hasta los pagos a propietarios.</p>
+      </div>
+      <div class="card teal-border">
+        <div style="font-size:1.4rem; margin-bottom:0.4rem;">⚡</div>
+        <h3 style="color:#2DD4BF; margin-bottom:0.3rem;">Detectar los cuellos de botella</h3>
+        <p>Identificar tareas lentas, manuales, propensas a errores o que consumen demasiado tiempo del equipo.</p>
+      </div>
+    </div>
+    <div class="grid-2 reveal d4">
+      <div class="card gold-border">
+        <div style="font-size:1.4rem; margin-bottom:0.4rem;">🤖</div>
+        <h3 style="color:var(--gold); margin-bottom:0.3rem;">Evaluar la madurez para la IA</h3>
+        <p>Determinar qué procesos tienen los datos, la frecuencia y la estructura necesarios para beneficiarse de la automatización con IA.</p>
+      </div>
+      <div class="card green-border">
+        <div style="font-size:1.4rem; margin-bottom:0.4rem;">🎯</div>
+        <h3 style="color:var(--green); margin-bottom:0.3rem;">Priorizar las ganancias rápidas</h3>
+        <p>Salir de la sesión con una lista priorizada de oportunidades de IA y los próximos pasos acordados.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">2 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 3 — REGLAS DEL JUEGO
+     ===================================================================== -->
+<section class="slide bg-dark grid-texture" id="slide-2">
+  <div class="section-label">Antes de empezar</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div class="overline reveal d1">Reglas del juego</div>
+    <h2 class="reveal d2" style="margin-bottom:var(--gap);">Cómo sacar el <span class="accent">máximo partido</span></h2>
+
+    <div class="grid-3 reveal d3" style="gap:var(--gap);">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">🙋</div>
+        <h3 style="margin-bottom:0.3rem;">Sé concreto</h3>
+        <p>Menciona la herramienta, la hoja de cálculo o el paso exacto que utilizáis, no solo la tarea a nivel general.</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">⏱️</div>
+        <h3 style="margin-bottom:0.3rem;">Estima el tiempo</h3>
+        <p>¿Cuánto tarda cada vez? ¿Con qué frecuencia ocurre? Ése es nuestro dato clave.</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">💬</div>
+        <h3 style="margin-bottom:0.3rem;">No hay respuestas incorrectas</h3>
+        <p>Estamos aquí para aprender. Los procesos más caóticos, manuales o incómodos son los más interesantes.</p>
+      </div>
+    </div>
+
+    <div class="reveal d4" style="margin-top:var(--gap); padding: 0.8rem 1.2rem; background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2); border-radius:10px;">
+      <p style="color: var(--gold);">
+        <strong>📝 Nota:</strong> Tomaremos notas durante toda la sesión. Todo lo compartido se utilizará únicamente para diseñar soluciones, no para evaluar el rendimiento individual.
+      </p>
+    </div>
+  </div>
+  <div class="slide-num">3 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 4 — AGENDA / CRONOGRAMA
+     ===================================================================== -->
+<section class="slide bg-slate grid-texture" id="slide-3">
+  <div class="section-label">Agenda</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div class="overline reveal d1">Agenda de 90 minutos</div>
+    <h2 class="reveal d2" style="margin-bottom:var(--gap);">Cronograma <span class="accent">de la sesión</span></h2>
+
+    <div class="timeline reveal d3">
+      <div class="tl-item">
+        <div class="tl-time">0:00–0:10</div>
+        <div class="tl-body"><h3>Bienvenida y objetivos</h3><p>Presentaciones, propósito de la sesión y reglas del juego</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">0:10–0:25</div>
+        <div class="tl-body"><h3>Presentación por departamentos</h3><p>Cada responsable de área hace un resumen de 2 min de su actividad</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time teal">0:25–1:00</div>
+        <div class="tl-body"><h3>Análisis en profundidad por área de proceso (6 × 6 min)</h3><p>Preguntas estructuradas para cada una de las 6 áreas operativas</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time gold">1:00–1:15</div>
+        <div class="tl-body"><h3>Mapa de oportunidades de IA</h3><p>Evaluación en directo de los procesos identificados según criterios de madurez para IA</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time green">1:15–1:25</div>
+        <div class="tl-body"><h3>Votación de prioridades</h3><p>El equipo vota las 3 oportunidades que quiere explorar primero</p></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">1:25–1:30</div>
+        <div class="tl-body"><h3>Cierre y próximos pasos</h3><p>Resumen, asignación de responsables y plan de seguimiento</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">4 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 5 — SEPARADOR: ANÁLISIS DE PROCESOS
+     ===================================================================== -->
+<section class="slide divider-slide grid-texture" id="slide-4">
+  <div class="slide-content" style="justify-content:center;">
+    <div class="reveal d1">
+      <div class="overline">Parte 1 — 35 min</div>
+      <h1 style="margin-top:0.3rem;">Análisis en<br><span class="accent">Profundidad</span></h1>
+      <p style="margin-top:1rem; max-width:500px;">Recorreremos 6 áreas operativas. En cada una, describid qué hace el equipo, qué herramientas usáis y dónde se ralentiza el trabajo.</p>
+    </div>
+    <div class="divider-num">01</div>
+  </div>
+  <div class="slide-num">5 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 6 — ÁREA 1: RESERVAS Y CAPTACIÓN
+     ===================================================================== -->
+<section class="slide bg-dark grid-texture" id="slide-5">
+  <div class="section-label">Proceso 1 / 6</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;" class="reveal d1">
+      <span style="font-size:1.6rem;">📅</span>
+      <div>
+        <div class="overline" style="margin-bottom:0;">Reservas y captación</div>
+        <h2>De la consulta a la <span class="accent">estancia confirmada</span></h2>
+      </div>
+    </div>
+    <div class="grid-2 reveal d2" style="gap:var(--gap);">
+      <div>
+        <p class="muted" style="margin-bottom:0.4rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;">Preguntas a hacer:</p>
+        <ul class="q-list">
+          <li>¿Por qué canales entran las reservas? (OTAs, directo, teléfono, correo)</li>
+          <li>¿Cómo se gestiona la disponibilidad entre plataformas? ¿Manualmente o con sincronización automática?</li>
+          <li>¿Qué ocurre cuando llega una reserva? Describid el proceso paso a paso.</li>
+          <li>¿Cuánto tiempo se tarda en confirmar una reserva?</li>
+          <li>¿Dónde se producen los errores o las reservas duplicadas?</li>
+          <li>¿Cómo se gestionan las solicitudes especiales (entrada anticipada, mascotas, etc.)?</li>
+        </ul>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:var(--gap);">
+        <div class="card gold-border">
+          <p class="muted" style="margin-bottom:0.3rem; font-weight:700; text-transform:uppercase; font-size:0.65rem; letter-spacing:0.08em;">Señales de oportunidad IA</p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.25rem;">
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Introducción de datos manual repetitiva</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Decisiones de precio sin datos</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Respuesta lenta a consultas de huéspedes</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Overbooking o errores de calendario</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="muted" style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem;">Apuntes durante la sesión</p>
+          <p style="font-size:var(--small-size); color:var(--light);">Herramienta usada: ___<br>Tiempo por reserva: ___<br>Volumen/mes: ___<br>Principal problema: ___</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">6 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 7 — ÁREA 2: COMUNICACIÓN CON HUÉSPEDES
+     ===================================================================== -->
+<section class="slide bg-slate grid-texture" id="slide-6">
+  <div class="section-label">Proceso 2 / 6</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;" class="reveal d1">
+      <span style="font-size:1.6rem;">💬</span>
+      <div>
+        <div class="overline teal" style="margin-bottom:0;">Comunicación con huéspedes</div>
+        <h2>Antes, durante y después <span class="accent-teal">de la estancia</span></h2>
+      </div>
+    </div>
+    <div class="grid-2 reveal d2" style="gap:var(--gap);">
+      <div>
+        <p class="muted" style="margin-bottom:0.4rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;">Preguntas a hacer:</p>
+        <ul class="q-list">
+          <li>¿Qué mensajes recibe un huésped desde la reserva hasta la salida? ¿Quién los envía?</li>
+          <li>¿Cuántos mensajes de huéspedes gestiona el equipo al día? ¿Cuáles son los más frecuentes?</li>
+          <li>¿Usáis plantillas? ¿En qué plataforma? ¿Con qué frecuencia se actualizan?</li>
+          <li>¿Cuánto tarda de media la respuesta a un mensaje de huésped?</li>
+          <li>¿Cómo se escalan las quejas o urgencias durante la estancia?</li>
+          <li>¿La comunicación con huéspedes se realiza en varios idiomas?</li>
+        </ul>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:var(--gap);">
+        <div class="card gold-border">
+          <p class="muted" style="margin-bottom:0.3rem; font-weight:700; text-transform:uppercase; font-size:0.65rem; letter-spacing:0.08em;">Señales de oportunidad IA</p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.25rem;">
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Gran volumen de preguntas repetitivas</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Tiempos de respuesta lentos fuera del horario laboral</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Cuellos de botella en traducción</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Secuencias de seguimiento manuales</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="muted" style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem;">Apuntes durante la sesión</p>
+          <p style="font-size:var(--small-size); color:var(--light);">Mensajes/día: ___<br>Tiempo medio de respuesta: ___<br>% automatizado hoy: ___<br>Idiomas: ___</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">7 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 8 — ÁREA 3: LIMPIEZA Y MANTENIMIENTO
+     ===================================================================== -->
+<section class="slide bg-dark grid-texture" id="slide-7">
+  <div class="section-label">Proceso 3 / 6</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;" class="reveal d1">
+      <span style="font-size:1.6rem;">🏠</span>
+      <div>
+        <div class="overline gold" style="margin-bottom:0;">Limpieza y mantenimiento</div>
+        <h2>Dejar los alojamientos <span class="accent-gold">listos para el huésped</span></h2>
+      </div>
+    </div>
+    <div class="grid-2 reveal d2" style="gap:var(--gap);">
+      <div>
+        <p class="muted" style="margin-bottom:0.4rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;">Preguntas a hacer:</p>
+        <ul class="q-list">
+          <li>¿Cómo sabe una limpiadora cuándo y adónde ir? ¿Quién lo coordina?</li>
+          <li>¿Cómo se gestionan los cambios de turno en el mismo día con reservas consecutivas?</li>
+          <li>¿Cómo se verifica la calidad de la limpieza? ¿Fotos, checklists, visitas de inspección?</li>
+          <li>¿Cómo se notifican las incidencias de mantenimiento? ¿Por parte de huéspedes? ¿De limpiadoras?</li>
+          <li>¿Cuánto tiempo pasa desde que se reporta una avería hasta que se agenda la reparación?</li>
+          <li>¿Hacéis seguimiento de los alojamientos con incidencias recurrentes?</li>
+        </ul>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:var(--gap);">
+        <div class="card gold-border">
+          <p class="muted" style="margin-bottom:0.3rem; font-weight:700; text-transform:uppercase; font-size:0.65rem; letter-spacing:0.08em;">Señales de oportunidad IA</p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.25rem;">
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Planificación y coordinación manual</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Limpiezas perdidas o problemas de calidad</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Sin datos de mantenimiento predictivo</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Revisión de fotos realizada manualmente</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="muted" style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem;">Apuntes durante la sesión</p>
+          <p style="font-size:var(--small-size); color:var(--light);">Alojamientos gestionados: ___<br>Limpiezas/semana: ___<br>Incidencias de mantenimiento/mes: ___<br>Herramienta usada: ___</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">8 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 9 — ÁREA 4: PRECIOS Y REVENUE
+     ===================================================================== -->
+<section class="slide bg-slate grid-texture" id="slide-8">
+  <div class="section-label">Proceso 4 / 6</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;" class="reveal d1">
+      <span style="font-size:1.6rem;">💰</span>
+      <div>
+        <div class="overline" style="margin-bottom:0;">Precios y gestión de ingresos</div>
+        <h2>Maximizar <span class="accent">ocupación y tarifa</span></h2>
+      </div>
+    </div>
+    <div class="grid-2 reveal d2" style="gap:var(--gap);">
+      <div>
+        <p class="muted" style="margin-bottom:0.4rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;">Preguntas a hacer:</p>
+        <ul class="q-list">
+          <li>¿Cómo se fijan actualmente las tarifas por noche? ¿Quién decide y con qué frecuencia?</li>
+          <li>¿Usáis herramientas de precios dinámicos (Wheelhouse, PriceLabs, etc.)?</li>
+          <li>¿Cómo hacéis seguimiento de la ocupación, el RevPAR o el ADR en el portfolio?</li>
+          <li>¿Cómo reaccionáis al precio de la competencia o a eventos locales?</li>
+          <li>¿Cómo se gestionan los descuentos, las ofertas de última hora o las tarifas para estancias largas?</li>
+          <li>¿Cuál es la mayor fuga de ingresos que habéis identificado?</li>
+        </ul>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:var(--gap);">
+        <div class="card gold-border">
+          <p class="muted" style="margin-bottom:0.3rem; font-weight:700; text-transform:uppercase; font-size:0.65rem; letter-spacing:0.08em;">Señales de oportunidad IA</p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.25rem;">
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Precios estáticos actualizados con poca frecuencia</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Sin benchmarking competitivo</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Huecos no cubiertos con ofertas de última hora</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Reporting manual en Excel</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="muted" style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem;">Apuntes durante la sesión</p>
+          <p style="font-size:var(--small-size); color:var(--light);">Herramienta de precios actual: ___<br>Ocupación media: ___<br>Frecuencia de revisión de tarifas: ___<br>Herramienta de reporting: ___</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">9 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 10 — ÁREA 5: GESTIÓN DE PROPIETARIOS
+     ===================================================================== -->
+<section class="slide bg-dark grid-texture" id="slide-9">
+  <div class="section-label">Proceso 5 / 6</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;" class="reveal d1">
+      <span style="font-size:1.6rem;">🤝</span>
+      <div>
+        <div class="overline" style="color: #A78BFA; margin-bottom:0;">Gestión de propietarios</div>
+        <h2>Mantener a los propietarios <span style="color:#A78BFA;">informados y satisfechos</span></h2>
+      </div>
+    </div>
+    <div class="grid-2 reveal d2" style="gap:var(--gap);">
+      <div>
+        <p class="muted" style="margin-bottom:0.4rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;">Preguntas a hacer:</p>
+        <ul class="q-list">
+          <li>¿Con qué frecuencia os comunicáis con los propietarios? ¿Por qué canales?</li>
+          <li>¿Cómo se generan y envían los informes mensuales o liquidaciones?</li>
+          <li>¿Cómo se gestionan los bloqueos de calendario o los períodos de uso personal del propietario?</li>
+          <li>¿Cuáles son las quejas o solicitudes más frecuentes de los propietarios?</li>
+          <li>¿Cómo es el proceso de alta de un nuevo propietario de principio a fin?</li>
+          <li>¿Cuánto dura el proceso completo de incorporación de un propietario?</li>
+        </ul>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:var(--gap);">
+        <div class="card" style="border-left: 3px solid #A78BFA;">
+          <p class="muted" style="margin-bottom:0.3rem; font-weight:700; text-transform:uppercase; font-size:0.65rem; letter-spacing:0.08em;">Señales de oportunidad IA</p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.25rem;">
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Generación manual de informes mensuales</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Preguntas repetitivas de propietarios</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Proceso de alta lento o improvisado</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Sin portal de autoservicio para propietarios</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="muted" style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem;">Apuntes durante la sesión</p>
+          <p style="font-size:var(--small-size); color:var(--light);">Número de propietarios: ___<br>Tiempo de generación del informe: ___<br>Tiempo de incorporación: ___<br>Herramienta usada: ___</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">10 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 11 — ÁREA 6: RESEÑAS Y RENDIMIENTO
+     ===================================================================== -->
+<section class="slide bg-slate grid-texture" id="slide-10">
+  <div class="section-label">Proceso 6 / 6</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:0.6rem;" class="reveal d1">
+      <span style="font-size:1.6rem;">⭐</span>
+      <div>
+        <div class="overline teal" style="margin-bottom:0;">Reseñas y seguimiento del rendimiento</div>
+        <h2>Reputación, calidad y <span class="accent-teal">datos</span></h2>
+      </div>
+    </div>
+    <div class="grid-2 reveal d2" style="gap:var(--gap);">
+      <div>
+        <p class="muted" style="margin-bottom:0.4rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;">Preguntas a hacer:</p>
+        <ul class="q-list">
+          <li>¿Cómo se monitorizan las reseñas en las distintas plataformas? ¿Quién es el responsable?</li>
+          <li>¿Cómo y con qué rapidez se responde a las reseñas negativas?</li>
+          <li>¿Qué KPIs sigue el equipo semanal o mensualmente?</li>
+          <li>¿Hay dashboards o el reporting se hace de forma manual?</li>
+          <li>¿Cómo se utiliza el feedback de los huéspedes para mejorar las operaciones o los alojamientos?</li>
+          <li>¿Cómo comparáis el rendimiento entre los distintos alojamientos del portfolio?</li>
+        </ul>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:var(--gap);">
+        <div class="card gold-border">
+          <p class="muted" style="margin-bottom:0.3rem; font-weight:700; text-transform:uppercase; font-size:0.65rem; letter-spacing:0.08em;">Señales de oportunidad IA</p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.25rem;">
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Monitorización manual de reseñas</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Respuesta a reseñas negativas lenta o inexistente</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ KPIs recopilados en hojas de cálculo</li>
+            <li style="font-size:var(--small-size); color:var(--light);">⚡ Feedback no analizado de forma sistemática</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="muted" style="font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.3rem;">Apuntes durante la sesión</p>
+          <p style="font-size:var(--small-size); color:var(--light);">Valoración media del portfolio: ___<br>Tasa de respuesta a reseñas: ___<br>Herramienta de reporting: ___<br>Volumen de reseñas/mes: ___</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">11 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 12 — SEPARADOR: MAPA DE OPORTUNIDADES IA
+     ===================================================================== -->
+<section class="slide divider-slide grid-texture" id="slide-11">
+  <div class="slide-content" style="justify-content:center;">
+    <div class="reveal d1">
+      <div class="overline gold">Parte 2 — 15 min</div>
+      <h1 style="margin-top:0.3rem;">Mapa de<br><span class="accent-gold">Oportunidades IA</span></h1>
+      <p style="margin-top:1rem; max-width:500px;">Usaremos el Marco de Madurez IA para puntuar cada proceso. El objetivo: identificar dónde la automatización ofrece el mayor retorno con la menor fricción.</p>
+    </div>
+    <div class="divider-num">02</div>
+  </div>
+  <div class="slide-num">12 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 13 — MARCO DE MADUREZ IA
+     ===================================================================== -->
+<section class="slide bg-ai grid-texture" id="slide-12">
+  <div class="section-label">Marco IA</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div class="overline gold reveal d1">Criterios de madurez IA</div>
+    <h2 class="reveal d2" style="margin-bottom:var(--gap);">Puntúa cada proceso en <span class="accent-gold">4 dimensiones</span></h2>
+
+    <div class="grid-4 reveal d3" style="gap:var(--gap); margin-bottom:var(--gap);">
+      <div class="card" style="text-align:center; border-top:2px solid var(--sky);">
+        <div style="font-size:1.5rem; margin-bottom:0.3rem;">🔁</div>
+        <h3 style="font-size:var(--small-size); color:var(--sky); margin-bottom:0.2rem;">Frecuencia</h3>
+        <p style="font-size:var(--small-size);">¿Con qué frecuencia ocurre esta tarea? Diario > Semanal > Mensual</p>
+      </div>
+      <div class="card" style="text-align:center; border-top:2px solid var(--gold);">
+        <div style="font-size:1.5rem; margin-bottom:0.3rem;">📊</div>
+        <h3 style="font-size:var(--small-size); color:var(--gold); margin-bottom:0.2rem;">Disponibilidad de datos</h3>
+        <p style="font-size:var(--small-size);">¿El proceso ya es digital con datos estructurados?</p>
+      </div>
+      <div class="card" style="text-align:center; border-top:2px solid var(--teal);">
+        <div style="font-size:1.5rem; margin-bottom:0.3rem;">📋</div>
+        <h3 style="font-size:var(--small-size); color:#2DD4BF; margin-bottom:0.2rem;">Reglabilidad</h3>
+        <p style="font-size:var(--small-size);">¿Puede definirse la tarea con reglas o patrones claros?</p>
+      </div>
+      <div class="card" style="text-align:center; border-top:2px solid var(--rose);">
+        <div style="font-size:1.5rem; margin-bottom:0.3rem;">💥</div>
+        <h3 style="font-size:var(--small-size); color:var(--rose); margin-bottom:0.2rem;">Nivel de dolor</h3>
+        <p style="font-size:var(--small-size);">¿Cuánto tiempo, coste o frustración genera?</p>
+      </div>
+    </div>
+
+    <div class="reveal d4">
+      <div class="matrix-row matrix-head">
+        <span class="matrix-cell">Área de proceso</span>
+        <span class="matrix-cell">Frecuencia</span>
+        <span class="matrix-cell">Datos</span>
+        <span class="matrix-cell">Principal caso de uso IA</span>
+      </div>
+      <div class="matrix-row">
+        <span class="matrix-cell process">📅 Reservas</span>
+        <span class="matrix-cell dot-high">● Alta</span>
+        <span class="matrix-cell dot-high">● Digital</span>
+        <span class="matrix-cell">Sincronización automática · Chatbot de consultas</span>
+      </div>
+      <div class="matrix-row">
+        <span class="matrix-cell process">💬 Comun. con huéspedes</span>
+        <span class="matrix-cell dot-high">● Alta</span>
+        <span class="matrix-cell dot-high">● Digital</span>
+        <span class="matrix-cell">Borradores de respuesta IA · Plantillas automáticas</span>
+      </div>
+      <div class="matrix-row">
+        <span class="matrix-cell process">🏠 Limpieza</span>
+        <span class="matrix-cell dot-high">● Alta</span>
+        <span class="matrix-cell dot-mid">◕ Parcial</span>
+        <span class="matrix-cell">Planificación inteligente · Control de calidad por foto</span>
+      </div>
+      <div class="matrix-row">
+        <span class="matrix-cell process">💰 Precios</span>
+        <span class="matrix-cell dot-mid">◕ Media</span>
+        <span class="matrix-cell dot-high">● Digital</span>
+        <span class="matrix-cell">Precios dinámicos · Gestión de yield</span>
+      </div>
+      <div class="matrix-row">
+        <span class="matrix-cell process">🤝 Propietarios</span>
+        <span class="matrix-cell dot-mid">◕ Media</span>
+        <span class="matrix-cell dot-mid">◕ Parcial</span>
+        <span class="matrix-cell">Informes automáticos · Chatbot para propietarios</span>
+      </div>
+      <div class="matrix-row">
+        <span class="matrix-cell process">⭐ Reseñas</span>
+        <span class="matrix-cell dot-mid">◕ Media</span>
+        <span class="matrix-cell dot-high">● Digital</span>
+        <span class="matrix-cell">Análisis de sentimiento · Respuesta automática</span>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">13 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 14 — PRINCIPALES OPORTUNIDADES IA
+     ===================================================================== -->
+<section class="slide bg-dark grid-texture" id="slide-13">
+  <div class="section-label">Casos de uso IA</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div class="overline reveal d1">Oportunidades de mayor impacto</div>
+    <h2 class="reveal d2" style="margin-bottom:var(--gap);">Herramientas de IA que funcionan <span class="accent">hoy</span> en alquiler vacacional</h2>
+
+    <div class="grid-3 reveal d3" style="gap:var(--gap);">
+      <div class="card accent-border">
+        <div class="chip" style="margin-bottom:0.5rem; font-size:0.6rem;">Victoria rápida</div>
+        <h3 style="color:var(--sky); margin-bottom:0.3rem;">🤖 Chatbot de huéspedes con IA</h3>
+        <p>Responde automáticamente al 80 % de las preguntas: instrucciones de entrada, wifi, aparcamiento, recomendaciones locales. Disponible 24/7 en cualquier idioma.</p>
+      </div>
+      <div class="card gold-border">
+        <div class="chip gold" style="margin-bottom:0.5rem; font-size:0.6rem;">Alto ROI</div>
+        <h3 style="color:var(--gold); margin-bottom:0.3rem;">📈 Precios dinámicos</h3>
+        <p>La IA ajusta las tarifas en tiempo real según la demanda, eventos locales, precios de la competencia y el ritmo de reservas. Incremento típico del ADR: 10–25 %.</p>
+      </div>
+      <div class="card teal-border">
+        <div class="chip teal" style="margin-bottom:0.5rem; font-size:0.6rem;">Operaciones</div>
+        <h3 style="color:#2DD4BF; margin-bottom:0.3rem;">📋 Planificación inteligente</h3>
+        <p>Asignación automática de limpiadoras según hora de salida, ubicación del alojamiento y disponibilidad. Reduce los correos de coordinación en un 90 %.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--rose);">
+        <div class="chip rose" style="margin-bottom:0.5rem; font-size:0.6rem;">Reputación</div>
+        <h3 style="color:var(--rose); margin-bottom:0.3rem;">⭐ Automatización de reseñas</h3>
+        <p>La IA monitoriza todas las plataformas de reseñas, redacta respuestas personalizadas e identifica tendencias de sentimiento para la dirección.</p>
+      </div>
+      <div class="card" style="border-left:3px solid #A78BFA;">
+        <div class="chip" style="background:rgba(167,139,250,.15); border-color:rgba(167,139,250,.3); color:#A78BFA; margin-bottom:0.5rem; font-size:0.6rem;">Propietarios</div>
+        <h3 style="color:#A78BFA; margin-bottom:0.3rem;">📊 Informes automáticos</h3>
+        <p>Genera y envía automáticamente las liquidaciones mensuales a propietarios desde los datos de tu PMS. Ahorra más de 30 minutos por alojamiento al mes.</p>
+      </div>
+      <div class="card green-border">
+        <div class="chip green" style="margin-bottom:0.5rem; font-size:0.6rem;">Mantenimiento</div>
+        <h3 style="color:var(--green); margin-bottom:0.3rem;">🔧 Detección de incidencias</h3>
+        <p>La IA analiza los mensajes de huéspedes e informes de limpiadoras para crear, priorizar y derivar automáticamente las órdenes de mantenimiento.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">14 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 15 — VOTACIÓN DE PRIORIDADES
+     ===================================================================== -->
+<section class="slide bg-slate grid-texture" id="slide-14">
+  <div class="section-label">Parte 3 — 10 min</div>
+  <div class="slide-content top" style="padding-top:clamp(2.5rem, 6vh, 4rem);">
+    <div class="overline reveal d1">Votación de prioridades</div>
+    <h2 class="reveal d2" style="margin-bottom:var(--gap);">¿Por cuáles 3 <span class="accent">empezamos?</span></h2>
+
+    <div class="grid-2 reveal d3" style="gap:var(--gap);">
+      <div>
+        <p style="font-size:var(--small-size); color:var(--light); margin-bottom:0.6rem;">Cada participante tiene <strong style="color:var(--sky);">3 votos</strong>. Vota por las oportunidades de IA que creas que aportarían más valor a tu equipo.</p>
+        <ul class="q-list gold">
+          <li>🤖 Chatbot de huéspedes con IA (atención 24/7)</li>
+          <li>📈 Motor de precios dinámicos</li>
+          <li>📋 Planificador inteligente de limpieza</li>
+          <li>⭐ Monitorización de reseñas y respuesta automática</li>
+          <li>📊 Informes automáticos para propietarios</li>
+          <li>🔧 Automatización de órdenes de mantenimiento</li>
+        </ul>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:var(--gap);">
+        <div class="card gold-border">
+          <h3 style="color:var(--gold); margin-bottom:0.5rem;">Criterios de evaluación</h3>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:0.3rem;">
+            <li style="font-size:var(--small-size); color:var(--light);">✅ Podría ahorrarnos un tiempo significativo cada semana</li>
+            <li style="font-size:var(--small-size); color:var(--light);">✅ Ya tenemos los datos que necesita</li>
+            <li style="font-size:var(--small-size); color:var(--light);">✅ Resuelve una frustración recurrente</li>
+            <li style="font-size:var(--small-size); color:var(--light);">✅ Los huéspedes o propietarios notarían la mejora</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:0.4rem;">Resultados → Acción</h3>
+          <p style="font-size:var(--small-size);">Los 3 más votados se convierten en el foco de un análisis en profundidad posterior. Definiremos el alcance, las herramientas y un plan piloto en un plazo de 2 semanas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">15 / 16</div>
+</section>
+
+<!-- =====================================================================
+     DIAPOSITIVA 16 — CIERRE Y PRÓXIMOS PASOS
+     ===================================================================== -->
+<section class="slide bg-close" id="slide-15">
+  <div class="slide-content" style="justify-content:center;">
+    <div class="overline reveal d1">Cierre</div>
+    <h1 class="reveal d2" style="margin-bottom:0.6rem;">
+      Próximos <span class="accent">Pasos</span>
+    </h1>
+    <div class="grid-3 reveal d3" style="margin-top:1rem; gap:var(--gap);">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:1.6rem; margin-bottom:0.4rem;">📝</div>
+        <span class="chip" style="margin-bottom:0.4rem; font-size:0.6rem;">Esta semana</span>
+        <h3 style="margin-bottom:0.3rem;">Acta de la reunión</h3>
+        <p>Compartiremos un resumen limpio de todos los procesos mapeados y los problemas identificados.</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:1.6rem; margin-bottom:0.4rem;">🎯</div>
+        <span class="chip gold" style="margin-bottom:0.4rem; font-size:0.6rem;">En 2 semanas</span>
+        <h3 style="margin-bottom:0.3rem;">Plan piloto</h3>
+        <p>Propuesta detallada para la oportunidad de IA más votada: herramienta recomendada, calendario y KPIs.</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:1.6rem; margin-bottom:0.4rem;">🚀</div>
+        <span class="chip teal" style="margin-bottom:0.4rem; font-size:0.6rem;">Mes 1</span>
+        <h3 style="margin-bottom:0.3rem;">Primer piloto</h3>
+        <p>Ejecutamos un piloto de 30 días centrado en la prioridad nº 1. Medimos el impacto antes de escalar.</p>
+      </div>
+    </div>
+    <div class="reveal d4" style="margin-top:var(--gap); text-align:center;">
+      <p style="color:var(--muted); font-size:var(--small-size);">Gracias por vuestro tiempo y por compartir con tanta apertura. Las mejores implementaciones de IA empiezan exactamente así: escuchando con atención.</p>
+    </div>
+  </div>
+  <div class="slide-num">16 / 16</div>
+</section>
+
+<!-- =====================================================================
+     JAVASCRIPT
+     ===================================================================== -->
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const navContainer = document.getElementById('nav-dots');
+  const progressBar = document.getElementById('progress-bar');
+  const totalSlides = slides.length;
+
+  // Build nav dots
+  slides.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dot-nav';
+    btn.setAttribute('aria-label', `Diapositiva ${i + 1}`);
+    btn.onclick = () => slides[i].scrollIntoView({ behavior: 'smooth' });
+    navContainer.appendChild(btn);
+  });
+
+  const dots = document.querySelectorAll('.dot-nav');
+
+  // Intersection Observer for visibility + animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        const idx = Array.from(slides).indexOf(entry.target);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        progressBar.style.width = `${((idx + 1) / totalSlides) * 100}%`;
+      }
+    });
+  }, { threshold: 0.5 });
+
+  slides.forEach(s => observer.observe(s));
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    const current = Array.from(slides).findIndex(s => s.classList.contains('visible'));
+    if ((e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') && current < totalSlides - 1) {
+      e.preventDefault(); slides[current + 1].scrollIntoView({ behavior: 'smooth' });
+    } else if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && current > 0) {
+      e.preventDefault(); slides[current - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  // Activate first slide
+  slides[0].classList.add('visible');
+</script>
+</body>
+</html>
