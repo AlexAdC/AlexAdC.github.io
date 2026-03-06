@@ -23,11 +23,11 @@
     --rose:   #F43F5E;
     --green:  #10B981;
 
-    --title-size: clamp(1.6rem, 5vw, 3.6rem);
-    --h2-size:    clamp(1.25rem, 3.5vw, 2.2rem);
-    --h3-size:    clamp(1rem, 2.5vw, 1.4rem);
-    --body-size:  clamp(0.78rem, 1.4vw, 1.05rem);
-    --small-size: clamp(0.68rem, 1vw, 0.85rem);
+    --title-size: clamp(2.4rem, 7.5vw, 5.4rem);
+    --h2-size:    clamp(1.875rem, 5.25vw, 3.3rem);
+    --h3-size:    clamp(1.5rem, 3.75vw, 2.1rem);
+    --body-size:  clamp(1.17rem, 2.1vw, 1.575rem);
+    --small-size: clamp(1.02rem, 1.5vw, 1.275rem);
     --slide-pad:  clamp(1.5rem, 5vw, 5rem);
     --gap:        clamp(0.5rem, 1.5vw, 1.2rem);
 
@@ -59,7 +59,7 @@
     justify-content: center; padding: var(--slide-pad);
     max-height: 100%; overflow: hidden;
   }
-  .slide-content.top { justify-content: flex-start; padding-top: clamp(1rem, 4vh, 3rem); }
+  .slide-content.top { justify-content: center; padding-top: var(--slide-pad); }
 
   /* ============================
      BACKGROUNDS
@@ -329,15 +329,15 @@
     :root {
       --slide-pad: clamp(0.8rem, 3vw, 2rem);
       --gap: clamp(0.3rem, 1vw, 0.7rem);
-      --title-size: clamp(1.3rem, 4vw, 2.8rem);
-      --h2-size: clamp(1.1rem, 3vw, 1.8rem);
-      --body-size: clamp(0.72rem, 1.2vw, 0.95rem);
+      --title-size: clamp(1.95rem, 6vw, 4.2rem);
+      --h2-size: clamp(1.65rem, 4.5vw, 2.7rem);
+      --body-size: clamp(1.08rem, 1.8vw, 1.425rem);
     }
   }
   @media (max-height: 600px) {
     :root {
       --slide-pad: clamp(0.6rem, 2.5vw, 1.5rem);
-      --body-size: clamp(0.68rem, 1vw, 0.88rem);
+      --body-size: clamp(1.02rem, 1.5vw, 1.32rem);
     }
     .tl-item { grid-template-columns: 4.5rem 1fr; }
     #nav-dots { display: none; }
@@ -996,26 +996,37 @@
   const navContainer = document.getElementById('nav-dots');
   const progressBar = document.getElementById('progress-bar');
   const totalSlides = slides.length;
+  let currentIdx = 0;
 
   // Build nav dots
   slides.forEach((_, i) => {
     const btn = document.createElement('button');
     btn.className = 'dot-nav';
     btn.setAttribute('aria-label', `Diapositiva ${i + 1}`);
-    btn.onclick = () => slides[i].scrollIntoView({ behavior: 'smooth' });
+    btn.onclick = () => goTo(i);
     navContainer.appendChild(btn);
   });
 
   const dots = document.querySelectorAll('.dot-nav');
 
-  // Intersection Observer for visibility + animations
+  function goTo(idx) {
+    currentIdx = idx;
+    slides[idx].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function updateUI(idx) {
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    progressBar.style.width = `${((idx + 1) / totalSlides) * 100}%`;
+  }
+
+  // Intersection Observer — triggers animations and tracks current slide
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
         const idx = Array.from(slides).indexOf(entry.target);
-        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-        progressBar.style.width = `${((idx + 1) / totalSlides) * 100}%`;
+        currentIdx = idx;
+        updateUI(idx);
       }
     });
   }, { threshold: 0.5 });
@@ -1024,16 +1035,16 @@
 
   // Keyboard navigation
   document.addEventListener('keydown', e => {
-    const current = Array.from(slides).findIndex(s => s.classList.contains('visible'));
-    if ((e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') && current < totalSlides - 1) {
-      e.preventDefault(); slides[current + 1].scrollIntoView({ behavior: 'smooth' });
-    } else if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && current > 0) {
-      e.preventDefault(); slides[current - 1].scrollIntoView({ behavior: 'smooth' });
+    if ((e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') && currentIdx < totalSlides - 1) {
+      e.preventDefault(); goTo(currentIdx + 1);
+    } else if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && currentIdx > 0) {
+      e.preventDefault(); goTo(currentIdx - 1);
     }
   });
 
   // Activate first slide
   slides[0].classList.add('visible');
+  updateUI(0);
 </script>
 </body>
 </html>
