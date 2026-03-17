@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Reader</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #f3f4f6;
+    color: #1f2937;
+    min-height: 100vh;
+    padding: 32px 16px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #111827;
+  }
+
+  .tip {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    color: #1d4ed8;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tip span.icon { font-size: 1.2rem; }
+
+  textarea {
+    width: 100%;
+    height: 220px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 0.95rem;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+    resize: vertical;
+    background: #fff;
+    color: #111827;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.6;
+  }
+
+  textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px #bfdbfe55; }
+  textarea::placeholder { color: #9ca3af; }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin: 14px 0 28px;
+  }
+
+  button {
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  button:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: #2563eb;
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1d4ed8; }
+
+  .btn-secondary {
+    background: #e5e7eb;
+    color: #374151;
+  }
+  .btn-secondary:hover { background: #d1d5db; }
+
+  #output {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 32px 36px;
+    min-height: 80px;
+    line-height: 1.8;
+    font-size: 1.05rem;
+    color: #1f2937;
+    display: none;
+  }
+
+  /* Markdown rendered styles */
+  #output h1 { font-size: 1.9rem; margin: 0 0 16px; color: #111827; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; }
+  #output h2 { font-size: 1.5rem; margin: 28px 0 12px; color: #111827; }
+  #output h3 { font-size: 1.2rem; margin: 22px 0 10px; color: #374151; }
+  #output h4, #output h5, #output h6 { font-size: 1rem; margin: 16px 0 8px; color: #374151; }
+  #output p { margin: 0 0 16px; }
+  #output ul, #output ol { margin: 0 0 16px 24px; }
+  #output li { margin-bottom: 6px; }
+  #output blockquote { border-left: 4px solid #3b82f6; padding: 8px 16px; margin: 16px 0; background: #eff6ff; color: #1e40af; border-radius: 0 6px 6px 0; }
+  #output code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: 'Cascadia Code', monospace; font-size: 0.9em; color: #0f172a; }
+  #output pre { background: #0f172a; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 0 0 16px; }
+  #output pre code { background: none; padding: 0; color: inherit; }
+  #output strong { font-weight: 700; }
+  #output em { font-style: italic; }
+  #output a { color: #2563eb; text-decoration: underline; }
+  #output hr { border: none; border-top: 1px solid #e5e7eb; margin: 24px 0; }
+  #output table { width: 100%; border-collapse: collapse; margin: 0 0 16px; }
+  #output th, #output td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+  #output th { background: #f9fafb; font-weight: 600; }
+  #output tr:nth-child(even) td { background: #f9fafb; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📄 Markdown Reader</h1>
+  <p style="color:#6b7280;margin-bottom:20px;font-size:0.95rem;">Paste markdown, render it, then use Edge's Read Aloud to listen.</p>
+
+  <div class="tip">
+    <span class="icon">🔊</span>
+    <span>To activate <strong>Read Aloud</strong> in Edge: press <strong>Ctrl + Shift + U</strong>, or right-click anywhere on the page and choose <strong>"Read aloud"</strong>.</span>
+  </div>
+
+  <textarea id="input" placeholder="Paste your markdown here...&#10;&#10;# Example Heading&#10;This is **bold** and this is *italic*.&#10;&#10;- Item one&#10;- Item two"></textarea>
+
+  <div class="actions">
+    <button class="btn-primary" onclick="render()">▶ Render</button>
+    <button class="btn-secondary" onclick="clearAll()">✕ Clear</button>
+  </div>
+
+  <div id="output"></div>
+</div>
+
+<script>
+function render() {
+  const raw = document.getElementById('input').value.trim();
+  if (!raw) return;
+  const html = mdToHtml(raw);
+  const out = document.getElementById('output');
+  out.innerHTML = html;
+  out.style.display = 'block';
+  out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function clearAll() {
+  document.getElementById('input').value = '';
+  const out = document.getElementById('output');
+  out.innerHTML = '';
+  out.style.display = 'none';
+}
+
+function mdToHtml(md) {
+  let html = md;
+
+  // Escape HTML entities first (only in non-code blocks)
+  // Process code blocks first to protect them
+  const codeBlocks = [];
+  html = html.replace(/```([\w]*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+    const idx = codeBlocks.length;
+    codeBlocks.push(`<pre><code>${escHtml(code.trim())}</code></pre>`);
+    return `%%CODEBLOCK${idx}%%`;
+  });
+
+  const inlineCodes = [];
+  html = html.replace(/`([^`]+)`/g, (_, code) => {
+    const idx = inlineCodes.length;
+    inlineCodes.push(`<code>${escHtml(code)}</code>`);
+    return `%%INLINECODE${idx}%%`;
+  });
+
+  // Headings
+  html = html.replace(/^#{6}\s+(.+)$/gm, '<h6>$1</h6>');
+  html = html.replace(/^#{5}\s+(.+)$/gm, '<h5>$1</h5>');
+  html = html.replace(/^#{4}\s+(.+)$/gm, '<h4>$1</h4>');
+  html = html.replace(/^#{3}\s+(.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^#{2}\s+(.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^#{1}\s+(.+)$/gm, '<h1>$1</h1>');
+
+  // HR
+  html = html.replace(/^[-*_]{3,}$/gm, '<hr>');
+
+  // Blockquotes
+  html = html.replace(/^>\s?(.+)$/gm, '<blockquote>$1</blockquote>');
+
+  // Bold & italic
+  html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  html = html.replace(/___(.+?)___/g, '<strong><em>$1</em></strong>');
+  html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+  html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+  // Links
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+  // Unordered lists
+  html = html.replace(/^(\s*[-*+]\s+.+\n?)+/gm, m => {
+    const items = m.trim().split('\n').map(l => `<li>${l.replace(/^\s*[-*+]\s+/, '')}</li>`).join('');
+    return `<ul>${items}</ul>\n`;
+  });
+
+  // Ordered lists
+  html = html.replace(/^(\s*\d+\.\s+.+\n?)+/gm, m => {
+    const items = m.trim().split('\n').map(l => `<li>${l.replace(/^\s*\d+\.\s+/, '')}</li>`).join('');
+    return `<ol>${items}</ol>\n`;
+  });
+
+  // Tables
+  html = html.replace(/^(\|.+\|\n)((?:\|[-:| ]+\|\n))((?:\|.+\|\n?)*)/gm, (_, header, sep, body) => {
+    const hCells = header.trim().split('|').filter(c => c.trim()).map(c => `<th>${c.trim()}</th>`).join('');
+    const rows = body.trim().split('\n').map(row => {
+      const cells = row.split('|').filter(c => c.trim() !== '').map(c => `<td>${c.trim()}</td>`).join('');
+      return `<tr>${cells}</tr>`;
+    }).join('');
+    return `<table><thead><tr>${hCells}</tr></thead><tbody>${rows}</tbody></table>\n`;
+  });
+
+  // Paragraphs: wrap lines not already wrapped
+  html = html.replace(/^(?!<[a-z%]|\s*$)(.+)$/gm, '<p>$1</p>');
+
+  // Restore code blocks
+  codeBlocks.forEach((block, i) => { html = html.replace(`%%CODEBLOCK${i}%%`, block); });
+  inlineCodes.forEach((code, i) => { html = html.replace(`%%INLINECODE${i}%%`, code); });
+
+  return html;
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
