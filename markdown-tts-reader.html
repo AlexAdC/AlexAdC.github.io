@@ -153,11 +153,15 @@ function render() {
   const out = document.getElementById('output');
   out.innerHTML = html;
   out.style.display = 'block';
+  document.getElementById('input').style.display = 'none';
+  document.querySelector('.tip').style.display = 'none';
   out.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function clearAll() {
   document.getElementById('input').value = '';
+  document.getElementById('input').style.display = 'block';
+  document.querySelector('.tip').style.display = 'flex';
   const out = document.getElementById('output');
   out.innerHTML = '';
   out.style.display = 'none';
