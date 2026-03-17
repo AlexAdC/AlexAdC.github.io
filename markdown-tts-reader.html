@@ -127,8 +127,10 @@
 </head>
 <body>
 <div class="container">
-  <h1>📄 Markdown Reader</h1>
-  <p style="color:#6b7280;margin-bottom:20px;font-size:0.95rem;">Paste markdown, render it, then use Edge's Read Aloud to listen.</p>
+  <div id="header">
+    <h1>📄 Markdown Reader</h1>
+    <p style="color:#6b7280;margin-bottom:20px;font-size:0.95rem;">Paste markdown, render it, then use Edge's Read Aloud to listen.</p>
+  </div>
 
   <div class="tip">
     <span class="icon">🔊</span>
@@ -137,12 +139,16 @@
 
   <textarea id="input" placeholder="Paste your markdown here...&#10;&#10;# Example Heading&#10;This is **bold** and this is *italic*.&#10;&#10;- Item one&#10;- Item two"></textarea>
 
-  <div class="actions">
+  <div class="actions" id="actions-top" style="display:flex;">
     <button class="btn-primary" onclick="render()">▶ Render</button>
     <button class="btn-secondary" onclick="clearAll()">✕ Clear</button>
   </div>
 
   <div id="output"></div>
+
+  <div class="actions" id="actions-bottom" style="display:none; margin-top: 24px;">
+    <button class="btn-secondary" onclick="clearAll()">✕ Clear & start over</button>
+  </div>
 </div>
 
 <script>
@@ -153,15 +159,22 @@ function render() {
   const out = document.getElementById('output');
   out.innerHTML = html;
   out.style.display = 'block';
+  // Hide everything except output and clear button
   document.getElementById('input').style.display = 'none';
   document.querySelector('.tip').style.display = 'none';
-  out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('header').style.display = 'none';
+  document.getElementById('actions-top').style.display = 'none';
+  document.getElementById('actions-bottom').style.display = 'flex';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function clearAll() {
   document.getElementById('input').value = '';
   document.getElementById('input').style.display = 'block';
   document.querySelector('.tip').style.display = 'flex';
+  document.getElementById('header').style.display = 'block';
+  document.getElementById('actions-top').style.display = 'flex';
+  document.getElementById('actions-bottom').style.display = 'none';
   const out = document.getElementById('output');
   out.innerHTML = '';
   out.style.display = 'none';
