@@ -159,12 +159,19 @@ function render() {
   const out = document.getElementById('output');
   out.innerHTML = html;
   out.style.display = 'block';
-  // Hide everything except output and clear button
-  document.getElementById('input').style.display = 'none';
-  document.querySelector('.tip').style.display = 'none';
-  document.getElementById('header').style.display = 'none';
-  document.getElementById('actions-top').style.display = 'none';
-  document.getElementById('actions-bottom').style.display = 'flex';
+  // Physically remove all UI chrome from the DOM so Edge TTS cannot read it
+  ['header','actions-top','actions-bottom'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  });
+  document.querySelector('.tip')?.remove();
+  document.getElementById('input')?.remove();
+  // Show clear button inside output area
+  const clearBtn = document.createElement('div');
+  clearBtn.id = 'clear-bar';
+  clearBtn.style.cssText = 'margin-top:32px;';
+  clearBtn.innerHTML = '<button class="btn-secondary" onclick="location.reload()">✕ Clear & start over</button>';
+  out.after(clearBtn);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
