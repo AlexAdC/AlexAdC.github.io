@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Task Scheduler</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; font-size: 14px; color: #1a1a1a; background: #f8f8f6; min-height: 100vh; }
+  .app { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #666; margin-bottom: 24px; }
+
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid #e0e0e0; margin-bottom: 24px; }
+  .tab { padding: 8px 16px; font-size: 13px; cursor: pointer; border: none; background: none; color: #666; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab.active { color: #1a1a1a; font-weight: 500; border-bottom-color: #1a1a1a; }
+
+  .card { background: #fff; border: 0.5px solid #ddd; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .card-title { font-size: 13px; font-weight: 500; color: #444; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .upload-zone { border: 1.5px dashed #ccc; border-radius: 10px; padding: 36px; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+  .upload-zone:hover { border-color: #888; }
+  .upload-zone input { display: none; }
+  .upload-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-text { font-size: 13px; color: #666; }
+  .upload-text strong { color: #333; }
+
+  .btn { padding: 8px 16px; border-radius: 8px; border: 0.5px solid #ccc; background: #fff; cursor: pointer; font-size: 13px; color: #333; transition: background 0.15s; }
+  .btn:hover { background: #f2f2f2; }
+  .btn-primary { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .btn-primary:hover { background: #333; }
+  .btn-sm { padding: 4px 10px; font-size: 12px; }
+  .btn-danger { border-color: #e24b4a; color: #a32d2d; }
+  .btn-danger:hover { background: #fcebeb; }
+
+  .task-seq-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #f8f8f6; border-radius: 8px; margin-bottom: 8px; }
+  .task-seq-num { width: 22px; height: 22px; border-radius: 50%; background: #1a1a1a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; }
+  .task-seq-label { flex: 1; font-size: 13px; font-weight: 500; }
+  .task-seq-delay { font-size: 12px; color: #888; }
+
+  select, input[type="number"], input[type="text"] { padding: 7px 10px; border: 0.5px solid #ccc; border-radius: 7px; font-size: 13px; background: #fff; color: #1a1a1a; }
+  select:focus, input:focus { outline: 2px solid #1a1a1a; outline-offset: 1px; }
+
+  .row { display: flex; gap: 10px; align-items: flex-end; margin-bottom: 12px; flex-wrap: wrap; }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field label { font-size: 12px; color: #666; }
+
+  .schedule-opt { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .schedule-opt label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; }
+
+  .leads-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .leads-table th { text-align: left; padding: 8px 10px; color: #888; font-weight: 500; border-bottom: 1px solid #eee; }
+  .leads-table td { padding: 8px 10px; border-bottom: 0.5px solid #f0f0f0; }
+
+  .task-card { background: #fff; border: 0.5px solid #ddd; border-radius: 10px; padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+  .task-card.future { opacity: 0.55; background: #fafafa; }
+  .task-badge { padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+  .badge-email { background: #e6f1fb; color: #185fa5; }
+  .badge-phone { background: #eaf3de; color: #3b6d11; }
+  .badge-linkedin { background: #eeedfe; color: #534ab7; }
+  .badge-meeting { background: #faeeda; color: #854f0b; }
+  .badge-proposal { background: #e1f5ee; color: #0f6e56; }
+  .badge-followup { background: #fbeaf0; color: #993556; }
+
+  .task-info { flex: 1; }
+  .task-lead { font-weight: 500; font-size: 13px; }
+  .task-meta { font-size: 12px; color: #888; margin-top: 2px; }
+  .task-date { font-size: 12px; font-weight: 500; color: #444; white-space: nowrap; }
+  .task-overdue { color: #a32d2d; }
+  .task-today { color: #185fa5; }
+
+  .section-divider { font-size: 11px; font-weight: 500; color: #999; text-transform: uppercase; letter-spacing: 0.06em; margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
+  .section-divider::after { content: ''; flex: 1; height: 0.5px; background: #e0e0e0; }
+
+  .future-toggle { cursor: pointer; color: #185fa5; font-size: 12px; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 4px; background: none; border: none; }
+
+  .ai-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; z-index: 100; }
+  .ai-modal-box { background: #fff; border-radius: 14px; padding: 24px; width: 420px; max-width: 95vw; }
+  .ai-modal-title { font-size: 15px; font-weight: 500; margin-bottom: 16px; }
+  .ai-response { background: #f8f8f6; border-radius: 8px; padding: 12px; font-size: 13px; color: #444; line-height: 1.6; margin-top: 12px; min-height: 60px; }
+  .loading-dots::after { content: '...'; animation: dots 1s infinite; }
+  @keyframes dots { 0%,100%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
+
+  .empty-state { text-align: center; padding: 48px 24px; color: #999; }
+  .empty-icon { font-size: 32px; margin-bottom: 10px; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .stat-card { background: #f8f8f6; border-radius: 8px; padding: 12px 14px; }
+  .stat-label { font-size: 11px; color: #888; margin-bottom: 4px; }
+  .stat-val { font-size: 22px; font-weight: 500; color: #1a1a1a; }
+
+  .checkbox { width: 16px; height: 16px; cursor: pointer; }
+  .completed { text-decoration: line-through; opacity: 0.5; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>CRM Task Scheduler</h1>
+  <p class="subtitle">Upload leads, define your outreach sequence, view and manage tasks.</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('setup')">Setup</button>
+    <button class="tab" onclick="switchTab('sequence')">Sequence</button>
+    <button class="tab" onclick="switchTab('tasks')">Tasks</button>
+  </div>
+
+  <!-- SETUP TAB -->
+  <div id="tab-setup">
+    <div class="card">
+      <div class="card-title">Upload leads</div>
+      <div class="upload-zone" onclick="document.getElementById('file-input').click()" id="drop-zone">
+        <input type="file" id="file-input" accept=".xlsx,.xls,.csv" onchange="handleFile(event)">
+        <div class="upload-icon">📄</div>
+        <div class="upload-text"><strong>Click to upload</strong> or drag & drop<br>Excel file with Name, Company, Email, Phone columns</div>
+      </div>
+      <div id="leads-preview" style="margin-top:16px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Scheduling options</div>
+
+      <div class="row" style="margin-bottom:16px;">
+        <div class="field">
+          <label>Sequence start date</label>
+          <input type="date" id="start-date" style="padding:7px 10px;border:0.5px solid #ccc;border-radius:7px;font-size:13px;">
+        </div>
+        <div class="field">
+          <label>Default days between tasks</label>
+          <input type="number" id="default-delay" value="3" min="1" max="30" style="width:90px;">
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <div style="font-size:12px;color:#666;margin-bottom:8px;">Allowed days for tasks</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="weekday-checkboxes"></div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <p style="font-size:12px;color:#888;">Tasks will be scheduled only on selected days, skipping others.</p>
+        <button class="btn btn-primary" onclick="autoPopulateSequence()">Auto-populate sequence →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEQUENCE TAB -->
+  <div id="tab-sequence" class="hidden">
+    <div class="card">
+      <div class="card-title">Build your task sequence</div>
+      <div class="row">
+        <div class="field">
+          <label>Task type</label>
+          <select id="task-type-select">
+            <optgroup label="Email outreach">
+              <option value="Email outreach v1">Email outreach — version 1</option>
+              <option value="Email outreach v2">Email outreach — version 2</option>
+              <option value="Email outreach v3">Email outreach — version 3</option>
+            </optgroup>
+            <optgroup label="Follow-up email">
+              <option value="Follow-up email v1">Follow-up email — version 1</option>
+              <option value="Follow-up email v2">Follow-up email — version 2</option>
+              <option value="Follow-up email v3">Follow-up email — version 3</option>
+            </optgroup>
+            <optgroup label="LinkedIn message">
+              <option value="LinkedIn message v1">LinkedIn message — version 1</option>
+              <option value="LinkedIn message v2">LinkedIn message — version 2</option>
+              <option value="LinkedIn message v3">LinkedIn message — version 3</option>
+            </optgroup>
+            <option value="Phone call">Phone call</option>
+            <option value="Schedule meeting">Schedule meeting</option>
+            <option value="Send proposal">Send proposal</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Days after previous task</label>
+          <input type="number" id="task-delay" value="3" min="0" max="90" style="width:90px;">
+        </div>
+        <button class="btn btn-primary" onclick="addTaskToSeq()" style="margin-bottom:0;">+ Add task</button>
+      </div>
+      <div id="sequence-list" style="margin-top:8px;"></div>
+      <div id="seq-empty" style="color:#999;font-size:13px;padding:8px 0;">No tasks added yet. Build your sequence above.</div>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;">
+      <button class="btn btn-primary" onclick="generateTasks()">Generate tasks →</button>
+    </div>
+  </div>
+
+  <!-- TASKS TAB -->
+  <div id="tab-tasks" class="hidden">
+    <div id="tasks-empty" class="empty-state">
+      <div class="empty-icon">📋</div>
+      <div>No tasks yet. Upload leads and generate a sequence first.</div>
+    </div>
+    <div id="tasks-content" class="hidden">
+      <div class="stats-row" id="stats-row"></div>
+      <div id="current-tasks-list"></div>
+      <div>
+        <button class="future-toggle" onclick="toggleFuture()" id="future-btn">▶ Show future tasks</button>
+        <div id="future-tasks-list" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI Modal -->
+<div id="ai-modal" class="hidden">
+  <div class="ai-modal-box">
+    <div class="ai-modal-title" id="ai-modal-title">Modify task with AI</div>
+    <div id="ai-modal-body"></div>
+    <div class="ai-response hidden" id="ai-response"></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px;">
+      <button class="btn" onclick="closeAI()">Cancel</button>
+      <button class="btn btn-primary" id="ai-apply-btn" onclick="applyAIAction()" style="display:none;">Apply</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TASK_COLORS = {
+  'Email outreach': 'badge-email',
+  'Follow-up email': 'badge-followup',
+  'LinkedIn message': 'badge-linkedin',
+  'Phone call': 'badge-phone',
+  'Schedule meeting': 'badge-meeting',
+  'Send proposal': 'badge-proposal'
+};
+
+let leads = [];
+let sequence = [];
+let allTasks = [];
+let currentAITask = null;
+let aiAction = null;
+let aiNewDate = null;
+
+function switchTab(t) {
+  ['setup','sequence','tasks'].forEach(id => {
+    document.getElementById('tab-'+id).classList.toggle('hidden', id !== t);
+  });
+  document.querySelectorAll('.tab').forEach((el,i) => {
+    el.classList.toggle('active', ['setup','sequence','tasks'][i] === t);
+  });
+}
+
+function updateSchedUI() {
+  const v = document.querySelector('input[name="sched"]:checked').value;
+  document.getElementById('weekday-picker').classList.toggle('hidden', v === 'relative');
+}
+
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = evt => {
+    const wb = XLSX.read(evt.target.result, {type:'binary'});
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws, {defval:''});
+    leads = rows.map(r => {
+      const keys = Object.keys(r);
+      const find = (terms) => {
+        const k = keys.find(k => terms.some(t => k.toLowerCase().includes(t)));
+        return k ? String(r[k]) : '';
+      };
+      return {
+        name: find(['name']),
+        company: find(['company','org']),
+        email: find(['email','mail']),
+        phone: find(['phone','tel','mobile'])
+      };
+    }).filter(l => l.name || l.email);
+    renderLeadPreview();
+  };
+  reader.readAsBinaryString(file);
+}
+
+function renderLeadPreview() {
+  const el = document.getElementById('leads-preview');
+  if (!leads.length) { el.innerHTML=''; return; }
+  el.innerHTML = `<div style="font-size:12px;color:#666;margin-bottom:8px;">${leads.length} leads loaded</div>
+  <table class="leads-table">
+    <thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Phone</th></tr></thead>
+    <tbody>${leads.slice(0,5).map(l => `<tr><td>${l.name}</td><td>${l.company}</td><td>${l.email}</td><td>${l.phone}</td></tr>`).join('')}
+    ${leads.length > 5 ? `<tr><td colspan="4" style="color:#999;font-size:12px;">...and ${leads.length-5} more</td></tr>` : ''}
+    </tbody></table>`;
+}
+
+function addTaskToSeq() {
+  const type = document.getElementById('task-type-select').value;
+  const delay = parseInt(document.getElementById('task-delay').value) || 0;
+  sequence.push({type, delay, id: Date.now()});
+  renderSequence();
+}
+
+const ALL_TASKS_DEFAULT = [
+  {type:'Email outreach v1', delay:0},
+  {type:'Follow-up email v1', delay:3},
+  {type:'LinkedIn message v1', delay:2},
+  {type:'Phone call', delay:3},
+  {type:'Email outreach v2', delay:4},
+  {type:'Follow-up email v2', delay:3},
+  {type:'LinkedIn message v2', delay:3},
+  {type:'Phone call', delay:4},
+  {type:'Email outreach v3', delay:5},
+  {type:'Follow-up email v3', delay:3},
+  {type:'LinkedIn message v3', delay:3},
+  {type:'Schedule meeting', delay:4},
+  {type:'Send proposal', delay:7},
+];
+
+function addAllTasks() {
+  if (sequence.length && !confirm('This will replace your current sequence. Continue?')) return;
+  sequence = ALL_TASKS_DEFAULT.map(t => ({...t, id: Date.now() + Math.random()}));
+  renderSequence();
+}
+
+function removeSeqItem(id) {
+  sequence = sequence.filter(s => s.id !== id);
+  renderSequence();
+}
+
+function renderSequence() {
+  const el = document.getElementById('sequence-list');
+  const empty = document.getElementById('seq-empty');
+  empty.style.display = sequence.length ? 'none' : 'block';
+  el.innerHTML = sequence.map((s,i) => `
+    <div class="task-seq-item">
+      <div class="task-seq-num">${i+1}</div>
+      <div class="task-seq-label">${s.type}</div>
+      <div class="task-seq-delay">${i===0 ? 'Day 0' : '+'+s.delay+' days'}</div>
+      <button class="btn btn-sm btn-danger" onclick="removeSeqItem(${s.id})">Remove</button>
+    </div>`).join('');
+}
+
+const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DAY_JS    = [1,2,3,4,5,6,0]; // Mon→1 ... Sun→0
+
+function initDayLabels() {
+  const container = document.getElementById('weekday-checkboxes');
+  container.innerHTML = DAY_NAMES.map((d,i) => `
+    <label id="day-label-${i}" style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;padding:6px 12px;border:0.5px solid #ccc;border-radius:8px;background:#fff;">
+      <input type="checkbox" id="day-${i}" ${i<5?'checked':''} onchange="updateDayLabel(${i})" style="width:14px;height:14px;"> ${d}
+    </label>`).join('');
+  DAY_NAMES.forEach((_,i) => updateDayLabel(i));
+}
+
+function updateDayLabel(i) {
+  const cb  = document.getElementById('day-'+i);
+  const lbl = document.getElementById('day-label-'+i);
+  if (!cb || !lbl) return;
+  lbl.style.background   = cb.checked ? '#1a1a1a' : '#fff';
+  lbl.style.color        = cb.checked ? '#fff'    : '#1a1a1a';
+  lbl.style.borderColor  = cb.checked ? '#1a1a1a' : '#ccc';
+}
+
+function getAllowedDays() {
+  return DAY_JS.filter((_,i) => {
+    const cb = document.getElementById('day-'+i);
+    return cb && cb.checked;
+  });
+}
+
+function nextAllowedDay(date) {
+  const allowed = getAllowedDays();
+  if (!allowed.length) return date;
+  let d = new Date(date);
+  for (let i=0; i<14; i++) {
+    if (allowed.includes(d.getDay())) return d;
+    d.setDate(d.getDate()+1);
+  }
+  return date;
+}
+
+function getBaseDate() {
+  const v = document.getElementById('start-date').value;
+  return v ? new Date(v+'T00:00:00') : new Date();
+}
+
+function autoPopulateSequence() {
+  if (sequence.length && !confirm('This will replace your current sequence. Continue?')) return;
+  const delay = parseInt(document.getElementById('default-delay').value) || 3;
+  sequence = ALL_TASKS_DEFAULT.map((t,i) => ({...t, delay: i===0 ? 0 : delay, id: Date.now() + Math.random()}));
+  renderSequence();
+  switchTab('sequence');
+}
+
+function formatDate(d) {
+  return d.toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+}
+
+function generateTasks() {
+  if (!leads.length) { alert('Please upload leads first.'); switchTab('setup'); return; }
+  if (!sequence.length) { alert('Please add at least one task to the sequence.'); return; }
+
+  const base = getBaseDate();
+  allTasks = [];
+
+  leads.forEach((lead, li) => {
+    let cumDays = 0;
+    sequence.forEach((s, si) => {
+      if (si > 0) cumDays += s.delay;
+      let taskDate = new Date(base);
+      taskDate.setDate(taskDate.getDate() + cumDays);
+      taskDate = nextAllowedDay(taskDate);
+      allTasks.push({
+        id: `${li}-${si}-${Date.now()}`,
+        lead: lead.name || lead.email,
+        company: lead.company,
+        email: lead.email,
+        phone: lead.phone,
+        type: s.type,
+        date: new Date(taskDate),
+        done: false,
+        removed: false
+      });
+    });
+  });
+
+  renderTasks();
+  switchTab('tasks');
+}
+
+function badgeClass(type) {
+  const t = type.toLowerCase();
+  if (t.includes('email outreach')) return 'badge-email';
+  if (t.includes('follow-up')) return 'badge-followup';
+  if (t.includes('linkedin')) return 'badge-linkedin';
+  if (t.includes('phone')) return 'badge-phone';
+  if (t.includes('meeting')) return 'badge-meeting';
+  if (t.includes('proposal')) return 'badge-proposal';
+  return 'badge-email';
+}
+
+function renderTasks() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const visible = allTasks.filter(t => !t.removed);
+  const current = visible.filter(t => { let d=new Date(t.date); d.setHours(0,0,0,0); return d <= today; });
+  const future = visible.filter(t => { let d=new Date(t.date); d.setHours(0,0,0,0); return d > today; });
+
+  document.getElementById('tasks-empty').classList.toggle('hidden', visible.length > 0);
+  document.getElementById('tasks-content').classList.toggle('hidden', visible.length === 0);
+
+  const done = visible.filter(t=>t.done).length;
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Total tasks</div><div class="stat-val">${visible.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Current</div><div class="stat-val">${current.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Future</div><div class="stat-val">${future.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Completed</div><div class="stat-val">${done}</div></div>`;
+
+  document.getElementById('current-tasks-list').innerHTML = `
+    <div class="section-divider">Current tasks (${current.length})</div>
+    ${current.length ? current.map(t => taskHTML(t, today)).join('') : '<div style="color:#999;font-size:13px;padding:8px 0;">No current tasks.</div>'}`;
+
+  document.getElementById('future-tasks-list').innerHTML = future.map(t => taskHTML(t, today)).join('');
+}
+
+function taskHTML(t, today) {
+  const d = new Date(t.date); d.setHours(0,0,0,0);
+  const isOverdue = d < today && !t.done;
+  const isToday = d.getTime() === today.getTime();
+  const dateClass = isOverdue ? 'task-overdue' : isToday ? 'task-today' : '';
+  const dateLabel = isToday ? 'Today' : isOverdue ? 'Overdue · '+formatDate(d) : formatDate(d);
+
+  return `<div class="task-card${t.done?' completed':''}" id="tc-${t.id}">
+    <input type="checkbox" class="checkbox" ${t.done?'checked':''} onchange="toggleDone('${t.id}',this.checked)">
+    <span class="task-badge ${badgeClass(t.type)}">${t.type}</span>
+    <div class="task-info">
+      <div class="task-lead">${t.lead}</div>
+      <div class="task-meta">${t.company ? t.company+' · ' : ''}${t.email}</div>
+    </div>
+    <div class="task-date ${dateClass}">${dateLabel}</div>
+    <button class="btn btn-sm" onclick="openAI('${t.id}')" title="AI modify">✦ AI</button>
+  </div>`;
+}
+
+function toggleDone(id, val) {
+  const t = allTasks.find(t=>t.id===id);
+  if (t) { t.done = val; renderTasks(); }
+}
+
+let showFuture = false;
+function toggleFuture() {
+  showFuture = !showFuture;
+  document.getElementById('future-tasks-list').classList.toggle('hidden', !showFuture);
+  document.getElementById('future-btn').textContent = (showFuture ? '▼ Hide' : '▶ Show') + ' future tasks';
+}
+
+function openAI(id) {
+  currentAITask = allTasks.find(t=>t.id===id);
+  if (!currentAITask) return;
+  document.getElementById('ai-modal').classList.remove('hidden');
+  document.getElementById('ai-modal-title').textContent = 'Modify: ' + currentAITask.type;
+  document.getElementById('ai-response').classList.add('hidden');
+  document.getElementById('ai-apply-btn').style.display = 'none';
+  aiAction = null; aiNewDate = null;
+  document.getElementById('ai-modal-body').innerHTML = `
+    <p style="font-size:13px;color:#555;margin-bottom:14px;">Lead: <strong>${currentAITask.lead}</strong> · ${formatDate(new Date(currentAITask.date))}</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+      <button class="btn" onclick="aiReschedule()">Reschedule task</button>
+      <button class="btn btn-danger" onclick="aiRemove()">Remove task</button>
+    </div>
+    <div id="ai-reschedule-form" class="hidden">
+      <div class="field" style="margin-bottom:10px;">
+        <label>New date</label>
+        <input type="date" id="ai-new-date" style="padding:7px 10px;border:0.5px solid #ccc;border-radius:7px;font-size:13px;">
+      </div>
+      <div class="field" style="margin-bottom:10px;">
+        <label>Reason (optional)</label>
+        <input type="text" id="ai-reason" placeholder="e.g. contact was on holiday" style="width:100%;">
+      </div>
+      <button class="btn btn-primary" onclick="runAI('reschedule')">Ask AI →</button>
+    </div>
+    <div id="ai-remove-form" class="hidden">
+      <p style="font-size:13px;color:#555;margin-bottom:10px;">AI will remove this task and suggest if remaining tasks need adjustment.</p>
+      <button class="btn btn-primary" onclick="runAI('remove')">Ask AI →</button>
+    </div>`;
+}
+
+function aiReschedule() {
+  document.getElementById('ai-reschedule-form').classList.remove('hidden');
+  document.getElementById('ai-remove-form').classList.add('hidden');
+}
+
+function aiRemove() {
+  document.getElementById('ai-remove-form').classList.remove('hidden');
+  document.getElementById('ai-reschedule-form').classList.add('hidden');
+}
+
+async function runAI(action) {
+  aiAction = action;
+  const resp = document.getElementById('ai-response');
+  resp.classList.remove('hidden');
+  resp.innerHTML = '<span class="loading-dots">Thinking</span>';
+
+  const otherTasks = allTasks.filter(t => t.lead === currentAITask.lead && !t.removed && t.id !== currentAITask.id)
+    .map(t => `${t.type} on ${formatDate(new Date(t.date))}`).join(', ');
+
+  let prompt = '';
+  if (action === 'reschedule') {
+    const nd = document.getElementById('ai-new-date').value;
+    const reason = document.getElementById('ai-reason').value;
+    aiNewDate = nd;
+    prompt = `A CRM task needs rescheduling. Task: "${currentAITask.type}" for lead "${currentAITask.lead}" at ${currentAITask.company}. Original date: ${formatDate(new Date(currentAITask.date))}. New requested date: ${nd || 'not specified'}. Reason: ${reason || 'none given'}. Other tasks for this lead: ${otherTasks || 'none'}. In 2-3 sentences, confirm the reschedule and advise whether any other tasks for this lead need adjustment.`;
+  } else {
+    prompt = `A CRM task is being removed. Task: "${currentAITask.type}" for lead "${currentAITask.lead}" at ${currentAITask.company}. Date: ${formatDate(new Date(currentAITask.date))}. Other tasks for this lead: ${otherTasks || 'none'}. In 2-3 sentences, confirm removal and briefly advise if the gap should be closed or if the sequence is fine as is.`;
+  }
+
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 300,
+        system: 'You are a helpful CRM assistant. Be concise and practical. Do not use bullet points.',
+        messages: [{role:'user',content:prompt}]
+      })
+    });
+    const data = await r.json();
+    const text = data.content?.find(c=>c.type==='text')?.text || 'Unable to get response.';
+    resp.textContent = text;
+    document.getElementById('ai-apply-btn').style.display = 'inline-block';
+  } catch(e) {
+    resp.textContent = 'Error reaching AI. Please try again.';
+  }
+}
+
+function applyAIAction() {
+  if (!currentAITask) return;
+  if (aiAction === 'remove') {
+    currentAITask.removed = true;
+  } else if (aiAction === 'reschedule' && aiNewDate) {
+    currentAITask.date = new Date(aiNewDate+'T00:00:00');
+  }
+  closeAI();
+  renderTasks();
+}
+
+function closeAI() {
+  document.getElementById('ai-modal').classList.add('hidden');
+  currentAITask = null;
+}
+
+document.addEventListener('click', e => {
+  if (e.target.id === 'ai-modal') closeAI();
+});
+
+// Set today as default start date
+const today = new Date();
+document.getElementById('start-date').value = today.toISOString().split('T')[0];
+initDayLabels();
+
+// Drag & drop
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.style.borderColor='#888'; });
+dz.addEventListener('dragleave', () => { dz.style.borderColor='#ccc'; });
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.style.borderColor='#ccc';
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    const fakeEvent = { target: { files: [file] } };
+    handleFile(fakeEvent);
+  }
+});
+</script>
+</body>
+</html>
