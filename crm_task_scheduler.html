@@ -34,9 +34,9 @@
   .btn-danger { border-color: #e24b4a; color: #a32d2d; }
   .btn-danger:hover { background: #fcebeb; }
 
-  .task-seq-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #f8f8f6; border-radius: 8px; margin-bottom: 8px; }
+  .task-seq-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #f8f8f6; border-radius: 8px; margin-bottom: 8px; flex-wrap: wrap; }
   .task-seq-num { width: 22px; height: 22px; border-radius: 50%; background: #1a1a1a; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; }
-  .task-seq-label { flex: 1; font-size: 13px; font-weight: 500; }
+  .task-seq-label { flex: 1; font-size: 13px; font-weight: 500; min-width: 140px; }
   .task-seq-delay { font-size: 12px; color: #888; }
 
   select, input[type="number"], input[type="text"], input[type="date"] {
@@ -55,10 +55,10 @@
   .task-card { background: #fff; border: 0.5px solid #ddd; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .task-card.future { opacity: 0.55; background: #fafafa; }
   .task-badge { padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; }
-  .badge-email { background: #e6f1fb; color: #185fa5; }
-  .badge-phone { background: #eaf3de; color: #3b6d11; }
+  .badge-email    { background: #e6f1fb; color: #185fa5; }
+  .badge-phone    { background: #eaf3de; color: #3b6d11; }
   .badge-linkedin { background: #eeedfe; color: #534ab7; }
-  .badge-meeting { background: #faeeda; color: #854f0b; }
+  .badge-meeting  { background: #faeeda; color: #854f0b; }
   .badge-proposal { background: #e1f5ee; color: #0f6e56; }
   .badge-followup { background: #fbeaf0; color: #993556; }
 
@@ -67,8 +67,7 @@
   .task-meta { font-size: 12px; color: #888; margin-top: 2px; }
   .task-date { font-size: 12px; font-weight: 500; color: #444; white-space: nowrap; }
   .task-overdue { color: #a32d2d; }
-  .task-today { color: #185fa5; }
-
+  .task-today   { color: #185fa5; }
   .task-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 
   .section-divider { font-size: 11px; font-weight: 500; color: #999; text-transform: uppercase; letter-spacing: 0.06em; margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
@@ -94,6 +93,18 @@
   .task-card.done-card { opacity: 0.45; }
   .task-card.done-card .task-lead { text-decoration: line-through; }
   .hidden { display: none; }
+
+  /* Calendar */
+  .cal-day { border: 0.5px solid #e8e8e8; border-radius: 8px; padding: 6px 8px; min-height: 60px; cursor: pointer; transition: background 0.15s; background: #fff; }
+  .cal-day:hover { background: #f5f5f5; }
+  .cal-day.today { border-color: #1a1a1a; }
+  .cal-day.other-month { opacity: 0.35; }
+  .cal-day.selected { background: #f0f0f0; border-color: #888; }
+  .cal-day-num { font-size: 12px; font-weight: 500; color: #444; margin-bottom: 4px; }
+  .cal-day.today .cal-day-num { color: #185fa5; }
+  .cal-dot { display: inline-block; padding: 2px 6px; border-radius: 20px; font-size: 11px; font-weight: 500; background: #e6f1fb; color: #185fa5; }
+  .cal-dot.med  { background: #faeeda; color: #854f0b; }
+  .cal-dot.high { background: #fcebeb; color: #a32d2d; }
 </style>
 </head>
 <body>
@@ -105,6 +116,10 @@
     <button class="tab active" onclick="switchTab('setup')">Setup</button>
     <button class="tab" onclick="switchTab('sequence')">Sequence</button>
     <button class="tab" onclick="switchTab('tasks')">Tasks</button>
+    <button class="tab" onclick="switchTab('calendar')">Calendar</button>
+    <div style="flex:1;"></div>
+    <button class="btn btn-sm" onclick="exportData()" style="margin:4px 4px 0 0;" title="Export backup">Export</button>
+    <label class="btn btn-sm" style="margin:4px 4px 0 0;cursor:pointer;" title="Import backup">Import<input type="file" accept=".json" onchange="importData(event)" style="display:none;"></label>
   </div>
 
   <!-- SETUP TAB -->
@@ -118,13 +133,12 @@
       </div>
       <div id="leads-preview" style="margin-top:16px;"></div>
     </div>
-
     <div class="card">
       <div class="card-title">Scheduling options</div>
       <div class="row" style="margin-bottom:16px;">
         <div class="field">
           <label>Sequence start date</label>
-          <input type="date" id="start-date">
+          <input type="date" id="start-date" onchange="renderSequence()">
         </div>
         <div class="field">
           <label>Default days between tasks</label>
@@ -172,7 +186,7 @@
         </div>
         <div class="field">
           <label>Days after previous task</label>
-          <input type="number" id="task-delay" value="3" min="0" max="90" style="width:90px;">
+          <input type="number" id="task-delay" value="7" min="1" max="90" style="width:90px;">
         </div>
         <button class="btn btn-primary" onclick="addTaskToSeq()">+ Add task</button>
         <button class="btn" onclick="addAllTasks()">+ Add all tasks</button>
@@ -200,6 +214,23 @@
       </div>
     </div>
   </div>
+
+  <!-- CALENDAR TAB -->
+  <div id="tab-calendar" class="hidden">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <button class="btn btn-sm" onclick="calNav(-1)">← Prev</button>
+        <div style="font-size:15px;font-weight:500;" id="cal-month-label"></div>
+        <button class="btn btn-sm" onclick="calNav(1)">Next →</button>
+      </div>
+      <div id="cal-day-headers" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;"></div>
+      <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;"></div>
+      <div id="cal-day-detail" class="hidden" style="margin-top:16px;border-top:0.5px solid #eee;padding-top:14px;">
+        <div style="font-size:13px;font-weight:500;margin-bottom:10px;" id="cal-detail-title"></div>
+        <div id="cal-detail-list"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Modify Modal -->
@@ -220,80 +251,87 @@ const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const DAY_JS    = [1,2,3,4,5,6,0];
 
 const ALL_TASKS_DEFAULT = [
-  {type:'Email outreach v1',    delay:0},
-  {type:'LinkedIn message v1',  delay:7},
-  {type:'Email outreach v2',    delay:7},
-  {type:'LinkedIn message v2',  delay:7},
-  {type:'Email outreach v3',    delay:7},
-  {type:'LinkedIn message v3',  delay:7},
-  {type:'Phone call',           delay:7},
-  {type:'Schedule meeting',     delay:7},
-  {type:'Follow-up email v1',   delay:7},
-  {type:'Follow-up email v2',   delay:7},
-  {type:'Follow-up email v3',   delay:7},
-  {type:'Send proposal',        delay:7},
+  {type:'Email outreach v1',   delay:0},
+  {type:'LinkedIn message v1', delay:7},
+  {type:'Email outreach v2',   delay:7},
+  {type:'LinkedIn message v2', delay:7},
+  {type:'Email outreach v3',   delay:7},
+  {type:'LinkedIn message v3', delay:7},
+  {type:'Phone call',          delay:7},
+  {type:'Schedule meeting',    delay:7},
+  {type:'Follow-up email v1',  delay:7},
+  {type:'Follow-up email v2',  delay:7},
+  {type:'Follow-up email v3',  delay:7},
+  {type:'Send proposal',       delay:7},
 ];
 
-let leads = [];
-let sequence = [];
-let allTasks = [];
-let modalAction = null;
-let modalTaskId = null;
+let leads = [], sequence = [], allTasks = [];
+let modalAction = null, modalTaskId = null;
+let calYear, calMonth, calSelected = null;
 
+/* ── Tabs ── */
 function switchTab(t) {
-  ['setup','sequence','tasks'].forEach(id => {
-    document.getElementById('tab-'+id).classList.toggle('hidden', id !== t);
-  });
-  document.querySelectorAll('.tab').forEach((el,i) => {
-    el.classList.toggle('active', ['setup','sequence','tasks'][i] === t);
-  });
+  ['setup','sequence','tasks','calendar'].forEach(id =>
+    document.getElementById('tab-'+id).classList.toggle('hidden', id !== t));
+  document.querySelectorAll('.tab').forEach((el,i) =>
+    el.classList.toggle('active', ['setup','sequence','tasks','calendar'][i] === t));
+  if (t === 'calendar') renderCal();
 }
 
 /* ── Day picker ── */
 function initDayLabels() {
-  const container = document.getElementById('weekday-checkboxes');
-  container.innerHTML = DAY_NAMES.map((d,i) => `
+  const c = document.getElementById('weekday-checkboxes');
+  c.innerHTML = DAY_NAMES.map((d,i) => `
     <label id="day-label-${i}" style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px;padding:6px 12px;border:0.5px solid #ccc;border-radius:8px;background:#fff;">
-      <input type="checkbox" id="day-${i}" ${i<5?'checked':''} onchange="updateDayLabel(${i})" style="width:14px;height:14px;"> ${d}
+      <input type="checkbox" id="day-${i}" ${i<5?'checked':''} onchange="updateDayLabel(${i});renderSequence();" style="width:14px;height:14px;"> ${d}
     </label>`).join('');
   DAY_NAMES.forEach((_,i) => updateDayLabel(i));
 }
 
 function updateDayLabel(i) {
-  const cb  = document.getElementById('day-'+i);
-  const lbl = document.getElementById('day-label-'+i);
-  if (!cb || !lbl) return;
+  const cb = document.getElementById('day-'+i), lbl = document.getElementById('day-label-'+i);
+  if (!cb||!lbl) return;
   lbl.style.background  = cb.checked ? '#1a1a1a' : '#fff';
   lbl.style.color       = cb.checked ? '#fff'    : '#1a1a1a';
   lbl.style.borderColor = cb.checked ? '#1a1a1a' : '#ccc';
 }
 
 function getAllowedDays() {
-  return DAY_JS.filter((_,i) => { const cb = document.getElementById('day-'+i); return cb && cb.checked; });
+  return DAY_JS.filter((_,i) => { const cb=document.getElementById('day-'+i); return cb&&cb.checked; });
+}
+
+function getBaseDate() {
+  const v = document.getElementById('start-date').value;
+  const d = v ? new Date(v+'T00:00:00') : new Date();
+  d.setHours(0,0,0,0);
+  return d;
 }
 
 function nextAllowedDay(date) {
   const allowed = getAllowedDays();
-  if (!allowed.length) return date;
-  let d = new Date(date);
+  if (!allowed.length) return new Date(date);
+  let d = new Date(date); d.setHours(0,0,0,0);
   for (let i=0; i<14; i++) { if (allowed.includes(d.getDay())) return d; d.setDate(d.getDate()+1); }
-  return date;
+  return new Date(date);
+}
+
+function formatDate(d) {
+  return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
 }
 
 /* ── File upload ── */
 function handleFile(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = evt => {
-    const wb = XLSX.read(evt.target.result, {type:'binary'});
+    const wb = XLSX.read(evt.target.result,{type:'binary'});
     const ws = wb.Sheets[wb.SheetNames[0]];
-    const rows = XLSX.utils.sheet_to_json(ws, {defval:''});
+    const rows = XLSX.utils.sheet_to_json(ws,{defval:''});
     leads = rows.map(r => {
       const keys = Object.keys(r);
-      const find = terms => { const k = keys.find(k => terms.some(t => k.toLowerCase().includes(t))); return k ? String(r[k]) : ''; };
-      return { name: find(['name']), company: find(['company','org']), email: find(['email','mail']), phone: find(['phone','tel','mobile']) };
-    }).filter(l => l.name || l.email);
+      const find = terms => { const k=keys.find(k=>terms.some(t=>k.toLowerCase().includes(t))); return k?String(r[k]):''; };
+      return {name:find(['name']),company:find(['company','org']),email:find(['email','mail']),phone:find(['phone','tel','mobile'])};
+    }).filter(l=>l.name||l.email);
     renderLeadPreview();
   };
   reader.readAsBinaryString(file);
@@ -311,74 +349,91 @@ function renderLeadPreview() {
 /* ── Sequence builder ── */
 function addTaskToSeq() {
   const type = document.getElementById('task-type-select').value;
-  const delay = parseInt(document.getElementById('task-delay').value) || 0;
-  sequence.push({type, delay, id: Date.now()+Math.random()});
+  const delay = parseInt(document.getElementById('task-delay').value)||7;
+  sequence.push({type, delay, id: sequence.length});
   renderSequence();
 }
 
 function addAllTasks() {
   if (sequence.length && !confirm('This will replace your current sequence. Continue?')) return;
-  sequence = ALL_TASKS_DEFAULT.map(t => ({...t, id: Date.now()+Math.random()}));
+  sequence = ALL_TASKS_DEFAULT.map((t,i)=>({...t,id:i}));
   renderSequence();
 }
 
 function autoPopulateSequence() {
   if (sequence.length && !confirm('This will replace your current sequence. Continue?')) return;
-  const delay = parseInt(document.getElementById('default-delay').value) || 3;
-  sequence = ALL_TASKS_DEFAULT.map((t,i) => ({...t, delay: i===0?0:delay, id: Date.now()+Math.random()}));
+  const delay = parseInt(document.getElementById('default-delay').value)||7;
+  sequence = ALL_TASKS_DEFAULT.map((t,i)=>({...t,delay:i===0?0:delay,id:i}));
   renderSequence();
   switchTab('sequence');
 }
 
-function removeSeqItem(id) {
-  sequence = sequence.filter(s => s.id !== id);
+function removeSeqItem(idx) {
+  sequence.splice(idx,1);
+  sequence.forEach((s,i)=>s.id=i);
   renderSequence();
 }
 
 function renderSequence() {
   const el = document.getElementById('sequence-list');
-  document.getElementById('seq-empty').style.display = sequence.length ? 'none' : 'block';
-  el.innerHTML = sequence.map((s,i) => `
-    <div class="task-seq-item">
+  document.getElementById('seq-empty').style.display = sequence.length?'none':'block';
+  const base = getBaseDate();
+  let cumDays = 0, html = '';
+  for (let i=0; i<sequence.length; i++) {
+    const s = sequence[i];
+    if (i>0) cumDays += s.delay;
+    let td = new Date(base); td.setDate(td.getDate()+cumDays);
+    td = nextAllowedDay(td);
+    html += `<div class="task-seq-item">
       <div class="task-seq-num">${i+1}</div>
       <div class="task-seq-label">${s.type}</div>
-      <div class="task-seq-delay">${i===0?'Day 0':'+'+s.delay+' days'}</div>
-      <button class="btn btn-sm btn-danger" onclick="removeSeqItem(${s.id})">Remove</button>
-    </div>`).join('');
+      ${i===0
+        ? `<div class="task-seq-delay">Day 0</div>`
+        : `<div style="display:flex;align-items:center;gap:5px;">
+             <input type="number" value="${s.delay}" min="1" max="90" data-idx="${i}" style="width:60px;padding:4px 6px;font-size:12px;">
+             <span style="font-size:12px;color:#888;">days after</span>
+           </div>`}
+      <div id="seq-date-${i}" style="font-size:12px;color:#185fa5;white-space:nowrap;min-width:96px;">${formatDate(td)}</div>
+      <button class="btn btn-sm btn-danger" onclick="removeSeqItem(${i})">Remove</button>
+    </div>`;
+  }
+  el.innerHTML = html;
+  el.querySelectorAll('input[data-idx]').forEach(inp => {
+    inp.addEventListener('input', function() {
+      const idx = parseInt(this.dataset.idx);
+      const val = Math.max(1, parseInt(this.value)||1);
+      sequence[idx].delay = val;
+      refreshSeqDates();
+    });
+  });
+}
+
+function refreshSeqDates() {
+  const base = getBaseDate();
+  let cumDays = 0;
+  for (let i=0; i<sequence.length; i++) {
+    if (i>0) cumDays += sequence[i].delay;
+    let td = new Date(base); td.setDate(td.getDate()+cumDays);
+    td = nextAllowedDay(td);
+    const el = document.getElementById('seq-date-'+i);
+    if (el) el.textContent = formatDate(td);
+  }
 }
 
 /* ── Task generation ── */
-function getBaseDate() {
-  const v = document.getElementById('start-date').value;
-  return v ? new Date(v+'T00:00:00') : new Date();
-}
-
-function formatDate(d) {
-  return new Date(d).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
-}
-
-function buildTasksForLead(lead, baseDate, seqOverride) {
-  const seq = seqOverride || sequence;
-  const tasks = [];
-  let cumDays = 0;
-  seq.forEach((s,si) => {
-    if (si > 0) cumDays += s.delay;
-    let taskDate = new Date(baseDate);
-    taskDate.setDate(taskDate.getDate() + cumDays);
-    taskDate = nextAllowedDay(taskDate);
+function buildTasksForLead(lead, baseDate) {
+  const tasks = []; let cumDays = 0;
+  sequence.forEach((s,si) => {
+    if (si>0) cumDays += s.delay;
+    let td = new Date(baseDate); td.setDate(td.getDate()+cumDays);
+    td = nextAllowedDay(td);
     tasks.push({
       id: `${lead.email||lead.name}-${si}-${Date.now()+Math.random()}`,
-      leadKey: lead.email || lead.name,
-      lead: lead.name || lead.email,
-      company: lead.company,
-      email: lead.email,
-      phone: lead.phone,
-      type: s.type,
-      seqIndex: si,
-      delay: s.delay,
-      date: new Date(taskDate),
-      done: false,
-      removed: false
+      leadKey: lead.email||lead.name,
+      lead: lead.name||lead.email,
+      company: lead.company, email: lead.email, phone: lead.phone,
+      type: s.type, seqIndex: si, delay: s.delay,
+      date: new Date(td), done: false, removed: false
     });
   });
   return tasks;
@@ -389,7 +444,7 @@ function generateTasks() {
   if (!sequence.length) { alert('Please add at least one task to the sequence.'); return; }
   const base = getBaseDate();
   allTasks = [];
-  leads.forEach(lead => { allTasks.push(...buildTasksForLead(lead, base)); });
+  leads.forEach(lead => allTasks.push(...buildTasksForLead(lead, base)));
   renderTasks();
   switchTab('tasks');
 }
@@ -398,25 +453,25 @@ function generateTasks() {
 function badgeClass(type) {
   const t = type.toLowerCase();
   if (t.includes('email outreach')) return 'badge-email';
-  if (t.includes('follow-up')) return 'badge-followup';
-  if (t.includes('linkedin')) return 'badge-linkedin';
-  if (t.includes('phone')) return 'badge-phone';
-  if (t.includes('meeting')) return 'badge-meeting';
-  if (t.includes('proposal')) return 'badge-proposal';
+  if (t.includes('follow-up'))      return 'badge-followup';
+  if (t.includes('linkedin'))       return 'badge-linkedin';
+  if (t.includes('phone'))          return 'badge-phone';
+  if (t.includes('meeting'))        return 'badge-meeting';
+  if (t.includes('proposal'))       return 'badge-proposal';
   return 'badge-email';
 }
 
 function renderTasks() {
   const today = new Date(); today.setHours(0,0,0,0);
-  const visible = allTasks.filter(t => !t.removed);
-  const current = visible.filter(t => { let d=new Date(t.date); d.setHours(0,0,0,0); return d<=today; });
-  const future  = visible.filter(t => { let d=new Date(t.date); d.setHours(0,0,0,0); return d>today; });
+  const visible = allTasks.filter(t=>!t.removed);
+  const current = visible.filter(t=>{ let d=new Date(t.date); d.setHours(0,0,0,0); return d<=today; });
+  const future  = visible.filter(t=>{ let d=new Date(t.date); d.setHours(0,0,0,0); return d>today; });
+  const done    = visible.filter(t=>t.done).length;
+  const overdue = visible.filter(t=>{ let d=new Date(t.date); d.setHours(0,0,0,0); return d<today&&!t.done; }).length;
 
   document.getElementById('tasks-empty').classList.toggle('hidden', visible.length>0);
   document.getElementById('tasks-content').classList.toggle('hidden', visible.length===0);
 
-  const done = visible.filter(t=>t.done).length;
-  const overdue = visible.filter(t => { let d=new Date(t.date); d.setHours(0,0,0,0); return d<today && !t.done; }).length;
   document.getElementById('stats-row').innerHTML = `
     <div class="stat-card"><div class="stat-label">Total tasks</div><div class="stat-val">${visible.length}</div></div>
     <div class="stat-card"><div class="stat-label">Current</div><div class="stat-val">${current.length}</div></div>
@@ -427,16 +482,14 @@ function renderTasks() {
   document.getElementById('current-tasks-list').innerHTML =
     `<div class="section-divider">Current tasks (${current.length})</div>` +
     (current.length ? current.map(t=>taskHTML(t,today)).join('') : '<div style="color:#999;font-size:13px;padding:8px 0;">No current tasks.</div>');
-
   document.getElementById('future-tasks-list').innerHTML = future.map(t=>taskHTML(t,today)).join('');
 }
 
 function taskHTML(t, today) {
   const d = new Date(t.date); d.setHours(0,0,0,0);
-  const isOverdue = d < today && !t.done;
-  const isToday   = d.getTime() === today.getTime();
-  const dateClass = isOverdue ? 'task-overdue' : isToday ? 'task-today' : '';
-  const dateLabel = isToday ? 'Today' : isOverdue ? 'Overdue · '+formatDate(d) : formatDate(d);
+  const isOverdue = d<today && !t.done, isToday = d.getTime()===today.getTime();
+  const dateClass = isOverdue?'task-overdue':isToday?'task-today':'';
+  const dateLabel = isToday?'Today':isOverdue?'Overdue · '+formatDate(d):formatDate(d);
   return `<div class="task-card${t.done?' done-card':''}" id="tc-${t.id}">
     <input type="checkbox" class="checkbox" ${t.done?'checked':''} onchange="toggleDone('${t.id}',this.checked)">
     <span class="task-badge ${badgeClass(t.type)}">${t.type}</span>
@@ -445,15 +498,13 @@ function taskHTML(t, today) {
       <div class="task-meta">${t.company?t.company+' · ':''}${t.email}</div>
     </div>
     <div class="task-date ${dateClass}">${dateLabel}</div>
-    <div class="task-actions">
-      <button class="btn btn-sm" onclick="openModify('${t.id}')">Modify</button>
-    </div>
+    <div class="task-actions"><button class="btn btn-sm" onclick="openModify('${t.id}')">Modify</button></div>
   </div>`;
 }
 
 function toggleDone(id, val) {
   const t = allTasks.find(t=>t.id===id);
-  if (t) { t.done = val; renderTasks(); }
+  if (t) { t.done=val; renderTasks(); }
 }
 
 let showFuture = false;
@@ -465,21 +516,17 @@ function toggleFuture() {
 
 /* ── Modify modal ── */
 function openModify(id) {
-  modalTaskId = id;
-  modalAction = null;
-  const t = allTasks.find(t=>t.id===id);
-  if (!t) return;
-
+  modalTaskId = id; modalAction = null;
+  const t = allTasks.find(t=>t.id===id); if (!t) return;
   document.getElementById('modify-title').textContent = t.type;
-  document.getElementById('modify-sub').textContent = t.lead + (t.company ? ' · '+t.company : '') + ' — ' + formatDate(t.date);
+  document.getElementById('modify-sub').textContent = t.lead+(t.company?' · '+t.company:'')+' — '+formatDate(t.date);
   document.getElementById('modify-modal').classList.remove('hidden');
   document.getElementById('modal-confirm-btn').textContent = 'Confirm';
-
   document.getElementById('modify-body').innerHTML = `
     <div style="display:flex;flex-direction:column;gap:8px;">
       <button class="btn" id="opt-reschedule" onclick="selectAction('reschedule')" style="text-align:left;padding:12px 14px;">
         <div style="font-weight:500;margin-bottom:2px;">Reschedule task</div>
-        <div style="font-size:12px;color:#888;">Set a new date — all future tasks for this lead will shift accordingly.</div>
+        <div style="font-size:12px;color:#888;">Set a new date — all future tasks for this lead shift accordingly.</div>
       </button>
       <button class="btn" id="opt-remove" onclick="selectAction('remove')" style="text-align:left;padding:12px 14px;">
         <div style="font-weight:500;margin-bottom:2px;">Remove task</div>
@@ -491,8 +538,7 @@ function openModify(id) {
       </button>
     </div>
     <div id="reschedule-form" class="hidden" style="margin-top:16px;">
-      <div class="field">
-        <label>New date for this task</label>
+      <div class="field"><label>New date for this task</label>
         <input type="date" id="new-task-date" style="margin-top:4px;">
       </div>
     </div>`;
@@ -502,73 +548,202 @@ function selectAction(action) {
   modalAction = action;
   ['reschedule','remove','remove-all'].forEach(a => {
     const btn = document.getElementById('opt-'+a);
-    if (btn) btn.style.background = a===action ? '#f0f0f0' : '#fff';
+    if (btn) btn.style.background = a===action?'#f0f0f0':'#fff';
   });
-  document.getElementById('reschedule-form').classList.toggle('hidden', action !== 'reschedule');
-  const labels = { reschedule:'Reschedule', remove:'Remove task', 'remove-all':'Remove all tasks' };
-  document.getElementById('modal-confirm-btn').textContent = labels[action] || 'Confirm';
+  document.getElementById('reschedule-form').classList.toggle('hidden', action!=='reschedule');
+  document.getElementById('modal-confirm-btn').textContent =
+    {reschedule:'Reschedule',remove:'Remove task','remove-all':'Remove all tasks'}[action]||'Confirm';
 }
 
 function confirmModal() {
-  if (!modalAction || !modalTaskId) return;
-  const t = allTasks.find(t=>t.id===modalTaskId);
-  if (!t) return;
-
-  if (modalAction === 'reschedule') {
-    const newDateVal = document.getElementById('new-task-date').value;
-    if (!newDateVal) { alert('Please select a new date.'); return; }
-    const newDate = new Date(newDateVal+'T00:00:00');
-    const snapped = nextAllowedDay(newDate);
-
-    // Calculate how many days shifted
+  if (!modalAction||!modalTaskId) return;
+  const t = allTasks.find(t=>t.id===modalTaskId); if (!t) return;
+  if (modalAction==='reschedule') {
+    const nv = document.getElementById('new-task-date').value;
+    if (!nv) { alert('Please select a new date.'); return; }
+    const snapped = nextAllowedDay(new Date(nv+'T00:00:00'));
     const oldDate = new Date(t.date); oldDate.setHours(0,0,0,0);
-    const diff = Math.round((snapped - oldDate) / 86400000);
-
-    // Shift this task and all future tasks for the same lead (by seqIndex >= current)
+    const diff = Math.round((snapped-oldDate)/86400000);
     allTasks.forEach(task => {
-      if (task.leadKey === t.leadKey && !task.removed && task.seqIndex >= t.seqIndex) {
-        const d = new Date(task.date);
-        d.setDate(d.getDate() + diff);
+      if (task.leadKey===t.leadKey && !task.removed && task.seqIndex>=t.seqIndex) {
+        const d = new Date(task.date); d.setDate(d.getDate()+diff);
         task.date = nextAllowedDay(d);
       }
     });
-
-  } else if (modalAction === 'remove') {
+  } else if (modalAction==='remove') {
     t.removed = true;
-    // Find the next task for this lead and bring it to today
-    const today = new Date(); today.setHours(0,0,0,0);
-    const nextTask = allTasks
-      .filter(task => task.leadKey === t.leadKey && !task.removed && task.seqIndex > t.seqIndex)
-      .sort((a,b) => a.seqIndex - b.seqIndex)[0];
-    if (nextTask) nextTask.date = nextAllowedDay(new Date(today));
-
-  } else if (modalAction === 'remove-all') {
-    allTasks.forEach(task => { if (task.leadKey === t.leadKey) task.removed = true; });
+    const tod = new Date(); tod.setHours(0,0,0,0);
+    const next = allTasks.filter(task=>task.leadKey===t.leadKey&&!task.removed&&task.seqIndex>t.seqIndex)
+                         .sort((a,b)=>a.seqIndex-b.seqIndex)[0];
+    if (next) next.date = nextAllowedDay(new Date(tod));
+  } else if (modalAction==='remove-all') {
+    allTasks.forEach(task=>{ if (task.leadKey===t.leadKey) task.removed=true; });
   }
-
-  closeModal();
-  renderTasks();
+  closeModal(); renderTasks();
 }
 
 function closeModal() {
   document.getElementById('modify-modal').classList.add('hidden');
-  modalTaskId = null;
-  modalAction = null;
+  modalTaskId = null; modalAction = null;
 }
-
 document.addEventListener('click', e => { if (e.target.id==='modify-modal') closeModal(); });
 
+/* ── Calendar ── */
+function initCal() {
+  const now = new Date(); calYear=now.getFullYear(); calMonth=now.getMonth();
+  document.getElementById('cal-day-headers').innerHTML =
+    DAY_NAMES.map(d=>`<div style="text-align:center;font-size:11px;color:#888;font-weight:500;padding:4px 0;">${d}</div>`).join('');
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth>11){calMonth=0;calYear++;}
+  if (calMonth<0){calMonth=11;calYear--;}
+  calSelected=null;
+  document.getElementById('cal-day-detail').classList.add('hidden');
+  renderCal();
+}
+
+function tasksByDate() {
+  const map={};
+  allTasks.filter(t=>!t.removed&&!t.done).forEach(t=>{
+    const key=new Date(t.date).toDateString();
+    if (!map[key]) map[key]=[];
+    map[key].push(t);
+  });
+  return map;
+}
+
+function renderCal() {
+  const map = tasksByDate();
+  document.getElementById('cal-month-label').textContent =
+    new Date(calYear,calMonth,1).toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  const firstDay = new Date(calYear,calMonth,1).getDay();
+  const startOffset = firstDay===0?6:firstDay-1;
+  const daysInMonth = new Date(calYear,calMonth+1,0).getDate();
+  const daysInPrev  = new Date(calYear,calMonth,0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  let cells=[];
+  for (let i=0;i<startOffset;i++)
+    cells.push({day:daysInPrev-startOffset+1+i, cur:false, date:new Date(calYear,calMonth-1,daysInPrev-startOffset+1+i)});
+  for (let i=1;i<=daysInMonth;i++)
+    cells.push({day:i, cur:true, date:new Date(calYear,calMonth,i)});
+  for (let i=1;cells.length<42;i++)
+    cells.push({day:i, cur:false, date:new Date(calYear,calMonth+1,i)});
+
+  document.getElementById('cal-grid').innerHTML = cells.map(c=>{
+    const key=c.date.toDateString(), tasks=map[key]||[], n=tasks.length;
+    const isToday=c.date.getTime()===today.getTime();
+    const isSel=calSelected&&c.date.toDateString()===calSelected;
+    const dotCls=n>=5?'cal-dot high':n>=3?'cal-dot med':'cal-dot';
+    return `<div class="cal-day${!c.cur?' other-month':''}${isToday?' today':''}${isSel?' selected':''}"
+      onclick="selectCalDay('${c.date.toDateString()}')">
+      <div class="cal-day-num">${c.day}</div>
+      ${n>0?`<span class="${dotCls}">${n}</span>`:''}
+    </div>`;
+  }).join('');
+}
+
+function selectCalDay(dateStr) {
+  calSelected=dateStr;
+  const tasks=(tasksByDate()[dateStr]||[]);
+  document.getElementById('cal-detail-title').textContent =
+    new Date(dateStr).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+
+    ` — ${tasks.length} task${tasks.length!==1?'s':''}`;
+  document.getElementById('cal-detail-list').innerHTML = tasks.length
+    ? tasks.map(t=>`<div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid #f0f0f0;">
+        <span class="task-badge ${badgeClass(t.type)}">${t.type}</span>
+        <span style="font-size:13px;font-weight:500;">${t.lead}</span>
+        <span style="font-size:12px;color:#888;">${t.company||''}</span>
+      </div>`).join('')
+    : '<div style="font-size:13px;color:#999;">No tasks on this day.</div>';
+  document.getElementById('cal-day-detail').classList.remove('hidden');
+  renderCal();
+}
+
+/* ── Persistence ── */
+function saveState() {
+  try {
+    localStorage.setItem('crm_leads', JSON.stringify(leads));
+    localStorage.setItem('crm_sequence', JSON.stringify(sequence));
+    localStorage.setItem('crm_tasks', JSON.stringify(allTasks.map(t=>({...t, date: t.date.toISOString()}))));
+    localStorage.setItem('crm_startdate', document.getElementById('start-date').value);
+    localStorage.setItem('crm_delay', document.getElementById('default-delay').value);
+    localStorage.setItem('crm_days', DAY_JS.map((_,i)=>{const cb=document.getElementById('day-'+i);return cb&&cb.checked?1:0;}).join(','));
+  } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const sd = localStorage.getItem('crm_startdate');
+    if (sd) document.getElementById('start-date').value = sd;
+    const dl = localStorage.getItem('crm_delay');
+    if (dl) document.getElementById('default-delay').value = dl;
+    const days = localStorage.getItem('crm_days');
+    if (days) {
+      days.split(',').forEach((v,i)=>{ const cb=document.getElementById('day-'+i); if(cb) { cb.checked=v==='1'; updateDayLabel(i); }});
+    }
+    const sl = localStorage.getItem('crm_leads');
+    if (sl) { leads = JSON.parse(sl); renderLeadPreview(); }
+    const sq = localStorage.getItem('crm_sequence');
+    if (sq) { sequence = JSON.parse(sq); renderSequence(); }
+    const st = localStorage.getItem('crm_tasks');
+    if (st) {
+      allTasks = JSON.parse(st).map(t=>({...t, date: new Date(t.date)}));
+      renderTasks();
+    }
+  } catch(e) {}
+}
+
+function exportData() {
+  const data = { leads, sequence, allTasks: allTasks.map(t=>({...t,date:t.date.toISOString()})),
+    startDate: document.getElementById('start-date').value,
+    delay: document.getElementById('default-delay').value,
+    days: DAY_JS.map((_,i)=>{ const cb=document.getElementById('day-'+i); return cb&&cb.checked?1:0; }) };
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='crm-scheduler-backup.json'; a.click();
+}
+
+function importData(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = evt => {
+    try {
+      const data = JSON.parse(evt.target.result);
+      if (data.startDate) document.getElementById('start-date').value = data.startDate;
+      if (data.delay) document.getElementById('default-delay').value = data.delay;
+      if (data.days) data.days.forEach((v,i)=>{ const cb=document.getElementById('day-'+i); if(cb){cb.checked=v===1;updateDayLabel(i);}});
+      if (data.leads) { leads=data.leads; renderLeadPreview(); }
+      if (data.sequence) { sequence=data.sequence; renderSequence(); }
+      if (data.allTasks) { allTasks=data.allTasks.map(t=>({...t,date:new Date(t.date)})); renderTasks(); }
+      saveState();
+    } catch(e) { alert('Invalid backup file.'); }
+  };
+  reader.readAsText(file);
+}
+
+// Auto-save on any state change — patch key functions
+const _generateTasks = generateTasks;
+generateTasks = function() { _generateTasks(); saveState(); };
+const _toggleDone = toggleDone;
+toggleDone = function(id,val) { _toggleDone(id,val); saveState(); };
+const _confirmModal = confirmModal;
+confirmModal = function() { _confirmModal(); saveState(); };
+
 /* ── Init ── */
-const today = new Date();
-document.getElementById('start-date').value = today.toISOString().split('T')[0];
+const todayInit = new Date();
+document.getElementById('start-date').value = todayInit.toISOString().split('T')[0];
 initDayLabels();
+initCal();
+loadState();
 
 const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.style.borderColor='#888'; });
-dz.addEventListener('dragleave', () => { dz.style.borderColor='#ccc'; });
-dz.addEventListener('drop', e => {
-  e.preventDefault(); dz.style.borderColor='#ccc';
-  const file = e.dataTransfer.files[0];
+dz.addEventListener('dragover', e=>{e.preventDefault();dz.style.borderColor='#888';});
+dz.addEventListener('dragleave', ()=>{dz.style.borderColor='#ccc';});
+dz.addEventListener('drop', e=>{
+  e.preventDefault();dz.style.borderColor='#ccc';
+  const file=e.dataTransfer.files[0];
   if (file) handleFile({target:{files:[file]}});
 });
 </script>
