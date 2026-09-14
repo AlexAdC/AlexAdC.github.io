@@ -54,12 +54,43 @@
     background: #fff;
     color: #111827;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     line-height: 1.6;
   }
 
   textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px #bfdbfe55; }
   textarea::placeholder { color: #9ca3af; }
+
+  #drop-zone {
+    position: relative;
+    border-radius: 12px;
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+
+  #drop-zone.drag-over {
+    background: #dbeafe;
+    box-shadow: 0 0 0 4px #93c5fd;
+  }
+
+  #drop-zone.drag-over textarea {
+    border-color: #2563eb;
+    background: #eff6ff;
+  }
+
+  .drop-help {
+    margin-top: 8px;
+    font-size: 0.82rem;
+    color: #6b7280;
+  }
+
+  #file-status {
+    min-height: 1.2em;
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: #047857;
+  }
+
+  #file-status.error { color: #b91c1c; }
 
   .actions {
     display: flex;
@@ -129,7 +160,7 @@
 <div class="container">
   <div id="header">
     <h1>📄 Markdown Reader</h1>
-    <p style="color:#6b7280;margin-bottom:20px;font-size:0.95rem;">Paste markdown, render it, then use Edge's Read Aloud to listen.</p>
+    <p style="color:#6b7280;margin-bottom:20px;font-size:0.95rem;">Paste markdown or drop a Markdown file, render it, then use Edge's Read Aloud to listen.</p>
   </div>
 
   <div class="tip">
@@ -137,7 +168,11 @@
     <span>To activate <strong>Read Aloud</strong> in Edge: press <strong>Ctrl + Shift + U</strong>, or right-click anywhere on the page and choose <strong>"Read aloud"</strong>.</span>
   </div>
 
-  <textarea id="input" placeholder="Paste your markdown here...&#10;&#10;# Example Heading&#10;This is **bold** and this is *italic*.&#10;&#10;- Item one&#10;- Item two"></textarea>
+  <div id="drop-zone">
+    <textarea id="input" aria-describedby="drop-help file-status" placeholder="Paste your markdown here, or drop a Markdown file...&#10;&#10;# Example Heading&#10;This is **bold** and this is *italic*.&#10;&#10;- Item one&#10;- Item two"></textarea>
+    <p class="drop-help" id="drop-help">Drop one .md, .markdown, .mdown, or .mkd file here. It is read only on this device—nothing is uploaded or saved.</p>
+    <p id="file-status" role="status" aria-live="polite"></p>
+  </div>
 
   <div class="actions" id="actions-top" style="display:flex;">
     <button class="btn-primary" onclick="render()">▶ Render</button>
@@ -165,7 +200,7 @@ function render() {
     if (el) el.remove();
   });
   document.querySelector('.tip')?.remove();
-  document.getElementById('input')?.remove();
+  document.getElementById('drop-zone')?.remove();
   // Show clear button inside output area
   const clearBtn = document.createElement('div');
   clearBtn.id = 'clear-bar';
@@ -186,6 +221,70 @@ function clearAll() {
   out.innerHTML = '';
   out.style.display = 'none';
 }
+
+const dropZone = document.getElementById('drop-zone');
+const input = document.getElementById('input');
+const fileStatus = document.getElementById('file-status');
+let dragDepth = 0;
+
+function showFileStatus(message, isError = false) {
+  fileStatus.textContent = message;
+  fileStatus.classList.toggle('error', isError);
+}
+
+function isMarkdownFile(file) {
+  return /\.(md|markdown|mdown|mkd)$/i.test(file.name);
+}
+
+function loadMarkdownFile(file) {
+  if (!isMarkdownFile(file)) {
+    showFileStatus('Please drop a Markdown file (.md, .markdown, .mdown, or .mkd).', true);
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.addEventListener('load', () => {
+    input.value = String(reader.result ?? '');
+    showFileStatus(`Loaded ${file.name} locally. Nothing was uploaded or saved.`);
+    input.focus();
+  });
+  reader.addEventListener('error', () => {
+    showFileStatus(`Could not read ${file.name}. Please try again.`, true);
+  });
+  reader.readAsText(file);
+}
+
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+  window.addEventListener(eventName, event => event.preventDefault());
+});
+
+dropZone.addEventListener('dragenter', () => {
+  dragDepth += 1;
+  dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('dragover', event => {
+  event.dataTransfer.dropEffect = 'copy';
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dragDepth -= 1;
+  if (dragDepth <= 0) {
+    dragDepth = 0;
+    dropZone.classList.remove('drag-over');
+  }
+});
+
+dropZone.addEventListener('drop', event => {
+  dragDepth = 0;
+  dropZone.classList.remove('drag-over');
+  const files = Array.from(event.dataTransfer.files);
+  if (files.length !== 1) {
+    showFileStatus('Please drop exactly one Markdown file.', true);
+    return;
+  }
+  loadMarkdownFile(files[0]);
+});
 
 function mdToHtml(md) {
   let html = md;
