@@ -20,6 +20,52 @@
     margin: 0 auto;
   }
 
+  .header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .header-copy { flex: 1; }
+
+  .language-control {
+    flex: 0 0 auto;
+  }
+
+  .language-toggle {
+    display: inline-flex;
+    padding: 3px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 2px #0000000d;
+  }
+
+  .language-button {
+    padding: 7px 11px;
+    border-radius: 7px;
+    background: transparent;
+    color: #4b5563;
+    font-size: 0.82rem;
+    line-height: 1;
+  }
+
+  .language-button:hover { background: #f3f4f6; }
+
+  .language-button[aria-pressed="true"] {
+    background: #2563eb;
+    color: #fff;
+  }
+
+  .language-status {
+    margin-top: 7px;
+    color: #6b7280;
+    font-size: 0.72rem;
+    text-align: center;
+  }
+
   h1 {
     font-size: 1.5rem;
     font-weight: 700;
@@ -154,29 +200,48 @@
   #output th, #output td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
   #output th { background: #f9fafb; font-weight: 600; }
   #output tr:nth-child(even) td { background: #f9fafb; }
+
+  @media (max-width: 600px) {
+    .header-row { flex-direction: column; }
+    .language-control { align-self: stretch; }
+    .language-toggle { display: flex; }
+    .language-button { flex: 1; }
+    .language-status { text-align: left; }
+  }
 </style>
 </head>
 <body>
 <div class="container">
   <div id="header">
-    <h1>📄 Markdown Reader</h1>
-    <p style="color:#6b7280;margin-bottom:20px;font-size:0.95rem;">Paste markdown or drop a Markdown file, render it, then use Edge's Read Aloud to listen.</p>
+    <div class="header-row">
+      <div class="header-copy">
+        <h1 data-i18n="heading">📄 Markdown Reader</h1>
+        <p data-i18n="intro" style="color:#6b7280;font-size:0.95rem;">Paste markdown or drop a Markdown file, render it, then use Edge's Read Aloud to listen.</p>
+      </div>
+      <div class="language-control">
+        <div class="language-toggle" role="group" aria-label="Content language" data-i18n-aria-label="languageGroup">
+          <button type="button" class="language-button" data-language="en" aria-pressed="true">English</button>
+          <button type="button" class="language-button" data-language="es" aria-pressed="false">Español</button>
+        </div>
+        <p id="language-status" class="language-status" role="status" aria-live="polite">Language: English</p>
+      </div>
+    </div>
   </div>
 
   <div class="tip">
     <span class="icon">🔊</span>
-    <span>To activate <strong>Read Aloud</strong> in Edge: press <strong>Ctrl + Shift + U</strong>, or right-click anywhere on the page and choose <strong>"Read aloud"</strong>.</span>
+    <span data-i18n="tip">To activate <strong>Read Aloud</strong> in Edge: press <strong>Ctrl + Shift + U</strong>, or right-click anywhere on the page and choose <strong>"Read aloud"</strong>.</span>
   </div>
 
   <div id="drop-zone">
     <textarea id="input" aria-describedby="drop-help file-status" placeholder="Paste your markdown here, or drop a Markdown file...&#10;&#10;# Example Heading&#10;This is **bold** and this is *italic*.&#10;&#10;- Item one&#10;- Item two"></textarea>
-    <p class="drop-help" id="drop-help">Drop one .md, .markdown, .mdown, or .mkd file here. It is read only on this device—nothing is uploaded or saved.</p>
+    <p class="drop-help" id="drop-help" data-i18n="dropHelp">Drop one .md, .markdown, .mdown, or .mkd file here. It is read only on this device—nothing is uploaded or saved.</p>
     <p id="file-status" role="status" aria-live="polite"></p>
   </div>
 
   <div class="actions" id="actions-top" style="display:flex;">
-    <button class="btn-primary" onclick="render()">▶ Render</button>
-    <button class="btn-secondary" onclick="clearAll()">✕ Clear</button>
+    <button class="btn-primary" onclick="render()" data-i18n="renderButton">▶ Render</button>
+    <button class="btn-secondary" onclick="clearAll()" data-i18n="clearButton">✕ Clear</button>
   </div>
 
   <div id="output"></div>
@@ -187,12 +252,103 @@
 </div>
 
 <script>
+const translations = {
+  en: {
+    pageTitle: 'Markdown Reader',
+    heading: '📄 Markdown Reader',
+    intro: "Paste markdown or drop a Markdown file, render it, then use Edge's Read Aloud to listen.",
+    tip: 'To activate <strong>Read Aloud</strong> in Edge: press <strong>Ctrl + Shift + U</strong>, or right-click anywhere on the page and choose <strong>"Read aloud"</strong>.',
+    languageGroup: 'Content language',
+    languageStatus: 'Language: English',
+    placeholder: 'Paste your markdown here, or drop a Markdown file...\n\n# Example Heading\nThis is **bold** and this is *italic*.\n\n- Item one\n- Item two',
+    dropHelp: 'Drop one .md, .markdown, .mdown, or .mkd file here. It is read only on this device—nothing is uploaded or saved.',
+    renderButton: '▶ Render',
+    clearButton: '✕ Clear',
+    clearAndRestart: '✕ Clear & start over',
+    invalidFile: 'Please drop a Markdown file (.md, .markdown, .mdown, or .mkd).',
+    loadedFile: fileName => `Loaded ${fileName} locally. Nothing was uploaded or saved.`,
+    readError: fileName => `Could not read ${fileName}. Please try again.`,
+    oneFileOnly: 'Please drop exactly one Markdown file.'
+  },
+  es: {
+    pageTitle: 'Lector de Markdown',
+    heading: '📄 Lector de Markdown',
+    intro: 'Pega texto Markdown o suelta un archivo Markdown, procésalo y usa Leer en voz alta de Edge para escucharlo.',
+    tip: 'Para activar <strong>Leer en voz alta</strong> en Edge, pulsa <strong>Ctrl + Mayús + U</strong> o haz clic con el botón derecho en la página y selecciona <strong>«Leer en voz alta»</strong>.',
+    languageGroup: 'Idioma del contenido',
+    languageStatus: 'Idioma: español',
+    placeholder: 'Pega aquí tu texto Markdown o suelta un archivo Markdown...\n\n# Encabezado de ejemplo\nEsto está en **negrita** y esto en *cursiva*.\n\n- Elemento uno\n- Elemento dos',
+    dropHelp: 'Suelta aquí un archivo .md, .markdown, .mdown o .mkd. Solo se lee en este dispositivo; no se sube ni se guarda nada.',
+    renderButton: '▶ Procesar',
+    clearButton: '✕ Borrar',
+    clearAndRestart: '✕ Borrar y empezar de nuevo',
+    invalidFile: 'Suelta un archivo Markdown (.md, .markdown, .mdown o .mkd).',
+    loadedFile: fileName => `${fileName} se cargó localmente. No se subió ni se guardó nada.`,
+    readError: fileName => `No se pudo leer ${fileName}. Inténtalo de nuevo.`,
+    oneFileOnly: 'Suelta exactamente un archivo Markdown.'
+  }
+};
+
+function getSavedLanguage() {
+  try {
+    return localStorage.getItem('markdownReaderLanguage');
+  } catch {
+    return null;
+  }
+}
+
+function saveLanguage(language) {
+  try {
+    localStorage.setItem('markdownReaderLanguage', language);
+  } catch {
+    // The language still works if storage is disabled by browser privacy settings.
+  }
+}
+
+let selectedLanguage = getSavedLanguage() === 'es' ? 'es' : 'en';
+
+function setLanguage(language) {
+  selectedLanguage = language === 'es' ? 'es' : 'en';
+  const copy = translations[selectedLanguage];
+
+  // Edge Read Aloud uses these language hints when choosing a voice.
+  document.documentElement.setAttribute('lang', selectedLanguage);
+  document.body.setAttribute('lang', selectedLanguage);
+  document.getElementById('input')?.setAttribute('lang', selectedLanguage);
+  document.getElementById('output')?.setAttribute('lang', selectedLanguage);
+  document.title = copy.pageTitle;
+  saveLanguage(selectedLanguage);
+
+  document.querySelectorAll('[data-language]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.language === selectedLanguage));
+  });
+
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    element.innerHTML = copy[element.dataset.i18n];
+  });
+
+  document.querySelectorAll('[data-i18n-aria-label]').forEach(element => {
+    element.setAttribute('aria-label', copy[element.dataset.i18nAriaLabel]);
+  });
+
+  const status = document.getElementById('language-status');
+  if (status) status.textContent = copy.languageStatus;
+
+  const inputElement = document.getElementById('input');
+  if (inputElement) inputElement.placeholder = copy.placeholder;
+}
+
+document.querySelectorAll('[data-language]').forEach(button => {
+  button.addEventListener('click', () => setLanguage(button.dataset.language));
+});
+
 function render() {
   const raw = document.getElementById('input').value.trim();
   if (!raw) return;
   const html = mdToHtml(raw);
   const out = document.getElementById('output');
   out.innerHTML = html;
+  out.setAttribute('lang', selectedLanguage);
   out.style.display = 'block';
   // Physically remove all UI chrome from the DOM so Edge TTS cannot read it
   ['header','actions-top','actions-bottom'].forEach(id => {
@@ -205,7 +361,7 @@ function render() {
   const clearBtn = document.createElement('div');
   clearBtn.id = 'clear-bar';
   clearBtn.style.cssText = 'margin-top:32px;';
-  clearBtn.innerHTML = '<button class="btn-secondary" onclick="location.reload()">✕ Clear & start over</button>';
+  clearBtn.innerHTML = `<button class="btn-secondary" onclick="location.reload()">${translations[selectedLanguage].clearAndRestart}</button>`;
   out.after(clearBtn);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -238,18 +394,18 @@ function isMarkdownFile(file) {
 
 function loadMarkdownFile(file) {
   if (!isMarkdownFile(file)) {
-    showFileStatus('Please drop a Markdown file (.md, .markdown, .mdown, or .mkd).', true);
+    showFileStatus(translations[selectedLanguage].invalidFile, true);
     return;
   }
 
   const reader = new FileReader();
   reader.addEventListener('load', () => {
     input.value = String(reader.result ?? '');
-    showFileStatus(`Loaded ${file.name} locally. Nothing was uploaded or saved.`);
+    showFileStatus(translations[selectedLanguage].loadedFile(file.name));
     input.focus();
   });
   reader.addEventListener('error', () => {
-    showFileStatus(`Could not read ${file.name}. Please try again.`, true);
+    showFileStatus(translations[selectedLanguage].readError(file.name), true);
   });
   reader.readAsText(file);
 }
@@ -280,7 +436,7 @@ dropZone.addEventListener('drop', event => {
   dropZone.classList.remove('drag-over');
   const files = Array.from(event.dataTransfer.files);
   if (files.length !== 1) {
-    showFileStatus('Please drop exactly one Markdown file.', true);
+    showFileStatus(translations[selectedLanguage].oneFileOnly, true);
     return;
   }
   loadMarkdownFile(files[0]);
@@ -365,6 +521,8 @@ function mdToHtml(md) {
 function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
+
+setLanguage(selectedLanguage);
 </script>
 </body>
 </html>
