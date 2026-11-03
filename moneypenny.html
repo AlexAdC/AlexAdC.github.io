@@ -165,9 +165,78 @@ main{padding:16px 16px 48px}
 .drop-hover{background:var(--bg-active)!important;border-color:var(--ink)!important}
 .card.drop-hover{box-shadow:0 0 0 2px var(--ink)}
 /* trash zone */
-.trash{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);display:none;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:9999px;background:var(--bg-raised);border:1px dashed var(--danger);color:var(--danger);font-weight:500;box-shadow:var(--shadow-md);z-index:40}
+.trash{position:fixed;left:50%;top:60px;transform:translateX(-50%);display:none;align-items:center;justify-content:center;gap:10px;height:84px;width:min(760px,70vw);border-radius:var(--r-lg);background:var(--bg-raised);border:2px dashed var(--danger);color:var(--danger);font-size:15px;font-weight:500;box-shadow:var(--shadow-md);z-index:40}
+.trash svg{width:22px;height:22px}
 body.dragging .trash{display:flex}
 .trash.drop-hover{background:var(--danger-soft)!important;border-color:var(--danger)!important}
+.chip.today{background:var(--ink-muted);color:var(--on-ink)}
+.col.day.today{background:var(--bg-active)}
+.cell.pickable{cursor:pointer}
+.cell.pickable:hover{background:var(--bg-hover)}
+.cell.picked{border:2px solid var(--ink);background:var(--bg-raised)}
+.pick-n{margin:auto;width:24px;height:24px;border-radius:9999px;background:var(--ink);color:var(--on-ink);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.org{display:flex;flex-direction:column;overflow:auto;min-height:0;flex:1}
+.ostep{padding:12px 0;border-top:1px solid var(--line)}
+.ostep .oh{display:flex;align-items:center;gap:8px;margin-bottom:8px;min-height:24px}
+.ostep .oh:last-child{margin-bottom:0}
+.ostep .num{width:20px;height:20px;border-radius:9999px;background:var(--bg-active);color:var(--ink-muted);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.ostep.done .num{background:var(--ink);color:var(--on-ink)}
+.ostep.locked{opacity:.45;pointer-events:none}
+button.achip{font:inherit;text-align:left;cursor:pointer;color:var(--ink)}
+.achip.on{box-shadow:0 0 0 2px var(--ink)}
+.ochips{display:flex;flex-wrap:wrap;gap:4px}
+.oq{height:28px;width:100%}
+.olist{max-height:170px;overflow:auto;margin:6px -6px 0}
+.orow{display:flex;align-items:center;gap:8px;width:100%;padding:5px 6px;border:0;background:transparent;border-radius:var(--r-md);text-align:left;min-width:0}
+.orow:hover{background:var(--bg-hover)}
+.orow.on{background:var(--bg-active)}
+.ck{width:16px;height:16px;border:1.5px solid var(--line-control);border-radius:4px;display:flex;align-items:center;justify-content:center;flex:none}
+.orow.on .ck{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+.org textarea{width:100%;font-size:12px;line-height:18px}
+.send-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.msg-field{margin-bottom:14px}
+.msg-field textarea,.msg-field input{width:100%}
+.msg-preview{margin-top:6px;padding:8px 10px;border-radius:var(--r-md);background:var(--bg-subtle);border:1px solid var(--line);white-space:pre-wrap;color:var(--ink-muted)}
+.msg-grid{display:grid;grid-template-columns:150px 1fr;gap:6px 10px;align-items:center}
+.msg-grid input{height:28px}
+.msg-k{display:flex;align-items:center;gap:8px;font-weight:500}
+.msg-k .ic{width:22px;height:22px;border-radius:var(--r-xs);display:flex;align-items:center;justify-content:center;color:var(--ink-muted);background:var(--acf,var(--bg-hover))}
+.chip[data-c]{background:var(--acf);color:var(--ink)}
+.col.day.today{background:#4a4a4a}
+[data-theme="dark"] .col.day.today{background:#3d3d3d}
+.col.day.today .col-head .t-heading,.col.day.today .col-head .t-caption,.col.day.today .col-head{color:#fff;opacity:1}
+.col.day.today .cell.open{border-color:#ffffff80}
+.col.day.today .drop-hint{color:#ffffffcc}
+.col.day.today .cell.pickable:hover{background:#ffffff1f}
+.chip.today{background:#fff !important;color:#171717 !important}
+.pollpage{min-height:100vh;background:var(--bg-subtle);padding:32px 16px}
+.pp-card{max-width:460px;margin:0 auto;background:var(--bg-raised);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px}
+.pp-card input{width:100%;height:40px;font-size:15px}
+.pp-info{display:flex;align-items:center;gap:8px;margin-top:12px;padding:8px 10px;border-radius:var(--r-md);background:var(--bg-subtle);color:var(--ink-muted)}
+.pp-opts{display:flex;flex-direction:column;gap:6px}
+.pp-opt{display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 12px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--bg-raised);text-align:left;font-size:14px}
+.pp-opt:hover{background:var(--bg-hover)}
+.pp-opt.on{border-color:var(--ink);background:var(--bg-hover)}
+.pp-opt.on .ck{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+.pp-opt[disabled]{opacity:.5;cursor:default}
+.ck.round{border-radius:9999px}
+.pp-send{width:100%;height:46px;margin-top:16px;font-size:15px}
+.pp-send.off{opacity:.4}
+.prw{display:grid;grid-template-columns:minmax(120px,170px) 1fr 24px auto;grid-template-areas:"l b c btn" "n n n n";align-items:center;gap:4px 10px;padding:8px 0;border-top:1px solid var(--line)}
+.prw.win .prl .t-label{color:var(--success)}
+.prl{grid-area:l;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.prb{grid-area:b;height:8px;border-radius:9999px;background:var(--bg-active);overflow:hidden}
+.prb i{display:block;height:100%;background:var(--ink)}
+.prc{grid-area:c;text-align:right}
+.prn{grid-area:n}
+.prw .btn{grid-area:btn}
+.wx{margin-left:auto;display:inline-flex;align-items:center;gap:4px;color:var(--ink-muted);cursor:default}
+.wx .t-label{color:var(--ink)}
+.wx-min{font-size:12px;color:var(--ink-faint)}
+.col.day.today .wx,.col.day.today .wx .t-label,.col.day.today .wx-min{color:#fff}
+.wx-cell{position:absolute;top:3px;right:5px;display:inline-flex;align-items:center;gap:2px;font-size:11px;font-weight:500;color:var(--ink-muted);pointer-events:auto;z-index:1}
+.wx-cell.low{top:auto;bottom:3px}
+.col.day.today .wx-cell{color:#fff}
 /* palette */
 .palette{display:flex;flex-direction:column;gap:12px;min-height:0;min-width:0}
 .pcard{background:var(--bg-raised);border:1px solid var(--line);border-radius:var(--r-lg);padding:12px 14px}
@@ -341,11 +410,12 @@ main{padding:12px 10px 40px}
 <main id="main"></main>
 <div class="trash" data-drop="trash" id="trash"></div>
 </div>
+<div id="pollpage" class="pollpage" hidden></div>
 <div id="modal-root"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 'use strict';
-const SEED = {"version": 1, "activities": [{"name": "Gym", "target": 4, "best": "lunch", "icon": "gym"}, {"name": "Padel", "target": 2, "best": "any", "icon": "padel"}, {"name": "Music", "target": 1, "best": "evening", "icon": "music"}, {"name": "Movie", "target": 1, "best": "evening", "icon": "movie"}, {"name": "Run/Bike", "target": 1, "best": "morning", "icon": "bike"}, {"name": "Family", "target": 1, "best": "weekend", "icon": "family"}, {"name": "Friends", "target": 1, "best": "evening", "icon": "friends"}, {"name": "Cris", "target": 1, "best": "evening", "icon": "heart"}, {"name": "Foto", "target": 0, "best": "any", "icon": "camera"}, {"name": "Viaje", "target": 0, "best": "any", "icon": "plane"}, {"name": "Other", "target": 0, "best": "any", "icon": "circle"}], "free": {"mon": ["lunch", "evening"], "tue": ["lunch", "evening"], "wed": ["lunch", "evening"], "thu": ["lunch", "evening"], "fri": ["lunch", "afternoon", "evening"], "sat": ["morning", "evening"], "sun": ["morning", "evening"]}, "people": [{"name": "Cris", "category": "Wife", "priority": "High", "every": 1, "wa": "Cristina Tarazona Oliveros", "group": "", "padelGroup": "Family", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Guille", "category": "Family", "priority": "Mid", "every": 4, "wa": "Guillermo Aguirre De Carcer", "group": "Madrid - Hong Kong", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Padres", "category": "Family", "priority": "Mid", "every": 4, "wa": "Piedad Domínguez Martínez", "group": "Madrid - Hong Kong", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Constanza", "category": "Friends", "priority": "High", "every": 2, "wa": "Constanza Aroca Lecumberri", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Ico", "category": "Family", "priority": "High", "every": 2, "wa": "Rodrigo Aguirre De Cárcer Churruca", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Clara", "category": "Family", "priority": "High", "every": 2, "wa": "Clara Aguirre De Cárcer Churruca", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Edu", "category": "Friends", "priority": "High", "every": 2, "wa": "Eduardo De Velasco Marín", "group": "", "padelGroup": "Comillas", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Marta", "category": "Friends", "priority": "Low", "every": 8, "wa": "Marta Tena De La Peña", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "ETSAM", "category": "Friends", "priority": "Mid", "every": 4, "wa": "", "group": "ETSAM babies", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Rotterdam", "category": "Friends", "priority": "Mid", "every": 4, "wa": "", "group": "Roterdamers", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Fran", "category": "Friends", "priority": "High", "every": 2, "wa": "Francisco González Moyano", "group": "Sala Sareb", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Alvaro G.", "category": "Friends", "priority": "High", "every": 2, "wa": "Alvaro García-Alegre de la Torre", "group": "Sala Sareb", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Jaime", "category": "Friends", "priority": "Low", "every": 8, "wa": "Jaime Churruca", "group": "Santa", "padelGroup": "Friends", "padelLevel": "2", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Teruel", "category": "Friends", "priority": "Mid", "every": 4, "wa": "Cristina Teruel Muñoz", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Juan A.", "category": "Friends", "priority": "Mid", "every": 4, "wa": "Juan Carlos Amaro Calero", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Alberto P.", "category": "Friends", "priority": "Low", "every": 8, "wa": "Alberto Palacios Anaut", "group": "Nos vemos?", "padelGroup": "Friends", "padelLevel": "1", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Borja", "category": "Friends", "priority": "Mid", "every": 4, "wa": "Borja Iribarne", "group": "Nos vemos?", "padelGroup": "Friends", "padelLevel": "2", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Carlos V.", "category": "Friends", "priority": "Low", "every": 8, "wa": "Carlos Vaquero Andreu", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Draco", "category": "Friends", "priority": "High", "every": 2, "wa": "Draco Gonzalez Del Amo Illescas", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Guillermo", "category": "Friends", "priority": "Low", "every": 8, "wa": "Guillermo Blanco Santos", "group": "Nos vemos?", "padelGroup": "Friends", "padelLevel": "2", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Javier", "category": "Friends", "priority": "Low", "every": 8, "wa": "Javier Palacín", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Carmen", "category": "Friends", "priority": "Low", "every": 8, "wa": "Carmen Cuéllar Pérez", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Pedro", "category": "Friends", "priority": "Mid", "every": 4, "wa": "Pedro Malagón Marzo", "group": "Nos vemos?", "padelGroup": "Friends", "padelLevel": "2", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Amigos Cris", "category": "Wife", "priority": "Low", "every": 8, "wa": "", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Alberto C.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Alberto Caballero Miguel", "group": "", "padelGroup": "Goyeneche", "padelLevel": "2", "padelChat": "Padeleros Goyeneche", "lastSeen": "", "notes": ""}, {"name": "Raul G.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Raul Pádel Goyeneche", "group": "", "padelGroup": "Goyeneche", "padelLevel": "2", "padelChat": "Padeleros Goyeneche", "lastSeen": "", "notes": ""}, {"name": "Diego", "category": "Padel", "priority": "Low", "every": 8, "wa": "Diego Casanova", "group": "", "padelGroup": "Goyeneche", "padelLevel": "1", "padelChat": "Padeleros Goyeneche", "lastSeen": "", "notes": ""}, {"name": "Charlie", "category": "Family", "priority": "Low", "every": 8, "wa": "", "group": "", "padelGroup": "Family", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Alberto V.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Alberto Velasco", "group": "", "padelGroup": "Neighbour", "padelLevel": "1", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Alfonso", "category": "Padel", "priority": "Low", "every": 8, "wa": "Alfonso Asterio Móvil Personal", "group": "", "padelGroup": "Neighbour", "padelLevel": "1", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Carlos (vecino)", "category": "Padel", "priority": "Low", "every": 8, "wa": "Carlos vecino Vecino urba", "group": "", "padelGroup": "Neighbour", "padelLevel": "2", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Felipe", "category": "Padel", "priority": "Low", "every": 8, "wa": "Felipe Vecino", "group": "", "padelGroup": "Neighbour", "padelLevel": "3", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Gonzalo", "category": "Padel", "priority": "Low", "every": 8, "wa": "Gonzalo Vecino", "group": "", "padelGroup": "Neighbour", "padelLevel": "1", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Paul", "category": "Padel", "priority": "Low", "every": 8, "wa": "Paul Helenca", "group": "", "padelGroup": "Neighbour", "padelLevel": "2", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Alvaro C.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Alvaro Corsisni Perez", "group": "", "padelGroup": "Comillas", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Juan P.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Juan Peña", "group": "", "padelGroup": "Comillas", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Joaquín", "category": "Padel", "priority": "Low", "every": 8, "wa": "Joaquín Cordero", "group": "", "padelGroup": "Comillas", "padelLevel": "2", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Raúl P.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Raúl Portela", "group": "", "padelGroup": "Friends", "padelLevel": "3", "padelChat": "Paddel", "lastSeen": "", "notes": ""}], "routine": [{"slot": "mon-lunch", "title": "Gym", "activity": "Gym"}, {"slot": "tue-lunch", "title": "Padel", "activity": "Padel"}, {"slot": "wed-lunch", "title": "Gym", "activity": "Gym"}, {"slot": "thu-lunch", "title": "Gym", "activity": "Gym"}, {"slot": "thu-evening", "title": "Padel", "activity": "Padel"}, {"slot": "fri-lunch", "title": "Gym", "activity": "Gym"}], "plans": [{"id": "s1", "week": "2026-10-26", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": ["Marta"], "status": "confirmed", "notes": ""}, {"id": "s2", "week": "2026-10-26", "slot": "tue-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s3", "week": "2026-10-26", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s4", "week": "2026-10-26", "slot": "wed-evening", "title": "Foto", "activity": "Foto", "with": [], "status": "confirmed", "notes": ""}, {"id": "s5", "week": "2026-10-26", "slot": "thu-lunch", "title": "Music", "activity": "Music", "with": [], "status": "confirmed", "notes": ""}, {"id": "s6", "week": "2026-10-26", "slot": "thu-lunch", "title": "Foto", "activity": "Foto", "with": [], "status": "confirmed", "notes": ""}, {"id": "s7", "week": "2026-10-26", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s8", "week": "2026-10-26", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s9", "week": "2026-10-26", "slot": "fri-lunch", "title": "Foto", "activity": "Foto", "with": [], "status": "confirmed", "notes": ""}, {"id": "s10", "week": "2026-10-26", "slot": "fri-afternoon", "title": "Cris", "activity": "Cris", "with": ["Cris"], "status": "confirmed", "notes": ""}, {"id": "s11", "week": "2026-10-26", "slot": "sat-morning", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s12", "week": "2026-10-26", "slot": "sat-morning", "title": "Tensegrity", "activity": "Other", "with": [], "status": "confirmed", "notes": ""}, {"id": "s13", "week": "2026-10-26", "slot": "sat-evening", "title": "Cumple Teresa", "activity": "Friends", "with": [], "status": "confirmed", "notes": ""}, {"id": "s14", "week": "2026-10-26", "slot": "sat-evening", "title": "Casa Rebe", "activity": "Friends", "with": [], "status": "confirmed", "notes": ""}, {"id": "s15", "week": "2026-10-26", "slot": "sun-morning", "title": "Comida casa Padres", "activity": "Family", "with": ["Padres"], "status": "confirmed", "notes": ""}, {"id": "s16", "week": "2026-10-26", "slot": "sun-evening", "title": "Halloween Valdebebas", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s17", "week": "2026-11-02", "slot": "mon-lunch", "title": "Marta y Rober Arroz", "activity": "Friends", "with": ["Marta"], "status": "confirmed", "notes": ""}, {"id": "s18", "week": "2026-11-02", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s19", "week": "2026-11-02", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s20", "week": "2026-11-02", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s21", "week": "2026-11-02", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s22", "week": "2026-11-02", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s23", "week": "2026-11-02", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s24", "week": "2026-11-09", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s25", "week": "2026-11-09", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s26", "week": "2026-11-09", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s27", "week": "2026-11-09", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s28", "week": "2026-11-09", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s29", "week": "2026-11-09", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s30", "week": "2026-11-09", "slot": "sat-morning", "title": "Protectora", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s31", "week": "2026-11-09", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s32", "week": "2026-11-16", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s33", "week": "2026-11-16", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s34", "week": "2026-11-16", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s35", "week": "2026-11-16", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s36", "week": "2026-11-16", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s37", "week": "2026-11-16", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s38", "week": "2026-11-16", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s39", "week": "2026-11-16", "slot": "sun-morning", "title": "Cumple Cris", "activity": "Cris", "with": ["Cris"], "status": "confirmed", "notes": ""}, {"id": "s40", "week": "2026-11-23", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s41", "week": "2026-11-23", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s42", "week": "2026-11-23", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s43", "week": "2026-11-23", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s44", "week": "2026-11-23", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s45", "week": "2026-11-23", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s46", "week": "2026-11-23", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s47", "week": "2026-11-30", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s48", "week": "2026-11-30", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s49", "week": "2026-11-30", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s50", "week": "2026-11-30", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s51", "week": "2026-11-30", "slot": "thu-evening", "title": "Padel Londres", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s52", "week": "2026-11-30", "slot": "fri-lunch", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s53", "week": "2026-11-30", "slot": "fri-afternoon", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s54", "week": "2026-11-30", "slot": "fri-evening", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s55", "week": "2026-11-30", "slot": "sat-morning", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s56", "week": "2026-11-30", "slot": "sat-evening", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s57", "week": "2026-11-30", "slot": "sun-morning", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s58", "week": "2026-11-30", "slot": "sun-evening", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s59", "week": "2026-12-07", "slot": "mon-lunch", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s60", "week": "2026-12-07", "slot": "mon-evening", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s61", "week": "2026-12-07", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s62", "week": "2026-12-07", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s63", "week": "2026-12-07", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s64", "week": "2026-12-07", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s65", "week": "2026-12-07", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s66", "week": "2026-12-07", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s67", "week": "2026-12-14", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s68", "week": "2026-12-14", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s69", "week": "2026-12-14", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s70", "week": "2026-12-14", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s71", "week": "2026-12-14", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s72", "week": "2026-12-14", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s73", "week": "2026-12-14", "slot": "sat-evening", "title": "Cena Navidad", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s74", "week": "2026-12-21", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s75", "week": "2026-12-21", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s76", "week": "2026-12-21", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s77", "week": "2026-12-21", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s78", "week": "2026-12-21", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s79", "week": "2026-12-21", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s80", "week": "2026-12-21", "slot": "sat-morning", "title": "Comida familiar", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s81", "week": "2026-12-21", "slot": "sat-evening", "title": "Comida familiar", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s82", "week": "2026-12-28", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s83", "week": "2026-12-28", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s84", "week": "2026-12-28", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s85", "week": "2026-12-28", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s86", "week": "2026-12-28", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s87", "week": "2026-12-28", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s88", "week": "2027-01-04", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s89", "week": "2027-01-04", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s90", "week": "2027-01-04", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s91", "week": "2027-01-04", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s92", "week": "2027-01-04", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s93", "week": "2027-01-04", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s94", "week": "2027-01-04", "slot": "sat-morning", "title": "Voleibol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s95", "week": "2027-01-11", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s96", "week": "2027-01-11", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s97", "week": "2027-01-11", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s98", "week": "2027-01-11", "slot": "wed-evening", "title": "Dentista", "activity": "Other", "with": [], "status": "confirmed", "notes": ""}, {"id": "s99", "week": "2027-01-11", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s100", "week": "2027-01-11", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s101", "week": "2027-01-11", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s102", "week": "2027-01-11", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s103", "week": "2027-01-18", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s104", "week": "2027-01-18", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s105", "week": "2027-01-18", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s106", "week": "2027-01-18", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s107", "week": "2027-01-18", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s108", "week": "2027-01-18", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s109", "week": "2027-01-18", "slot": "sat-morning", "title": "Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s110", "week": "2027-01-25", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s111", "week": "2027-01-25", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s112", "week": "2027-01-25", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s113", "week": "2027-01-25", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s114", "week": "2027-01-25", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s115", "week": "2027-01-25", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s116", "week": "2027-01-25", "slot": "sat-morning", "title": "Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s117", "week": "2027-02-01", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s118", "week": "2027-02-01", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s119", "week": "2027-02-01", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s120", "week": "2027-02-01", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s121", "week": "2027-02-01", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s122", "week": "2027-02-01", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s123", "week": "2027-02-01", "slot": "sat-morning", "title": "Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s124", "week": "2027-02-08", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s125", "week": "2027-02-08", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s126", "week": "2027-02-08", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s127", "week": "2027-02-08", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s128", "week": "2027-02-08", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s129", "week": "2027-02-08", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s130", "week": "2027-02-08", "slot": "sat-morning", "title": "Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s131", "week": "2027-02-15", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s132", "week": "2027-02-15", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s133", "week": "2027-02-15", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s134", "week": "2027-02-15", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s135", "week": "2027-02-15", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s136", "week": "2027-02-15", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s137", "week": "2027-02-22", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s138", "week": "2027-02-22", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s139", "week": "2027-02-22", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s140", "week": "2027-02-22", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s141", "week": "2027-02-22", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s142", "week": "2027-02-22", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s143", "week": "2027-03-01", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s144", "week": "2027-03-01", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s145", "week": "2027-03-01", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s146", "week": "2027-03-01", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s147", "week": "2027-03-01", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s148", "week": "2027-03-01", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s149", "week": "2027-03-08", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s150", "week": "2027-03-08", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s151", "week": "2027-03-08", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s152", "week": "2027-03-08", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s153", "week": "2027-03-08", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s154", "week": "2027-03-08", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s155", "week": "2027-03-15", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s156", "week": "2027-03-15", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s157", "week": "2027-03-15", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s158", "week": "2027-03-15", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s159", "week": "2027-03-15", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s160", "week": "2027-03-15", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s161", "week": "2027-03-22", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s162", "week": "2027-03-22", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s163", "week": "2027-03-22", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s164", "week": "2027-03-22", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s165", "week": "2027-03-22", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s166", "week": "2027-03-22", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}], "focus": {"2026-10-26": "Padel", "2026-11-02": "Music", "2026-11-09": "Movie", "2026-11-16": "Gym", "2026-11-23": "Run/Bike", "2026-11-30": "Family", "2026-12-07": "Friends", "2026-12-14": "Cris"}};
+const SEED = {"version": 1, "activities": [{"name": "Gym", "target": 4, "best": "lunch", "icon": "gym"}, {"name": "Padel", "target": 2, "best": "any", "icon": "padel"}, {"name": "Music", "target": 1, "best": "evening", "icon": "music"}, {"name": "Movie", "target": 1, "best": "evening", "icon": "movie"}, {"name": "Run/Bike", "target": 1, "best": "morning", "icon": "bike"}, {"name": "Family", "target": 1, "best": "weekend", "icon": "family"}, {"name": "Friends", "target": 1, "best": "evening", "icon": "friends"}, {"name": "Cris", "target": 1, "best": "evening", "icon": "heart"}, {"name": "Videogame", "target": 0, "best": "any", "icon": "game"}, {"name": "Viaje", "target": 0, "best": "any", "icon": "plane"}, {"name": "Other", "target": 0, "best": "any", "icon": "circle"}], "free": {"mon": ["lunch", "evening"], "tue": ["lunch", "evening"], "wed": ["lunch", "evening"], "thu": ["lunch", "evening"], "fri": ["lunch", "afternoon", "evening"], "sat": ["morning", "evening"], "sun": ["morning", "evening"]}, "people": [{"name": "Cris", "category": "Wife", "priority": "High", "every": 1, "wa": "Cristina Tarazona Oliveros", "group": "", "padelGroup": "Family", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Guille", "category": "Family", "priority": "Mid", "every": 4, "wa": "Guillermo Aguirre De Carcer", "group": "Madrid - Hong Kong", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Padres", "category": "Family", "priority": "Mid", "every": 4, "wa": "Piedad Domínguez Martínez", "group": "Madrid - Hong Kong", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Constanza", "category": "Friends", "priority": "High", "every": 2, "wa": "Constanza Aroca Lecumberri", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Ico", "category": "Family", "priority": "High", "every": 2, "wa": "Rodrigo Aguirre De Cárcer Churruca", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Clara", "category": "Family", "priority": "High", "every": 2, "wa": "Clara Aguirre De Cárcer Churruca", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Edu", "category": "Friends", "priority": "High", "every": 2, "wa": "Eduardo De Velasco Marín", "group": "", "padelGroup": "Comillas", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Marta", "category": "Friends", "priority": "Low", "every": 8, "wa": "Marta Tena De La Peña", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "ETSAM", "category": "Friends", "priority": "Mid", "every": 4, "wa": "", "group": "ETSAM babies", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Rotterdam", "category": "Friends", "priority": "Mid", "every": 4, "wa": "", "group": "Roterdamers", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Fran", "category": "Friends", "priority": "High", "every": 2, "wa": "Francisco González Moyano", "group": "Sala Sareb", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Alvaro G.", "category": "Friends", "priority": "High", "every": 2, "wa": "Alvaro García-Alegre de la Torre", "group": "Sala Sareb", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Jaime", "category": "Friends", "priority": "Low", "every": 8, "wa": "Jaime Churruca", "group": "Santa", "padelGroup": "Friends", "padelLevel": "2", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Teruel", "category": "Friends", "priority": "Mid", "every": 4, "wa": "Cristina Teruel Muñoz", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Juan A.", "category": "Friends", "priority": "Mid", "every": 4, "wa": "Juan Carlos Amaro Calero", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Alberto P.", "category": "Friends", "priority": "Low", "every": 8, "wa": "Alberto Palacios Anaut", "group": "Nos vemos?", "padelGroup": "Friends", "padelLevel": "1", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Borja", "category": "Friends", "priority": "Mid", "every": 4, "wa": "Borja Iribarne", "group": "Nos vemos?", "padelGroup": "Friends", "padelLevel": "2", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Carlos V.", "category": "Friends", "priority": "Low", "every": 8, "wa": "Carlos Vaquero Andreu", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Draco", "category": "Friends", "priority": "High", "every": 2, "wa": "Draco Gonzalez Del Amo Illescas", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Guillermo", "category": "Friends", "priority": "Low", "every": 8, "wa": "Guillermo Blanco Santos", "group": "Nos vemos?", "padelGroup": "Friends", "padelLevel": "2", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Javier", "category": "Friends", "priority": "Low", "every": 8, "wa": "Javier Palacín", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Carmen", "category": "Friends", "priority": "Low", "every": 8, "wa": "Carmen Cuéllar Pérez", "group": "Nos vemos?", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Pedro", "category": "Friends", "priority": "Mid", "every": 4, "wa": "Pedro Malagón Marzo", "group": "Nos vemos?", "padelGroup": "Friends", "padelLevel": "2", "padelChat": "Paddel", "lastSeen": "", "notes": ""}, {"name": "Amigos Cris", "category": "Wife", "priority": "Low", "every": 8, "wa": "", "group": "", "padelGroup": "", "padelLevel": "", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Alberto C.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Alberto Caballero Miguel", "group": "", "padelGroup": "Goyeneche", "padelLevel": "2", "padelChat": "Padeleros Goyeneche", "lastSeen": "", "notes": ""}, {"name": "Raul G.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Raul Pádel Goyeneche", "group": "", "padelGroup": "Goyeneche", "padelLevel": "2", "padelChat": "Padeleros Goyeneche", "lastSeen": "", "notes": ""}, {"name": "Diego", "category": "Padel", "priority": "Low", "every": 8, "wa": "Diego Casanova", "group": "", "padelGroup": "Goyeneche", "padelLevel": "1", "padelChat": "Padeleros Goyeneche", "lastSeen": "", "notes": ""}, {"name": "Charlie", "category": "Family", "priority": "Low", "every": 8, "wa": "", "group": "", "padelGroup": "Family", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Alberto V.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Alberto Velasco", "group": "", "padelGroup": "Neighbour", "padelLevel": "1", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Alfonso", "category": "Padel", "priority": "Low", "every": 8, "wa": "Alfonso Asterio Móvil Personal", "group": "", "padelGroup": "Neighbour", "padelLevel": "1", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Carlos (vecino)", "category": "Padel", "priority": "Low", "every": 8, "wa": "Carlos vecino Vecino urba", "group": "", "padelGroup": "Neighbour", "padelLevel": "2", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Felipe", "category": "Padel", "priority": "Low", "every": 8, "wa": "Felipe Vecino", "group": "", "padelGroup": "Neighbour", "padelLevel": "3", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Gonzalo", "category": "Padel", "priority": "Low", "every": 8, "wa": "Gonzalo Vecino", "group": "", "padelGroup": "Neighbour", "padelLevel": "1", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Paul", "category": "Padel", "priority": "Low", "every": 8, "wa": "Paul Helenca", "group": "", "padelGroup": "Neighbour", "padelLevel": "2", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Alvaro C.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Alvaro Corsisni Perez", "group": "", "padelGroup": "Comillas", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Juan P.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Juan Peña", "group": "", "padelGroup": "Comillas", "padelLevel": "1", "padelChat": "", "lastSeen": "", "notes": ""}, {"name": "Joaquín", "category": "Padel", "priority": "Low", "every": 8, "wa": "Joaquín Cordero", "group": "", "padelGroup": "Comillas", "padelLevel": "2", "padelChat": "Aravaca Playtomic", "lastSeen": "", "notes": ""}, {"name": "Raúl P.", "category": "Padel", "priority": "Low", "every": 8, "wa": "Raúl Portela", "group": "", "padelGroup": "Friends", "padelLevel": "3", "padelChat": "Paddel", "lastSeen": "", "notes": ""}], "routine": [{"slot": "mon-lunch", "title": "Gym", "activity": "Gym"}, {"slot": "tue-lunch", "title": "Padel", "activity": "Padel"}, {"slot": "wed-lunch", "title": "Gym", "activity": "Gym"}, {"slot": "thu-lunch", "title": "Gym", "activity": "Gym"}, {"slot": "thu-evening", "title": "Padel", "activity": "Padel"}, {"slot": "fri-lunch", "title": "Gym", "activity": "Gym"}], "plans": [{"id": "s1", "week": "2026-10-26", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": ["Marta"], "status": "confirmed", "notes": ""}, {"id": "s2", "week": "2026-10-26", "slot": "tue-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s3", "week": "2026-10-26", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s4", "week": "2026-10-26", "slot": "wed-evening", "title": "Videogame", "activity": "Videogame", "with": [], "status": "confirmed", "notes": ""}, {"id": "s5", "week": "2026-10-26", "slot": "thu-lunch", "title": "Music", "activity": "Music", "with": [], "status": "confirmed", "notes": ""}, {"id": "s6", "week": "2026-10-26", "slot": "thu-lunch", "title": "Videogame", "activity": "Videogame", "with": [], "status": "confirmed", "notes": ""}, {"id": "s7", "week": "2026-10-26", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s8", "week": "2026-10-26", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s9", "week": "2026-10-26", "slot": "fri-lunch", "title": "Videogame", "activity": "Videogame", "with": [], "status": "confirmed", "notes": ""}, {"id": "s10", "week": "2026-10-26", "slot": "fri-afternoon", "title": "Cris", "activity": "Cris", "with": ["Cris"], "status": "confirmed", "notes": ""}, {"id": "s11", "week": "2026-10-26", "slot": "sat-morning", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s12", "week": "2026-10-26", "slot": "sat-morning", "title": "Tensegrity", "activity": "Other", "with": [], "status": "confirmed", "notes": ""}, {"id": "s13", "week": "2026-10-26", "slot": "sat-evening", "title": "Cumple Teresa", "activity": "Friends", "with": [], "status": "confirmed", "notes": ""}, {"id": "s14", "week": "2026-10-26", "slot": "sat-evening", "title": "Casa Rebe", "activity": "Friends", "with": [], "status": "confirmed", "notes": ""}, {"id": "s15", "week": "2026-10-26", "slot": "sun-morning", "title": "Comida casa Padres", "activity": "Family", "with": ["Padres"], "status": "confirmed", "notes": ""}, {"id": "s16", "week": "2026-10-26", "slot": "sun-evening", "title": "Halloween Valdebebas", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s17", "week": "2026-11-02", "slot": "mon-lunch", "title": "Marta y Rober Arroz", "activity": "Friends", "with": ["Marta"], "status": "confirmed", "notes": ""}, {"id": "s18", "week": "2026-11-02", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s19", "week": "2026-11-02", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s20", "week": "2026-11-02", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s21", "week": "2026-11-02", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s22", "week": "2026-11-02", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s23", "week": "2026-11-02", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s24", "week": "2026-11-09", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s25", "week": "2026-11-09", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s26", "week": "2026-11-09", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s27", "week": "2026-11-09", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s28", "week": "2026-11-09", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s29", "week": "2026-11-09", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s30", "week": "2026-11-09", "slot": "sat-morning", "title": "Protectora", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s31", "week": "2026-11-09", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s32", "week": "2026-11-16", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s33", "week": "2026-11-16", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s34", "week": "2026-11-16", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s35", "week": "2026-11-16", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s36", "week": "2026-11-16", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s37", "week": "2026-11-16", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s38", "week": "2026-11-16", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s39", "week": "2026-11-16", "slot": "sun-morning", "title": "Cumple Cris", "activity": "Cris", "with": ["Cris"], "status": "confirmed", "notes": ""}, {"id": "s40", "week": "2026-11-23", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s41", "week": "2026-11-23", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s42", "week": "2026-11-23", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s43", "week": "2026-11-23", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s44", "week": "2026-11-23", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s45", "week": "2026-11-23", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s46", "week": "2026-11-23", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s47", "week": "2026-11-30", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s48", "week": "2026-11-30", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s49", "week": "2026-11-30", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s50", "week": "2026-11-30", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s51", "week": "2026-11-30", "slot": "thu-evening", "title": "Padel Londres", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s52", "week": "2026-11-30", "slot": "fri-lunch", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s53", "week": "2026-11-30", "slot": "fri-afternoon", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s54", "week": "2026-11-30", "slot": "fri-evening", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s55", "week": "2026-11-30", "slot": "sat-morning", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s56", "week": "2026-11-30", "slot": "sat-evening", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s57", "week": "2026-11-30", "slot": "sun-morning", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s58", "week": "2026-11-30", "slot": "sun-evening", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s59", "week": "2026-12-07", "slot": "mon-lunch", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s60", "week": "2026-12-07", "slot": "mon-evening", "title": "Viaje", "activity": "Viaje", "with": [], "status": "confirmed", "notes": ""}, {"id": "s61", "week": "2026-12-07", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s62", "week": "2026-12-07", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s63", "week": "2026-12-07", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s64", "week": "2026-12-07", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s65", "week": "2026-12-07", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s66", "week": "2026-12-07", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s67", "week": "2026-12-14", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s68", "week": "2026-12-14", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s69", "week": "2026-12-14", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s70", "week": "2026-12-14", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s71", "week": "2026-12-14", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s72", "week": "2026-12-14", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s73", "week": "2026-12-14", "slot": "sat-evening", "title": "Cena Navidad", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s74", "week": "2026-12-21", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s75", "week": "2026-12-21", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s76", "week": "2026-12-21", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s77", "week": "2026-12-21", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s78", "week": "2026-12-21", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s79", "week": "2026-12-21", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s80", "week": "2026-12-21", "slot": "sat-morning", "title": "Comida familiar", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s81", "week": "2026-12-21", "slot": "sat-evening", "title": "Comida familiar", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s82", "week": "2026-12-28", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s83", "week": "2026-12-28", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s84", "week": "2026-12-28", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s85", "week": "2026-12-28", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s86", "week": "2026-12-28", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s87", "week": "2026-12-28", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s88", "week": "2027-01-04", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s89", "week": "2027-01-04", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s90", "week": "2027-01-04", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s91", "week": "2027-01-04", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s92", "week": "2027-01-04", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s93", "week": "2027-01-04", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s94", "week": "2027-01-04", "slot": "sat-morning", "title": "Voleibol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s95", "week": "2027-01-11", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s96", "week": "2027-01-11", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s97", "week": "2027-01-11", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s98", "week": "2027-01-11", "slot": "wed-evening", "title": "Dentista", "activity": "Other", "with": [], "status": "confirmed", "notes": ""}, {"id": "s99", "week": "2027-01-11", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s100", "week": "2027-01-11", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s101", "week": "2027-01-11", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s102", "week": "2027-01-11", "slot": "sat-morning", "title": "Voleibol Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s103", "week": "2027-01-18", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s104", "week": "2027-01-18", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s105", "week": "2027-01-18", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s106", "week": "2027-01-18", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s107", "week": "2027-01-18", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s108", "week": "2027-01-18", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s109", "week": "2027-01-18", "slot": "sat-morning", "title": "Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s110", "week": "2027-01-25", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s111", "week": "2027-01-25", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s112", "week": "2027-01-25", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s113", "week": "2027-01-25", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s114", "week": "2027-01-25", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s115", "week": "2027-01-25", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s116", "week": "2027-01-25", "slot": "sat-morning", "title": "Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s117", "week": "2027-02-01", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s118", "week": "2027-02-01", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s119", "week": "2027-02-01", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s120", "week": "2027-02-01", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s121", "week": "2027-02-01", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s122", "week": "2027-02-01", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s123", "week": "2027-02-01", "slot": "sat-morning", "title": "Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s124", "week": "2027-02-08", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s125", "week": "2027-02-08", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s126", "week": "2027-02-08", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s127", "week": "2027-02-08", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s128", "week": "2027-02-08", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s129", "week": "2027-02-08", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s130", "week": "2027-02-08", "slot": "sat-morning", "title": "Futbol", "activity": "Family", "with": [], "status": "confirmed", "notes": ""}, {"id": "s131", "week": "2027-02-15", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s132", "week": "2027-02-15", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s133", "week": "2027-02-15", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s134", "week": "2027-02-15", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s135", "week": "2027-02-15", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s136", "week": "2027-02-15", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s137", "week": "2027-02-22", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s138", "week": "2027-02-22", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s139", "week": "2027-02-22", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s140", "week": "2027-02-22", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s141", "week": "2027-02-22", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s142", "week": "2027-02-22", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s143", "week": "2027-03-01", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s144", "week": "2027-03-01", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s145", "week": "2027-03-01", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s146", "week": "2027-03-01", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s147", "week": "2027-03-01", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s148", "week": "2027-03-01", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s149", "week": "2027-03-08", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s150", "week": "2027-03-08", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s151", "week": "2027-03-08", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s152", "week": "2027-03-08", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s153", "week": "2027-03-08", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s154", "week": "2027-03-08", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s155", "week": "2027-03-15", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s156", "week": "2027-03-15", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s157", "week": "2027-03-15", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s158", "week": "2027-03-15", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s159", "week": "2027-03-15", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s160", "week": "2027-03-15", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s161", "week": "2027-03-22", "slot": "mon-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s162", "week": "2027-03-22", "slot": "tue-lunch", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s163", "week": "2027-03-22", "slot": "wed-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s164", "week": "2027-03-22", "slot": "thu-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}, {"id": "s165", "week": "2027-03-22", "slot": "thu-evening", "title": "Padel", "activity": "Padel", "with": [], "status": "confirmed", "notes": ""}, {"id": "s166", "week": "2027-03-22", "slot": "fri-lunch", "title": "Gym", "activity": "Gym", "with": [], "status": "confirmed", "notes": ""}], "focus": {"2026-10-26": "Padel", "2026-11-02": "Music", "2026-11-09": "Movie", "2026-11-16": "Gym", "2026-11-23": "Run/Bike", "2026-11-30": "Family", "2026-12-07": "Friends", "2026-12-14": "Cris"}};
 const PIN = '1453';
 const KEY = 'moneypenny.v1', THEME_KEY = 'moneypenny.theme', SESSION_KEY = 'moneypenny.unlocked';
 /* ---------------- helpers ---------------- */
@@ -400,13 +470,23 @@ book:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 
 food:'<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
 clipboard:'<rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>',
 circle:'<circle cx="12" cy="12" r="9"/>',
+cloudsun:'<path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.95 12.65a4 4 0 0 0-5.93-4.13"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/>',
+cloud:'<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+rain:'<path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.24"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/>',
+snow:'<path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.24"/><path d="M8 15h.01"/><path d="M8 19h.01"/><path d="M12 17h.01"/><path d="M12 21h.01"/><path d="M16 15h.01"/><path d="M16 19h.01"/>',
+storm:'<path d="M6 16.33A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.97"/><path d="m13 12-3 5h4l-3 5"/>',
+fog:'<path d="M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.24"/><path d="M16 17H7"/><path d="M17 21H9"/>',
+drop:'<path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>',
+poll:'<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+dice:'<rect width="12" height="12" x="2" y="10" rx="2"/><path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6"/><path d="M6 18h.01"/><path d="M10 14h.01"/><path d="M15 6h.01"/><path d="M18 9h.01"/>',
+game:'<path d="M6 11h4"/><path d="M8 9v4"/><path d="M15 12h.01"/><path d="M18 10h.01"/><path d="M17.32 5H6.68a4 4 0 0 0-3.98 3.59C2.6 9.42 2 14.46 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.41-1.41A2 2 0 0 1 9.83 16h4.34a2 2 0 0 1 1.41.59L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.54-.6-6.58-.69-7.26A4 4 0 0 0 17.32 5z"/>',
 dashed:'<circle cx="12" cy="12" r="9" stroke-dasharray="3.5 3"/>'
 };
 const PALE = ['#dbeafe','#e0f2fe','#ccfbf1','#dcfce7','#ecfccb','#fef9c3','#fef3c7','#ffedd5','#ffe4e6','#fce7f3','#f3e8ff','#e0e7ff','#ede9e3','#f1f1f0'];
-const DEFAULT_COLORS = {'gym':'#dbeafe','padel':'#dcfce7','music':'#f3e8ff','movie':'#ffe4e6','run/bike':'#ccfbf1','family':'#fef3c7','friends':'#ffedd5','cris':'#fce7f3','foto':'#e0e7ff','viaje':'#e0f2fe','other':'#f1f1f0'};
+const DEFAULT_COLORS = {'gym':'#dbeafe','padel':'#dcfce7','music':'#f3e8ff','movie':'#ffe4e6','run/bike':'#ccfbf1','family':'#fef3c7','friends':'#ffedd5','cris':'#fce7f3','foto':'#e0e7ff','videogame':'#e0e7ff','games night':'#ecfccb','viaje':'#e0f2fe','other':'#f1f1f0'};
 const isHex = v => /^#[0-9a-f]{6}$/i.test(String(v || ''));
 const defaultColor = (name, i) => DEFAULT_COLORS[String(name).toLowerCase()] || PALE[(i * 5) % (PALE.length - 1)];
-const ACT_ICONS = ['gym','padel','music','movie','bike','family','friends','heart','camera','plane','book','food','clipboard','circle'];
+const ACT_ICONS = ['gym','padel','music','movie','bike','family','friends','heart','game','dice','camera','plane','book','food','clipboard','circle'];
 const icon = (n, s = 16) => `<svg class="i" width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n] || ICONS.circle}</svg>`;
 const DAYS = [
 {k:'mon', en:'Mon', full:'Monday', es:'lunes'}, {k:'tue', en:'Tue', full:'Tuesday', es:'martes'},
@@ -419,6 +499,18 @@ const ROWS = [
 {k:'afternoon', en:'Afternoon', short:'Aft', es:'por la tarde'}, {k:'evening', en:'Evening', short:'Eve', es:'por la noche'}];
 const ROW_IX = Object.fromEntries(ROWS.map((r, i) => [r.k, i]));
 const ALL_SLOTS = DAYS.flatMap(d => ROWS.map(r => d.k + '-' + r.k));
+const MSG_DEFAULTS = {
+person:'Hola {nombre}, ¿te apetece quedar {cuando}?',
+group:'Hola a todos, ¿os apetece quedar {cuando}?',
+padel:'¿Alguien para pádel {cuando}? Somos {somos}, nos faltan {faltan}.',
+pollGroup:'Hola a todos, ¿os apetece {actividad}? Elegid aquí los horarios que os vengan bien: {enlace}',
+pollContacts:'Hola {nombre}, ¿te apetece {actividad}? Elige aquí los horarios que te vengan bien: {enlace}',
+noDate:'esta semana',
+slots:{morning:'por la mañana', lunch:'a comer', afternoon:'por la tarde', evening:'por la noche'},
+activities:{}};
+const fillMsg = (t, v) => String(t).replace(/\{(\w+)\}/g, (m, k) => (k in v ? v[k] : m));
+const actPhrase = (name, M = state.messages) => (M.activities && M.activities[name]) || ACT_ES[String(name).toLowerCase()] || `quedar para ${String(name).toLowerCase()}`;
+const slotEs = rk => (state.messages.slots[rk] || MSG_DEFAULTS.slots[rk]);
 const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MON_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const BEST = [['any','Any time'],['morning','Morning'],['lunch','Lunch'],['afternoon','Afternoon'],['evening','Evening'],['weekend','Weekend']];
@@ -439,6 +531,35 @@ const nowStamp = () => { const d = new Date(); return ymd(d) + ' ' + pad(d.getHo
 /* ---------------- state ---------------- */
 function normalize(s) {
 s = Object.assign({version:1, activities:[], free:{}, people:[], routine:[], plans:[], focus:{}}, s || {});
+if (!s.mig1) {
+const f = s.activities.find(a => a && a.name === 'Foto');
+if (f && !s.activities.some(a => a && a.name === 'Videogame')) {
+f.name = 'Videogame'; f.icon = 'game';
+(s.plans || []).forEach(p => { if (p && p.activity === 'Foto') { p.activity = 'Videogame'; if (p.title === 'Foto') p.title = 'Videogame'; } });
+(s.routine || []).forEach(r => { if (r.activity === 'Foto') r.activity = 'Videogame'; });
+Object.keys(s.focus || {}).forEach(w => { if (s.focus[w] === 'Foto') s.focus[w] = 'Videogame'; });
+}
+s.mig1 = true;
+}
+if (!s.mig2) {
+if (!s.activities.some(a => a && a.name === 'Games night')) {
+const i = s.activities.findIndex(a => a && a.name === 'Other');
+s.activities.splice(i < 0 ? s.activities.length : i, 0, {name:'Games night', target:0, best:'evening', icon:'dice', color:'#ecfccb'});
+}
+s.mig2 = true;
+}
+const m0 = s.messages || {};
+if (!s.mig3) {
+const OLD_G = 'Hola a todos, ¿os apetece {actividad}? Estas son las opciones:\n{opciones}\nResponde con el número o números que te vengan bien.';
+const OLD_C = 'Hola {nombre}, ¿te apetece {actividad}? Estas son las opciones:\n{opciones}\nResponde con el número o números que te vengan bien.';
+if (m0.pollGroup === OLD_G) delete m0.pollGroup;
+if (m0.pollContacts === OLD_C) delete m0.pollContacts;
+s.mig3 = true;
+}
+s.polls = Array.isArray(s.polls) ? s.polls : [];
+s.settings = {ownerName:'Alejandro', ownerPhone:'', publicUrl:'', weatherUrl:'https://www.aemet.es/xml/municipios/localidad_28115.xml', ...(s.settings || {})};
+s.weather = s.weather && Array.isArray(s.weather.days) ? s.weather : null;
+s.messages = {...MSG_DEFAULTS, ...m0, slots:{...MSG_DEFAULTS.slots, ...(m0.slots || {})}, activities:{...(m0.activities || {})}};
 s.activities = s.activities.filter(a => a && a.name).map((a, i) => ({name:String(a.name), target:Math.max(0, +a.target || 0), best:a.best || 'any', icon:a.icon || guessIcon(a.name), color:isHex(a.color) ? a.color.toLowerCase() : defaultColor(a.name, i)}));
 if (!s.activities.some(a => a.name === 'Other')) s.activities.push({name:'Other', target:0, best:'any', icon:'circle', color:'#f1f1f0'});
 s.people = s.people.filter(p => p && p.name).map(p => ({category:'Friends', priority:'Mid', every:4, wa:'', group:'', padelGroup:'', padelLevel:'', padelChat:'', lastSeen:'', notes:'', ...p, every:Math.max(1, +p.every || 4)}));
@@ -468,7 +589,7 @@ function undo() {
 const s = undoStack.pop(); if (!s) { toast('Nothing to undo'); return; }
 state = JSON.parse(s); save(); render(); toast('Undone');
 }
-const ui = {view:'week', week:mondayOf(TODAY), filter:'attention', search:'', ptab:'need', psearch:'', colorOpen:null, expPast:true, applyWeeks:8,
+const ui = {view:'week', week:mondayOf(TODAY), filter:'attention', search:'', ptab:'need', psearch:'', colorOpen:null, org:null, msgDraft:{}, voteText:'', expPast:true, applyWeeks:8,
 imp:{text:'', mode:'merge', parsed:null, diff:null, name:''}};
 /* ---------------- domain ---------------- */
 const actOf = name => state.activities.find(a => a.name === name) || {name, target:0, best:'any', icon:'circle', color:'#f1f1f0'};
@@ -494,7 +615,7 @@ return w.length === 1 ? (w[0][0].toUpperCase() + (w[0][1] || '')) : (w[0][0] + w
 const avatar = (n, cls = '') => `<span class="av ${cls}" title="${esc(n)}">${esc(initials(n))}</span>`;
 function guessIcon(name) {
 const n = String(name).toLowerCase();
-const map = [['gym','gym'],['gimnas','gym'],['padel','padel'],['pádel','padel'],['tenis','padel'],['music','music'],['música','music'],['movie','movie'],['cine','movie'],['run','bike'],['bike','bike'],['bici','bike'],['famil','family'],['friend','friends'],['amig','friends'],['foto','camera'],['photo','camera'],['viaje','plane'],['trip','plane'],['travel','plane'],['read','book'],['leer','book'],['lectura','book'],['cook','food'],['cocina','food'],['cena','food']];
+const map = [['gym','gym'],['gimnas','gym'],['padel','padel'],['pádel','padel'],['tenis','padel'],['music','music'],['música','music'],['movie','movie'],['cine','movie'],['run','bike'],['bike','bike'],['bici','bike'],['famil','family'],['friend','friends'],['amig','friends'],['foto','camera'],['game','game'],['juego','game'],['play','game'],['photo','camera'],['viaje','plane'],['trip','plane'],['travel','plane'],['read','book'],['leer','book'],['lectura','book'],['cook','food'],['cocina','food'],['cena','food']];
 for (const [k, v] of map) if (n.includes(k)) return v;
 return 'circle';
 }
@@ -571,16 +692,15 @@ return state.people.map(p => ({p, st:personStats(p)}))
 .sort((a, b) => (PRIO[a.p.priority] ?? 1) - (PRIO[b.p.priority] ?? 1) || STATUS_RANK[a.st.status] - STATUS_RANK[b.st.status] || b.st.overdue - a.st.overdue || a.p.name.localeCompare(b.p.name));
 }
 function whenEs(w, slot) {
-const date = slotDate(w, slot); const [dk, rk] = slot.split('-'); const r = ROWS[ROW_IX[rk]].es;
+const date = slotDate(w, slot); const [dk, rk] = slot.split('-'); const r = slotEs(rk);
 if (date === TODAY) return 'hoy ' + r;
 if (date === addDays(TODAY, 1)) return (rk === 'morning' ? 'mañana por la mañana' : 'mañana ' + r);
 return `el ${DAYS[DAY_IX[dk]].es} ${parseYmd(date).getDate()} ${r}`;
 }
 const firstName = n => String(n).replace(/\s+[A-ZÁÉÍÓÚ]\.$/, '').replace(/\s*\(.*\)$/, '');
 function msgFor(p, w, slot) {
-const when = slot ? whenEs(w, slot) : 'esta semana';
-if (!p.wa && p.group) return `Hola a todos, ¿os apetece quedar ${when}?`;
-return `Hola ${firstName(p.name)}, ¿te apetece quedar ${when}?`;
+const M = state.messages, when = slot ? whenEs(w, slot) : M.noDate;
+return fillMsg(!p.wa && p.group ? M.group : M.person, {nombre:firstName(p.name), cuando:when});
 }
 const waLink = text => 'https://wa.me/?text=' + encodeURIComponent(text);
 const contactLine = p => p.wa ? `WhatsApp: ${p.wa}` : (p.group ? `Group: ${p.group}` : 'No contact saved');
@@ -612,6 +732,7 @@ const AI_GUIDE = [
 '> - Days: Mon Tue Wed Thu Fri Sat Sun. Slots: morning, lunch, afternoon, evening. A week starts on Monday and its heading is `### YYYY-MM-DD`.',
 '> - Several plans can share a slot. Plans not tied to a date go under `## Ideas`. Use activity and people names exactly as listed; a new name in `with:` creates a new person.',
 '> - Activity colours are pale hex values (for example #dbeafe).',
+'> - `## Messages` holds my WhatsApp texts. Keep placeholders in braces such as {nombre} or {cuando}; `\\n` means a new line.',
 '> - `focus:` under a week heading is the activity I want to prioritise that week. `every:` on a person is how often I want to see them, in weeks.',
 '> - Weeks you leave out stay as they are. A week heading with no plans clears that week. To delete a plan, remove its line.'
 ];
@@ -633,6 +754,11 @@ if (p.lastSeen) f.push(`last-seen: ${p.lastSeen}`);
 if (p.notes) f.push(`notes: ${mdv(p.notes)}`);
 L.push('- ' + f.join(' | '));
 });
+const M = state.messages, msgv = v => String(v ?? '').replace(/\|/g, '/').replace(/\r?\n/g, '\\n');
+L.push('', '## Messages', '');
+[['person', 'person'], ['group', 'group'], ['padel', 'padel'], ['poll-group', 'pollGroup'], ['poll-contacts', 'pollContacts'], ['no-date', 'noDate']].forEach(([k, f]) => L.push(`- ${k} | ${msgv(M[f])}`));
+ROWS.forEach(r => L.push(`- slot ${r.k} | ${msgv(M.slots[r.k])}`));
+state.activities.forEach(a => L.push(`- activity ${mdv(a.name)} | ${msgv(actPhrase(a.name))}`));
 L.push('', '## Routine', '');
 state.routine.slice().sort((a, b) => sortSlots(a.slot, b.slot)).forEach(r => L.push(`- ${slotMd(r.slot)} | ${mdv(r.title)} | activity: ${mdv(r.activity)}`));
 if (!state.routine.length) L.push('- (none)');
@@ -686,9 +812,10 @@ return o;
 const clean = v => { v = String(v ?? '').trim(); return v === '-' ? '' : v; };
 const splitNames = v => clean(v).split(/,|;| y | and /).map(x => x.trim()).filter(Boolean);
 function parseMarkdown(text) {
-const out = {sections:new Set(), activities:[], free:{}, people:[], routine:[], ideas:[], weeks:new Map(), focus:{}, errors:[]};
+const out = {sections:new Set(), activities:[], free:{}, people:[], routine:[], ideas:[], weeks:new Map(), focus:{}, messages:{slots:{}, activities:{}}, errors:[]};
 let sec = null, week = null;
 const secOf = h => { h = h.toLowerCase();
+if (h.includes('messag') || h.includes('whatsapp')) return 'messages';
 if (h.includes('activ') || h.includes('hobb')) return 'activities';
 if (h.includes('free') || h.includes('slot')) return 'free';
 if (h.includes('people') || h.includes('contact')) return 'people';
@@ -740,6 +867,13 @@ const w = spec.week; if (!w) return err('Plan is not under a week heading');
 if (!out.weeks.has(w)) out.weeks.set(w, []);
 out.weeks.get(w).push(item);
 }
+} else if (sec === 'messages') {
+const key = parts[0].trim(), kl = key.toLowerCase(), val = parts.slice(1).join('/').trim().replace(/\\n/g, '\n');
+const MAP = {'person':'person', 'group':'group', 'padel':'padel', 'poll-group':'pollGroup', 'poll-contacts':'pollContacts', 'no-date':'noDate'};
+if (MAP[kl]) out.messages[MAP[kl]] = val;
+else if (kl.startsWith('slot ')) { const r = ROW_ALIAS[kl.slice(5).trim()]; if (r) out.messages.slots[r] = val; else err('Unknown time of day'); }
+else if (kl.startsWith('activity ')) out.messages.activities[key.slice(9).trim()] = val;
+else err('Unknown message key');
 } else if (sec === 'ideas') {
 const kv = kvParse(parts.slice(1));
 out.ideas.push({title:parts[0], activity:clean(kv.activity), with:splitNames(kv.with || ''), status:/tent/i.test(kv.status || '') ? 'tentative' : 'confirmed', notes:clean(kv.notes)});
@@ -755,6 +889,13 @@ if (has('activities') && parsed.activities.length) s.activities = parsed.activit
 if (has('free')) DAYS.forEach(d => { if (parsed.free[d.k] !== undefined || mode === 'replace') s.free[d.k] = parsed.free[d.k] || []; });
 if (has('people')) s.people = parsed.people;
 if (has('routine')) s.routine = parsed.routine;
+if (has('messages')) {
+const pm = parsed.messages, base = {...MSG_DEFAULTS, slots:{...MSG_DEFAULTS.slots}, activities:{}};
+Object.keys(pm).forEach(k => { if (k !== 'slots' && k !== 'activities' && pm[k]) base[k] = pm[k]; });
+Object.assign(base.slots, pm.slots);
+Object.entries(pm.activities).forEach(([n, v]) => { const def = ACT_ES[n.toLowerCase()] || `quedar para ${n.toLowerCase()}`; if (v && v !== def) base.activities[n] = v; });
+s.messages = base;
+}
 const mk = (it, w) => ({id:uid(), week:w, slot:w ? it.slot : null, title:it.title, activity:it.activity, with:it.with, status:it.status, notes:it.notes});
 if (mode === 'replace') {
 s.plans = []; s.focus = {};
@@ -802,8 +943,9 @@ const pChg = next.people.filter(p => { const o = personOf(p.name); return o && J
 const actChg = JSON.stringify(state.activities) !== JSON.stringify(next.activities);
 const freeChg = JSON.stringify(state.free) !== JSON.stringify(next.free);
 const rtChg = JSON.stringify(state.routine) !== JSON.stringify(next.routine);
-return {next, rows, add, rem, pAdd, pRem, pChg, actChg, freeChg, rtChg, newActs, newPeople, errors:parsed.errors,
-nothing:!add && !rem && !rows.length && !pAdd.length && !pRem.length && !pChg && !actChg && !freeChg && !rtChg};
+const msgChg = JSON.stringify(state.messages) !== JSON.stringify(next.messages);
+return {next, rows, add, rem, pAdd, pRem, pChg, actChg, freeChg, rtChg, msgChg, newActs, newPeople, errors:parsed.errors,
+nothing:!add && !rem && !rows.length && !pAdd.length && !pRem.length && !pChg && !actChg && !freeChg && !rtChg && !msgChg};
 }
 /* ---------------- rendering ---------------- */
 function render() {
@@ -812,11 +954,11 @@ renderNav();
 const main = $('#main');
 const v = ui.view;
 document.body.classList.toggle('fit', v === 'week');
-main.innerHTML = v === 'week' ? viewWeek() : v === 'overview' ? viewOverview() : v === 'people' ? viewPeople() : v === 'activities' ? viewActivities() : viewSync();
+main.innerHTML = v === 'week' ? viewWeek() : v === 'overview' ? viewOverview() : v === 'people' ? viewPeople() : v === 'activities' ? viewActivities() : v === 'messages' ? viewMessages() : v === 'polls' ? viewPolls() : viewSync();
 $('#undo-btn').disabled = !undoStack.length;
 }
 function renderNav() {
-const items = [['week','calendar','Week'],['overview','grid','Overview'],['people','users','People'],['activities','target','Activities'],['sync','file','Sync']];
+const items = [['week','calendar','Week'],['overview','grid','Overview'],['people','users','People'],['activities','target','Activities'],['polls','poll','Polls'],['messages','message','Messages'],['sync','file','Sync']];
 $('#nav').innerHTML = items.map(([k, ic, l]) => `<button class="${ui.view === k ? 'on' : ''}" data-act="view" data-view="${k}" title="${l}" ${ui.view === k ? 'aria-current="page"' : ''}>${icon(ic)}<span class="nl">${l}</span></button>`).join('');
 }
 /* --- week --- */
@@ -827,7 +969,7 @@ function planMessage(p) {
 if (!p.week || isPast(p.week, p.slot)) return null;
 if (p.activity === 'Padel') {
 const n = p.with.length + 1, need = Math.max(0, 4 - n); if (!need) return null;
-return {text:`¿Alguien para pádel ${whenEs(p.week, p.slot)}? Somos ${n}, falta${need > 1 ? 'n' : ''} ${need}.`, label:'Ask a padel group for players'};
+return {text:fillMsg(state.messages.padel, {cuando:whenEs(p.week, p.slot), somos:n, faltan:need}), label:'Ask a padel group for players'};
 }
 if (p.with.length) { const per = personOf(p.with[0]) || {name:p.with[0], wa:'', group:''}; return {text:msgFor(per, p.week, p.slot), label:`Message ${per.name} on WhatsApp`}; }
 return null;
@@ -849,8 +991,10 @@ function cellHTML(w, slot, past) {
 const ps = plansIn(w, slot), free = isFree(slot);
 const cls = ['cell', ps.length ? 'filled' : (free ? 'open' : 'off'), past ? 'past' : ''].join(' ');
 let inner = ps.map(cardHTML).join('');
-if (!ps.length && free && !past) inner = '<span class="drop-hint">Open</span>';
-return `<div class="${cls}" data-drop="slot" data-week="${w}" data-slot="${slot}" aria-label="${slotLabel(w, slot)}">${inner}</div>`;
+const pick = ui.org && ui.org.activity && !ps.length && free && !past; const pi = pick ? orgPicked(w, slot) : -1;
+if (!ps.length && free && !past) inner = pi >= 0 ? `<span class="pick-n">${orgSlots(ui.org).findIndex(x => x.week === w && x.slot === slot) + 1}</span>` : `<span class="drop-hint">${pick ? 'Add option' : 'Open'}</span>`;
+if (ps.length || free) inner += wxCell(w, slot, past, ps.length > 0);
+return `<div class="${cls}${pick ? ' pickable' : ''}${pi >= 0 ? ' picked' : ''}" data-drop="slot" data-week="${w}" data-slot="${slot}"${pick ? ' data-act="org-slot" role="button" tabindex="0"' : ''} aria-label="${slotLabel(w, slot)}">${inner}</div>`;
 }
 function viewWeek() {
 const w = ui.week, w2 = addDays(w, 7), cur = mondayOf(TODAY), weeks = [w, w2];
@@ -870,6 +1014,8 @@ ${w !== cur ? `<button class="btn sm" data-act="today" style="margin-left:4px">T
 </div>
 <div class="row wrap">
 <button class="btn ghost sm" data-act="routine-week" title="Fill empty slots in both weeks with your weekly routine">${icon('repeat')}Fill with routine</button>
+<button class="btn ghost sm" data-act="wx-refresh" title="${esc(wxError || 'Refresh the AEMET forecast')}">${icon(wxBusy ? 'cloud' : 'cloudsun')}${wxBusy ? 'Updating…' : (state.weather ? 'Weather' : 'Load weather')}</button>
+${ui.org ? '' : `<button class="btn primary sm" data-act="org-start">${icon('message')}Organize a plan</button>`}
 </div></div>`;
 h += '<div class="strip" aria-label="Weeks">';
 const fs = freeSlots();
@@ -896,12 +1042,12 @@ h += `<div class="col labels" style="grid-row:${r0} / span ${span};grid-column:2
 DAYS.forEach((d, i) => {
 const date = addDays(wk, i), isToday = date === TODAY, past = date < TODAY;
 const md = parseYmd(date);
-h += `<section class="col day ${past ? 'past' : ''}" style="grid-row:${r0} / span ${span};grid-column:${3 + i}" aria-label="${d.full} ${md.getDate()}">
-<div class="col-head"><span class="t-heading">${d.en}</span><span class="t-caption muted">${md.getDate()}${md.getDate() === 1 || i === 0 ? ' ' + MON[md.getMonth()] : ''}</span>${isToday ? '<span class="chip accent">Today</span>' : ''}</div>
+h += `<section class="col day ${past ? 'past' : ''} ${isToday ? 'today' : ''}" style="grid-row:${r0} / span ${span};grid-column:${3 + i}" aria-label="${d.full} ${md.getDate()}">
+<div class="col-head"><span class="t-heading">${d.en}</span><span class="t-caption muted">${md.getDate()}${md.getDate() === 1 || i === 0 ? ' ' + MON[md.getMonth()] : ''}</span>${isToday ? '<span class="chip today">Today</span>' : ''}${wxHead(date)}</div>
 ${rows.map(r => cellHTML(wk, d.k + '-' + r.k, past)).join('')}</section>`;
 });
 });
-h += `</div></div><aside class="palette">${paletteHTML(w)}</aside></div>`;
+h += `</div></div><aside class="palette">${ui.org ? orgHTML() : paletteHTML(w)}</aside></div>`;
 return h;
 }
 function paletteHTML(w) {
@@ -942,7 +1088,7 @@ if (!players.length) return '<div class="empty">No padel players match.</div>';
 const groups = {};
 players.forEach(p => { const g = p.padelChat || p.padelGroup || 'Other'; (groups[g] = groups[g] || []).push(p); });
 const next = state.plans.filter(p => p.week === ui.week && p.activity === 'Padel').map(planMessage).find(Boolean);
-const msg = next ? next.text : '¿Alguien para pádel esta semana?';
+const msg = next ? next.text : fillMsg(state.messages.padel, {cuando:state.messages.noDate, somos:1, faltan:3});
 return Object.keys(groups).sort().map(g => `<div class="pgroup"><span class="t-label">${esc(g)}</span><span class="t-micro faint">${groups[g].length}</span><span class="grow"></span>
 <a class="ca" href="${esc(waLink(msg))}" target="_blank" rel="noopener" title="${esc('Ask ' + g + ': ' + msg)}" aria-label="Ask ${esc(g)} for players">${icon('message', 14)}</a></div>` +
 groups[g].sort((a, b) => (+b.padelLevel || 0) - (+a.padelLevel || 0) || a.name.localeCompare(b.name))
@@ -953,6 +1099,315 @@ let list = ui.ptab === 'need' ? radarList() : state.people.map(p => ({p, st:pers
 list = list.filter(x => match(x.p));
 if (!list.length) return `<div class="empty">${ui.ptab === 'need' && !q ? 'Everyone you track is planned or on track.' : 'No one matches.'}</div>`;
 return list.map(({p, st}) => prowHTML(p, st)).join('');
+}
+/* --- organize a plan (poll) --- */
+const ACT_ES = {'padel':'jugar al pádel', 'movie':'ir al cine', 'music':'quedar para tocar música', 'run/bike':'salir a correr o en bici', 'gym':'ir al gimnasio',
+'videogame':'echar unas partidas', 'games night':'hacer una noche de juegos', 'viaje':'hacer un viaje', 'family':'quedar en familia', 'friends':'quedar', 'cris':'quedar', 'other':'quedar'};
+const MES_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+const b64e = o => { const by = new TextEncoder().encode(JSON.stringify(o)); let s = ''; by.forEach(b => { s += String.fromCharCode(b); }); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+const b64d = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); const bin = atob(s); return JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)))); };
+const optLabelEs = (w, slot) => { const [dk, rk] = slot.split('-'); const d = parseYmd(slotDate(w, slot)); return `${cap(DAYS[DAY_IX[dk]].es)} ${d.getDate()} de ${MES_ES[d.getMonth()]}, ${slotEs(rk)}`; };
+const orgSlots = o => o.slots.slice().sort((a, b) => (slotDate(a.week, a.slot) + ROW_IX[a.slot.split('-')[1]]).localeCompare(slotDate(b.week, b.slot) + ROW_IX[b.slot.split('-')[1]]));
+function pollBase() {
+const s = (state.settings.publicUrl || '').trim();
+if (s) return s.split('#')[0];
+return location.href.split('#')[0];
+}
+const pollIsPublic = () => !!(state.settings.publicUrl || '').trim() || /^https?:/.test(location.protocol);
+function pollPayload(p) {
+const a = actOf(p.activity);
+return {v:1, i:p.id, a:p.activity, ph:actPhrase(p.activity), ic:a.icon, c:a.color, n:state.settings.ownerName || '', w:(state.settings.ownerPhone || '').replace(/\D/g, ''),
+pl:p.places, o:p.options.map(x => ({d:slotDate(x.week, x.slot), r:x.slot.split('-')[1], l:x.label}))};
+}
+const pollUrl = p => pollBase() + '#encuesta=' + b64e(pollPayload(p));
+function orgPoll(o) {
+return {id:o.pollId, activity:o.activity, places:o.place.split(',').map(x => x.trim()).filter(Boolean),
+options:orgSlots(o).map(x => ({week:x.week, slot:x.slot, label:optLabelEs(x.week, x.slot)})),
+to:o.tab === 'group' ? o.group : o.contacts.join(', ')};
+}
+function orgDefaultText(o) {
+const M = state.messages;
+const opts = orgSlots(o).map((x, i) => `${i + 1}. ${optLabelEs(x.week, x.slot)}`).join('\n');
+return fillMsg(o.tab === 'group' ? M.pollGroup : M.pollContacts, {actividad:o.activity ? actPhrase(o.activity) : 'quedar', opciones:opts || '1. …'});
+}
+function orgSync() { const o = ui.org; if (o && !o.touched) o.text = orgDefaultText(o); }
+function orgStart() { ui.org = {pollId:uid(), activity:'', slots:[], tab:'group', group:'', contacts:[], q:'', place:'', text:'', touched:false, hold:true, held:false, saved:false}; orgSync(); render(); }
+const orgPicked = (w, slot) => ui.org ? ui.org.slots.findIndex(x => x.week === w && x.slot === slot) : -1;
+const orgGroups = () => {
+const m = {};
+state.people.forEach(p => { [p.group, p.padelChat].filter(Boolean).forEach(g => { (m[g] = m[g] || new Set()).add(p.name); }); });
+return Object.keys(m).sort().map(g => ({name:g, n:m[g].size}));
+};
+function orgListHTML() {
+const o = ui.org, q = o.q.trim().toLowerCase();
+if (o.tab === 'group') {
+const gs = orgGroups().filter(g => !q || g.name.toLowerCase().includes(q));
+return gs.map(g => `<button class="orow ${o.group === g.name ? 'on' : ''}" data-act="org-group" data-g="${esc(g.name)}"><span class="ck">${o.group === g.name ? icon('check', 12) : ''}</span><span class="t-label grow ellip">${esc(g.name)}</span><span class="t-caption faint">${g.n} ${g.n === 1 ? 'person' : 'people'}</span></button>`).join('') || '<div class="empty">No groups match.</div>';
+}
+const ps = state.people.filter(p => !q || [p.name, p.wa, p.category].join(' ').toLowerCase().includes(q))
+.sort((a, b) => (o.contacts.includes(b.name) - o.contacts.includes(a.name)) || (PRIO[a.priority] ?? 1) - (PRIO[b.priority] ?? 1) || a.name.localeCompare(b.name));
+return ps.map(p => { const on = o.contacts.includes(p.name);
+return `<button class="orow ${on ? 'on' : ''}" data-act="org-contact" data-name="${esc(p.name)}"><span class="ck">${on ? icon('check', 12) : ''}</span>${avatar(p.name)}<span class="grow" style="min-width:0"><span class="t-label ellip" style="display:block">${esc(p.name)}</span><span class="t-caption faint ellip" style="display:block">${esc(p.wa || p.group || p.category)}</span></span></button>`; }).join('') || '<div class="empty">No one matches.</div>';
+}
+function orgFinalText(o, name) { return fillMsg(o.text, {nombre:name, enlace:pollUrl(orgPoll(o))}); }
+function orgSendHTML() {
+const o = ui.org;
+const link = (text, label, cls) => `<a class="btn sm ${cls || ''}" href="${esc(waLink(text))}" target="_blank" rel="noopener" data-act="org-sent" title="${esc(text)}">${icon('message', 14)}${esc(label)}</a>`;
+let h = '';
+if (o.tab === 'group' && o.group) h += link(orgFinalText(o, 'a todos'), `Send to ${o.group}`, 'primary');
+if (o.tab === 'contacts') h += o.contacts.map((n, i) => link(orgFinalText(o, firstName(n)), `Send to ${n}`, i === 0 ? 'primary' : '')).join('');
+h += `<button class="btn ghost sm" data-act="org-copy">${icon('copy', 14)}Copy</button>`;
+h += `<a class="btn ghost sm" href="${esc(pollUrl(orgPoll(o)))}" target="_blank" rel="noopener">${icon('eye', 14)}Preview poll</a>`;
+return h;
+}
+function orgHTML() {
+const o = ui.org, n = o.slots.length;
+const who = o.tab === 'group' ? !!o.group : o.contacts.length > 0;
+const step = (k, title, done, locked, right, body) => `<div class="ostep ${done ? 'done' : ''} ${locked ? 'locked' : ''}"><div class="oh"><span class="num">${done ? icon('check', 12) : k}</span><span class="t-label">${title}</span><span class="grow"></span>${right || ''}</div>${body}</div>`;
+let h = `<section class="pcard org"><div class="pcard-head"><span class="t-heading">Organize a plan</span><span class="grow"></span><button class="btn ghost sm" data-act="org-cancel">Close</button></div>`;
+const actOpen = !o.activity || o.editAct;
+h += step(1, 'Activity', !!o.activity, false, o.activity && !actOpen ? `<span class="chip"${colorAttr(o.activity)}>${icon(actOf(o.activity).icon, 12)}${esc(o.activity)}</span><button class="btn ghost sm" data-act="org-act-edit">Change</button>` : '',
+!actOpen ? '' : `<div class="acts">${state.activities.map(a => `<button class="achip ${o.activity === a.name ? 'on' : ''}"${colorAttr(a.name)} data-act="org-act" data-name="${esc(a.name)}"><span class="ic">${icon(a.icon, 14)}</span><span class="nm">${esc(a.name)}</span></button>`).join('')}</div>`);
+h += step(2, 'Options', n > 0, !o.activity, `<span class="t-caption muted">${n} selected</span>`,
+`<div class="t-caption muted" style="margin-bottom:6px">Click open slots in the calendar. Use the arrows to pick from other weeks.</div>
+<div class="ochips">${orgSlots(o).map(x => `<span class="pchip">${esc(slotLabel(x.week, x.slot))}<button type="button" data-act="org-slot" data-week="${x.week}" data-slot="${x.slot}" aria-label="Remove option">${icon('x', 12)}</button></span>`).join('') || '<span class="empty" style="padding:0">No options yet.</span>'}</div>`);
+h += step(3, 'Send to', who, !n, '',
+`<div class="row" style="margin-bottom:6px"><div class="tabs">${[['group', 'WhatsApp group'], ['contacts', 'Contacts']].map(([k, l]) => `<button class="${o.tab === k ? 'on' : ''}" data-act="org-tab" data-t="${k}">${l}</button>`).join('')}</div>${o.tab === 'contacts' && o.contacts.length ? `<span class="grow"></span><span class="t-caption muted">${o.contacts.length} selected</span>` : ''}</div>
+<input type="search" class="oq" placeholder="Search" value="${esc(o.q)}" data-bind="org-q" aria-label="Search groups or contacts">
+<div class="olist" id="org-list">${orgListHTML()}</div>`);
+h += step(4, 'Send the poll', o.saved, !who, o.touched ? '<button class="btn ghost sm" data-act="org-reset">Reset text</button>' : '',
+`<input class="oq" style="margin-bottom:8px" placeholder="Place (optional)" value="${esc(o.place)}" data-bind="org-place" aria-label="Place">
+<textarea rows="4" data-bind="org-text" aria-label="Message" spellcheck="false">${esc(o.text)}</textarea>
+<div class="t-caption faint" style="margin-top:4px">{enlace} becomes the poll link${o.tab === 'contacts' ? ' and {nombre} each person’s name' : ''}. People open it, write their name and tick the times that suit them; their answer comes back to you on WhatsApp.</div>
+${pollIsPublic() ? '' : `<div class="t-caption" style="margin-top:6px;color:var(--danger)">This copy is opened from your computer, so others can’t open the link. Add your GitHub Pages address in Polls.</div>`}
+<label class="chk t-caption" style="margin-top:8px"><input type="checkbox" data-bind="org-hold" ${o.hold ? 'checked' : ''} ${o.held ? 'disabled' : ''}>Hold the options as tentative plans when I send</label>
+<div class="send-row" id="org-send">${orgSendHTML()}</div>
+${o.saved ? `<div class="t-caption" style="margin-top:8px;color:var(--success)">${icon('check', 12)} Poll saved${o.held ? ` and ${n} option${n === 1 ? '' : 's'} held on the calendar` : ''}. Answers appear in the Polls tab.</div><div class="row" style="margin-top:8px"><button class="btn sm" data-act="org-cancel">Done</button><button class="btn ghost sm" data-act="view" data-view="polls">Open Polls</button></div>` : ''}`);
+return h + '</section>';
+}
+function orgCommit() {
+const o = ui.org; if (!o || !o.activity || !o.slots.length) return;
+const base = orgPoll(o);
+const hold = o.hold && !o.held;
+mutate(o.saved ? null : `Poll saved${hold ? ` and ${base.options.length} options held as tentative plans` : ''}. Answers will appear in Polls.`, () => {
+let p = state.polls.find(x => x.id === base.id);
+if (!p) { p = {...base, created:TODAY, responses:[], closed:false, chosen:-1, planIds:[]}; state.polls.unshift(p); }
+else Object.assign(p, base);
+if (hold) {
+const w = o.tab === 'contacts' ? o.contacts.slice() : [];
+ensurePeople(w);
+base.options.forEach((x, i) => { const np = newPlan({week:x.week, slot:x.slot, activity:o.activity, with:w, title:autoTitle(o.activity, w), status:'tentative',
+notes:`Poll option ${i + 1} of ${base.options.length}${o.tab === 'group' && o.group ? ' · ' + o.group : ''}`}); state.plans.push(np); p.planIds.push(np.id); });
+}
+});
+if (hold) o.held = true;
+o.saved = true; render();
+}
+/* --- polls tab --- */
+function pollFromPayload(pl) {
+return {id:pl.i, activity:pl.a, places:pl.pl || [], to:'', created:TODAY, responses:[], closed:false, chosen:-1, planIds:[],
+options:(pl.o || []).map(x => ({week:mondayOf(x.d), slot:DAYS[(parseYmd(x.d).getDay() + 6) % 7].k + '-' + x.r, label:x.l}))};
+}
+function addVote(v) {
+if (!v || !v.p || !v.p.i || !v.n) return null;
+let p = state.polls.find(x => x.id === v.p.i);
+if (!p) { p = pollFromPayload(v.p); state.polls.unshift(p); }
+const name = String(v.n).trim().slice(0, 60); if (!name) return null;
+const r = {name, picks:(v.s || []).filter(i => i >= 0 && i < p.options.length), place:typeof v.pl === 'number' ? v.pl : -1, at:nowStamp()};
+const k = p.responses.findIndex(x => x.name.toLowerCase() === name.toLowerCase());
+if (k >= 0) p.responses[k] = r; else p.responses.push(r);
+return {p, name};
+}
+function importVotes(text) {
+const codes = [...String(text).matchAll(/#(?:vote|respuesta)=([A-Za-z0-9_-]+)/g)].map(m => m[1]);
+let ok = 0, last = null;
+mutate(null, () => { codes.forEach(c => { try { const r = addVote(b64d(c)); if (r) { ok++; last = r; } } catch (e) {} }); });
+return {ok, total:codes.length, last};
+}
+function choosePollOption(p, i) {
+const opt = p.options[i]; if (!opt) return;
+mutate(`Chose ${opt.label} for ${p.activity}`, () => {
+p.closed = true; p.chosen = i;
+const yes = p.responses.filter(r => r.picks.includes(i)).map(r => r.name);
+const known = yes.filter(n => personOf(n));
+const held = state.plans.filter(x => p.planIds.includes(x.id));
+let keep = held.find(x => x.week === opt.week && x.slot === opt.slot);
+state.plans = state.plans.filter(x => !p.planIds.includes(x.id) || x === keep);
+if (!keep) { keep = newPlan({week:opt.week, slot:opt.slot, activity:p.activity, with:[], title:p.activity}); state.plans.push(keep); }
+editPlan(keep, x => { x.with = [...new Set([...x.with, ...known])]; });
+keep.status = 'confirmed';
+const pc = {}; p.responses.filter(r => r.picks.includes(i) && r.place >= 0).forEach(r => { pc[r.place] = (pc[r.place] || 0) + 1; });
+const bestPlace = Object.keys(pc).sort((x, y) => pc[y] - pc[x])[0];
+const placeTxt = p.places.length === 1 ? p.places[0] : (bestPlace !== undefined ? p.places[+bestPlace] : '');
+keep.notes = [placeTxt, yes.length ? 'Coming: ' + yes.join(', ') : ''].filter(Boolean).join(' · ');
+p.planIds = [keep.id];
+});
+}
+function viewPolls() {
+const S = state.settings;
+const set = `<section class="scard"><h3>Settings</h3><p class="desc t-caption">Used in every poll link.</p>
+<div class="three"><div class="field"><label for="ps-name">Your name</label><input id="ps-name" value="${esc(S.ownerName)}" data-bind="setting" data-k="ownerName"></div>
+<div class="field"><label for="ps-phone">Your WhatsApp number</label><input id="ps-phone" value="${esc(S.ownerPhone)}" placeholder="+34 600 000 000" data-bind="setting" data-k="ownerPhone"><span class="hint">Optional. Answers then open straight in your chat.</span></div>
+<div class="field"><label for="ps-url">Public address</label><input id="ps-url" value="${esc(S.publicUrl)}" placeholder="https://you.github.io/moneypenny/" data-bind="setting" data-k="publicUrl"><span class="hint">${/^https?:/.test(location.protocol) ? 'Leave empty to use this page’s address.' : 'Needed: this copy is opened from your computer.'}</span></div></div></section>`;
+const paste = `<section class="scard"><h3>Add answers</h3><p class="desc t-caption">Answers arrive as WhatsApp messages with a link. Tap the link, or paste one or more messages here.</p>
+<textarea rows="3" style="width:100%" data-bind="vote-text" placeholder="Paste WhatsApp messages with answer links">${esc(ui.voteText)}</textarea>
+<button class="btn sm" data-act="vote-import" style="margin-top:8px">${icon('plus')}Add answers</button></section>`;
+const cards = state.polls.map(p => {
+const a = actOf(p.activity); const tot = p.responses.length;
+const max = Math.max(1, ...p.options.map((_, i) => p.responses.filter(r => r.picks.includes(i)).length));
+const rows = p.options.map((o, i) => {
+const who = p.responses.filter(r => r.picks.includes(i)); const pastOpt = slotDate(o.week, o.slot) < TODAY; const win = p.chosen === i;
+return `<div class="prw ${win ? 'win' : ''}"><div class="prl"><span class="t-label">${esc(slotLabel(o.week, o.slot))}</span>${win ? `<span class="chip success">${icon('check', 12)}Chosen</span>` : ''}${pastOpt ? '<span class="t-micro faint">Past</span>' : ''}</div>
+<div class="prb"><i style="width:${who.length / max * 100}%"></i></div><span class="t-label prc">${who.length}</span>
+<div class="prn t-caption muted">${who.map(r => esc(r.name)).join(', ') || '—'}</div>
+${p.closed ? '' : `<button class="btn sm" data-act="poll-choose" data-id="${p.id}" data-i="${i}">Choose</button>`}</div>`; }).join('');
+const resp = p.responses.map((r, k) => `<span class="pchip">${esc(r.name)}${r.place >= 0 && p.places[r.place] ? ' · ' + esc(p.places[r.place]) : ''}<button type="button" data-act="poll-unvote" data-id="${p.id}" data-k="${k}" aria-label="Remove ${esc(r.name)}">${icon('x', 12)}</button></span>`).join('');
+return `<section class="scard poll-card"><div class="row" style="margin-bottom:10px"><span class="chip"${colorAttr(p.activity)}>${icon(a.icon, 12)}${esc(p.activity)}</span>
+<span class="t-heading grow ellip">${esc(cap(actPhrase(p.activity)))}${p.places.length ? ' · ' + esc(p.places.join(' / ')) : ''}</span>
+<span class="chip ${p.closed ? 'line' : ''}">${p.closed ? 'Closed' : 'Open'}</span></div>
+<div class="t-caption muted" style="margin-bottom:10px">Created ${fmtShort(p.created)}${p.to ? ' · sent to ' + esc(p.to) : ''} · ${tot} answer${tot === 1 ? '' : 's'}</div>
+${rows}
+${resp ? `<div class="ochips" style="margin-top:10px">${resp}</div>` : ''}
+<div class="row wrap" style="margin-top:12px"><button class="btn ghost sm" data-act="copy" data-text="${esc(pollUrl(p))}">${icon('copy', 14)}Copy link</button>
+<a class="btn ghost sm" href="${esc(pollUrl(p))}" target="_blank" rel="noopener">${icon('eye', 14)}Open poll</a><span class="grow"></span>
+${p.closed ? `<button class="btn ghost sm" data-act="poll-reopen" data-id="${p.id}">Reopen</button>` : ''}
+<button class="btn ghost sm danger" data-act="poll-del" data-id="${p.id}">${icon('trash', 14)}Delete</button></div></section>`;
+}).join('');
+return `<div class="page-head"><div><div class="t-title">Polls</div><div class="t-caption muted">Send a link, people pick the times that suit them, and their answers come back to you on WhatsApp.</div></div>
+<button class="btn primary sm" data-act="poll-new">${icon('plus')}New poll</button></div>
+<div class="grid2"><div style="display:flex;flex-direction:column;gap:16px">${cards || '<section class="scard empty" style="text-align:center;padding:32px">No polls yet. Use New poll, or Organize a plan in the Week view.</section>'}</div>
+<div style="display:flex;flex-direction:column;gap:16px">${set}${paste}</div></div>`;
+}
+/* --- public poll page (no PIN, nothing private) --- */
+function showPollPage(pl) {
+$('#login').hidden = true; $('#app').hidden = true;
+const pg = $('#pollpage'); pg.hidden = false;
+const sel = new Set(); let name = '';
+const today = ymd(new Date());
+const who = [pl.n, (pl.pl || []).join(' / ')].filter(Boolean).join(' · ');
+const draw = () => {
+const ok = !!name.trim() && sel.size > 0;
+const picks = [...sel].sort((a, b) => a - b);
+const vote = location.href.split('#')[0] + '#respuesta=' + b64e({p:pl, n:name.trim(), s:picks, pl:-1});
+const msg = `Hola${pl.n ? ' ' + pl.n : ''}, soy ${name.trim()}. Para ${pl.ph || pl.a} puedo: ${picks.map(i => pl.o[i].l).join('; ')}.\nApúntalo aquí: ${vote}`;
+const href = (pl.w ? `https://wa.me/${pl.w}?text=` : 'https://wa.me/?text=') + encodeURIComponent(msg);
+pg.innerHTML = `<div class="pp-card">
+<div class="t-title">¿Te apetece ${esc(pl.ph || pl.a)}?</div>
+${who ? `<div class="t-caption muted" style="margin-top:2px">${esc(who)}</div>` : ''}
+<input id="pp-name" value="${esc(name)}" placeholder="Tu nombre" aria-label="Tu nombre" autocomplete="given-name" style="margin-top:18px">
+<div class="pp-opts" style="margin-top:12px">${pl.o.map((o, i) => { const past = o.d < today; return `<button class="pp-opt ${sel.has(i) ? 'on' : ''}" data-i="${i}" ${past ? 'disabled' : ''}><span class="ck">${sel.has(i) ? icon('check', 12) : ''}</span><span class="grow">${esc(o.l)}</span></button>`; }).join('')}</div>
+<a class="btn primary pp-send ${ok ? '' : 'off'}" href="${ok ? esc(href) : '#'}" target="_blank" rel="noopener" id="pp-send" aria-disabled="${!ok}">${icon('message', 16)}Enviar</a>
+</div>`;
+const inp = $('#pp-name', pg);
+inp.addEventListener('input', () => { name = inp.value; const pos = inp.selectionStart; draw(); const n2 = $('#pp-name', pg); n2.focus(); n2.setSelectionRange(pos, pos); });
+$$('.pp-opt[data-i]', pg).forEach(b => b.addEventListener('click', () => { const i = +b.dataset.i; sel.has(i) ? sel.delete(i) : sel.add(i); draw(); }));
+$('#pp-send', pg).addEventListener('click', e => { if (!ok) { e.preventDefault(); $('#pp-name', pg).focus(); } });
+};
+draw();
+document.documentElement.lang = 'es';
+document.title = `¿Te apetece ${pl.ph || pl.a}?`;
+}
+/* --- weather (AEMET) --- */
+const WX_DEFAULT_URL = 'https://www.aemet.es/xml/municipios/localidad_28115.xml';
+const WX_SLOT_PERIODS = {morning:['06-12', '00-12', '00-24'], lunch:['12-18', '12-24', '00-24'], afternoon:['12-18', '12-24', '00-24'], evening:['18-24', '12-24', '00-24']};
+let wxBusy = false, wxError = '';
+function wxIcon(code) {
+const c = parseInt(code, 10);
+if (c === 11) return 'sun';
+if ([12, 13, 17].includes(c)) return 'cloudsun';
+if ((c >= 23 && c <= 26) || (c >= 43 && c <= 46)) return 'rain';
+if ((c >= 33 && c <= 36) || (c >= 71 && c <= 74)) return 'snow';
+if ((c >= 51 && c <= 54) || (c >= 61 && c <= 64)) return 'storm';
+if (c >= 81 && c <= 83) return 'fog';
+return 'cloud';
+}
+function wxDecode(buf) {
+try { return new TextDecoder('utf-8', {fatal:true}).decode(buf); } catch (e) {}
+const head = new TextDecoder('latin1').decode(buf.slice(0, 200));
+const enc = (head.match(/encoding=["']([^"']+)["']/i) || [])[1] || 'iso-8859-15';
+try { return new TextDecoder(enc).decode(buf); } catch (e) { return new TextDecoder('latin1').decode(buf); }
+}
+function parseAemet(txt) {
+const x = new DOMParser().parseFromString(txt, 'application/xml');
+if (x.querySelector('parsererror') || !x.querySelector('prediccion')) throw new Error('This is not an AEMET forecast file');
+const num = (el, sel) => { const e = el && el.querySelector(sel); const v = e ? e.textContent.trim() : ''; return v === '' ? null : +v; };
+const days = [...x.querySelectorAll('prediccion > dia')].map(d => {
+const per = tag => [...d.querySelectorAll(':scope > ' + tag)].map(e => ({p:e.getAttribute('periodo') || '00-24', v:e.textContent.trim(), desc:e.getAttribute('descripcion') || ''})).filter(a => a.v !== '');
+const sky = per('estado_cielo'), rain = per('prob_precipitacion');
+const find = (arr, keys) => { for (const k of keys) { const f = arr.find(a => a.p === k); if (f) return f; } return null; };
+const daySky = find(sky, ['00-24', '12-24', '12-18', '06-12', '00-12', '18-24']) || sky[0] || null;
+const dayRain = find(rain, ['00-24']) || null;
+const periods = {};
+Object.entries(WX_SLOT_PERIODS).forEach(([rk, keys]) => {
+const s = find(sky, keys), r = find(rain, keys);
+if (s || r) periods[rk] = {code:s ? s.v.replace(/\D/g, '') : '', desc:s ? s.desc : '', rain:r ? +r.v : null};
+});
+const t = d.querySelector(':scope > temperatura');
+return {d:d.getAttribute('fecha'), code:daySky ? daySky.v.replace(/\D/g, '') : '', desc:daySky ? daySky.desc : '',
+max:num(t, 'maxima'), min:num(t, 'minima'), rain:dayRain ? +dayRain.v : (rain.length ? Math.max(...rain.map(r => +r.v)) : null), periods};
+}).filter(d => d.d);
+const nm = x.querySelector('root > nombre');
+return {place:nm ? nm.textContent.trim() : '', issued:(x.querySelector('elaborado') || {}).textContent || '', fetched:new Date().toISOString(), days};
+}
+async function wxFetch(force) {
+const url = (state.settings.weatherUrl || WX_DEFAULT_URL).trim();
+if (!url || wxBusy) return;
+const w = state.weather;
+if (!force && w && w.source === url && w.fetched && (Date.now() - Date.parse(w.fetched)) < 3 * 3600e3) return;
+wxBusy = true; wxError = '';
+const tries = [url, 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url), 'https://corsproxy.io/?url=' + encodeURIComponent(url)];
+let data = null;
+for (const u of tries) {
+try {
+const ctrl = new AbortController(); const tm = setTimeout(() => ctrl.abort(), 12000);
+const r = await fetch(u, {cache:'no-store', signal:ctrl.signal}); clearTimeout(tm);
+if (!r.ok) continue;
+data = parseAemet(wxDecode(await r.arrayBuffer()));
+break;
+} catch (e) { wxError = e.message || 'Could not load the forecast'; }
+}
+wxBusy = false;
+if (data) { data.source = url; state.weather = data; save(); wxError = ''; }
+else wxError = 'Could not reach AEMET. Download the XML and load it in Activities → Weather.';
+wxRefreshView();
+}
+function wxLoadFile(file) {
+file.arrayBuffer().then(buf => {
+try { const data = parseAemet(wxDecode(buf)); data.source = (state.settings.weatherUrl || WX_DEFAULT_URL).trim(); state.weather = data; save(); wxError = ''; toast(`Loaded the forecast for ${data.place || 'your area'}`); }
+catch (e) { toast(e.message); }
+wxRefreshView();
+});
+}
+function wxRefreshView() {
+const a = document.activeElement;
+if (drag || (a && a.matches && a.matches('input,textarea,[contenteditable="true"]'))) return;
+if (!$('#app').hidden && (ui.view === 'week' || ui.view === 'activities')) render();
+}
+const wxDay = date => state.weather && state.weather.days.find(d => d.d === date);
+function wxTip(day) {
+const parts = [`${day.desc || 'Forecast'} · ${day.max ?? '–'}° / ${day.min ?? '–'}°${day.rain != null ? ` · rain ${day.rain}%` : ''}`];
+ROWS.forEach(r => { const p = day.periods[r.k]; if (p && r.k !== 'lunch') parts.push(`${r.en}: ${p.desc || '–'}${p.rain != null ? `, rain ${p.rain}%` : ''}`); });
+return parts.join('\n') + (state.weather.place ? `\nAEMET · ${state.weather.place}` : '');
+}
+function wxHead(date) {
+const day = wxDay(date); if (!day) return '';
+return `<span class="wx" title="${esc(wxTip(day))}">${icon(wxIcon(day.code), 14)}<span class="t-label">${day.max ?? '–'}°</span><span class="wx-min">${day.min ?? '–'}°</span></span>`;
+}
+function wxCell(w, slot, past, filled) {
+if (past) return '';
+const day = wxDay(slotDate(w, slot)); if (!day) return '';
+const p = day.periods[slot.split('-')[1]];
+if (!p || p.rain == null || p.rain < 30) return '';
+return `<span class="wx-cell${filled ? ' low' : ''}" title="${esc(`${p.desc || 'Rain'} · rain ${p.rain}%`)}">${icon('drop', 11)}${p.rain}%</span>`;
+}
+function wxStatusHTML() {
+const w = state.weather;
+if (wxBusy) return `<span class="t-caption muted">Loading the AEMET forecast…</span>`;
+if (wxError && !w) return `<span class="t-caption" style="color:var(--danger)">${esc(wxError)}</span>`;
+if (!w) return `<span class="t-caption muted">No forecast loaded yet.</span>`;
+const t = new Date(w.fetched);
+return `<span class="t-caption muted">${esc(w.place || 'Forecast')} · ${w.days.length} days · loaded ${fmtShort(ymd(t))} ${pad(t.getHours())}:${pad(t.getMinutes())}</span>${wxError ? `<span class="t-caption" style="color:var(--danger)"> · last refresh failed</span>` : ''}`;
 }
 /* --- overview --- */
 function viewOverview() {
@@ -1061,7 +1516,51 @@ return `<div class="page-head"><div><div class="t-title">Activities</div><div cl
 <div class="row wrap" style="margin-top:10px"><button class="btn sm" data-act="rt-add">${icon('plus')}Add item</button><span class="grow"></span>
 <span class="t-caption muted">Fill empty slots for the next</span><select data-bind="apply-weeks" style="height:28px" aria-label="Number of weeks">${[4, 8, 12, 26].map(n => `<option ${ui.applyWeeks === n ? 'selected' : ''}>${n}</option>`).join('')}</select><span class="t-caption muted">weeks</span>
 <button class="btn primary sm" data-act="rt-apply">${icon('repeat')}Apply</button></div></section>
+<section class="scard"><h3>Weather</h3><p class="desc t-caption">AEMET forecast shown on the Week view: sky and temperatures on each day, and the chance of rain on slots where it is 30% or more.</p>
+<div class="field"><label for="wx-url">AEMET XML address</label><input id="wx-url" value="${esc(state.settings.weatherUrl)}" data-bind="setting" data-k="weatherUrl"></div>
+<div style="margin:8px 0 10px">${wxStatusHTML()}</div>
+<div class="row wrap"><button class="btn sm" data-act="wx-refresh">${icon('cloudsun')}Refresh now</button><button class="btn ghost sm" data-act="wx-file">${icon('upload')}Load XML file</button>
+<input type="file" id="wx-file" accept=".xml,text/xml,application/xml" hidden></div></section>
 </div></div>`;
+}
+/* --- whatsapp messages --- */
+const MSG_FIELDS = [
+{k:'person', title:'Invite a person', hint:'{nombre} {cuando}', rows:2, sample:{nombre:'Draco'}},
+{k:'group', title:'Invite a group', hint:'{cuando}', rows:2, sample:{}},
+{k:'padel', title:'Ask for padel players', hint:'{cuando} {somos} {faltan}', rows:2, sample:{somos:2, faltan:2}},
+{k:'pollGroup', title:'Poll for a group', hint:'{actividad} {enlace} {opciones}', rows:5, sample:{}},
+{k:'pollContacts', title:'Poll for contacts', hint:'{nombre} {actividad} {enlace} {opciones}', rows:5, sample:{nombre:'Draco'}}];
+function msgSample(k, M) {
+const f = MSG_FIELDS.find(x => x.k === k);
+const when = `el jueves 12 ${M.slots.evening}`;
+const opts = `1. Jueves 12 ${M.slots.evening}\n2. Sábado 14 ${M.slots.morning}`;
+return fillMsg(M[k], {cuando:when, actividad:actPhrase('Padel', M), opciones:opts, enlace:'https://…/#encuesta=…', ...f.sample});
+}
+function viewMessages() {
+const M = {...state.messages, ...ui.msgDraft, slots:{...state.messages.slots}, activities:{...state.messages.activities}};
+const field = f => `<div class="field msg-field"><label for="m-${f.k}">${f.title}</label>
+<textarea id="m-${f.k}" rows="${f.rows}" data-bind="msg" data-k="${f.k}" spellcheck="false">${esc(M[f.k])}</textarea>
+<div class="t-caption faint">Placeholders: <span class="t-code">${f.hint}</span></div>
+<div class="msg-preview t-caption" id="pv-${f.k}">${esc(msgSample(f.k, M))}</div></div>`;
+return `<div class="page-head"><div><div class="t-title">WhatsApp messages</div><div class="t-caption muted">The texts the app writes for you. Words in braces are filled in automatically; the grey box shows an example.</div></div>
+<button class="btn sm" data-act="msg-reset">${icon('undo')}Reset to defaults</button></div>
+<div class="grid2">
+<section class="scard"><h3>Invitations</h3><p class="desc t-caption">Used by the WhatsApp buttons on people and on plan cards.</p>
+${field(MSG_FIELDS[0])}${field(MSG_FIELDS[1])}${field(MSG_FIELDS[2])}
+<div class="field msg-field"><label for="m-noDate">{cuando} when there is no date yet</label><input id="m-noDate" value="${esc(M.noDate)}" data-bind="msg" data-k="noDate"></div></section>
+<div style="display:flex;flex-direction:column;gap:16px">
+<section class="scard"><h3>Polls</h3><p class="desc t-caption">Used by Organize a plan. {enlace} becomes the poll link; {opciones} the list of slots, if you prefer to include it.</p>${field(MSG_FIELDS[3])}${field(MSG_FIELDS[4])}</section>
+<section class="scard"><h3>Words</h3><p class="desc t-caption">{actividad} for each activity, and how each time of day is written.</p>
+<div class="msg-grid">${state.activities.map(a => `<label class="msg-k"><span class="ic"${colorAttr(a.name)}>${icon(a.icon, 12)}</span>${esc(a.name)}</label>
+<input value="${esc(actPhrase(a.name))}" data-bind="msg" data-k="act:${esc(a.name)}" aria-label="Phrase for ${esc(a.name)}">`).join('')}</div>
+<div class="sep"></div>
+<div class="msg-grid">${ROWS.map(r => `<label class="msg-k">${r.en}</label><input value="${esc(M.slots[r.k])}" data-bind="msg" data-k="slot:${r.k}" aria-label="${r.en}">`).join('')}</div></section>
+</div></div>`;
+}
+function setMsg(k, v, M = state.messages) {
+if (k.startsWith('act:')) { const n = k.slice(4); const def = ACT_ES[n.toLowerCase()] || `quedar para ${n.toLowerCase()}`; if (!v.trim() || v.trim() === def) delete M.activities[n]; else M.activities[n] = v.trim(); }
+else if (k.startsWith('slot:')) M.slots[k.slice(5)] = v.trim() || MSG_DEFAULTS.slots[k.slice(5)];
+else M[k] = v.trim() ? v : MSG_DEFAULTS[k];
 }
 /* --- sync --- */
 const PROMPT = 'Attached is my Moneypenny planner file (markdown). Please [describe the change, for example: add dinner with Draco next Thursday evening and move Friday gym to lunch on Wednesday]. Keep the exact format described at the top of the file and return the complete file.';
@@ -1082,6 +1581,7 @@ if (d.newActs.length) items.push(`<li>New activities: ${esc(d.newActs.join(', ')
 if (d.actChg && !d.newActs.length) items.push('<li>Activity targets updated</li>');
 if (d.freeChg) items.push('<li>Free slots updated</li>');
 if (d.rtChg) items.push('<li>Routine updated</li>');
+if (d.msgChg) items.push('<li>WhatsApp messages updated</li>');
 const errs = d.errors.length ? `<div class="t-caption" style="color:var(--danger);margin-top:8px">${d.errors.length} line${d.errors.length > 1 ? 's' : ''} skipped:<ul>${d.errors.slice(0, 6).map(e => `<li>Line ${e.line}: ${esc(e.why)} <span class="t-code faint">${esc(e.text.slice(0, 70))}</span></li>`).join('')}</ul></div>` : '';
 diffH = `<div class="diff"><div class="t-label">${d.nothing ? 'No changes found' : 'Changes to apply'}</div>${d.nothing ? '' : `<ul>${items.join('')}</ul>`}${errs}
 <div class="row" style="margin-top:10px"><button class="btn primary sm" data-act="imp-apply" ${d.nothing ? 'disabled' : ''}>${icon('check')}Apply changes</button><button class="btn ghost sm" data-act="imp-clear">Clear</button></div></div>`;
@@ -1190,6 +1690,26 @@ if (ui.colorOpen !== null && !e.target.closest('.cwrap')) { ui.colorOpen = null;
 if (!el || el.disabled) return;
 const d = el.dataset;
 switch (d.act) {
+case 'msg-reset': ui.msgDraft = {}; mutate('Reset WhatsApp messages to the defaults', () => { state.messages = clone(MSG_DEFAULTS); }); break;
+case 'wx-refresh': wxFetch(true); render(); break;
+case 'wx-file': $('#wx-file').click(); break;
+case 'org-start': orgStart(); break;
+case 'org-cancel': ui.org = null; render(); break;
+case 'org-act': ui.org.activity = d.name; ui.org.editAct = false; orgSync(); render(); break;
+case 'org-act-edit': ui.org.editAct = true; render(); break;
+case 'org-slot': { const o = ui.org; if (!o) break; const i = orgPicked(d.week, d.slot); if (i >= 0) o.slots.splice(i, 1); else o.slots.push({week:d.week, slot:d.slot}); orgSync(); render(); break; }
+case 'org-tab': ui.org.tab = d.t; ui.org.q = ''; orgSync(); render(); break;
+case 'org-group': ui.org.group = ui.org.group === d.g ? '' : d.g; render(); break;
+case 'org-contact': { const c = ui.org.contacts, i = c.indexOf(d.name); i >= 0 ? c.splice(i, 1) : c.push(d.name); render(); break; }
+case 'org-reset': ui.org.touched = false; orgSync(); render(); break;
+case 'org-sent': setTimeout(orgCommit, 60); break;
+case 'org-copy': { const o = ui.org; copyText(orgFinalText(o, o.tab === 'group' ? 'a todos' : (o.contacts[0] ? firstName(o.contacts[0]) : ''))).then(ok => toast(ok ? 'Message copied' : 'Could not copy')); setTimeout(orgCommit, 60); break; }
+case 'poll-new': ui.view = 'week'; orgStart(); window.scrollTo(0, 0); break;
+case 'poll-choose': { const p = state.polls.find(x => x.id === d.id); if (p) choosePollOption(p, +d.i); break; }
+case 'poll-unvote': { const p = state.polls.find(x => x.id === d.id); if (p) mutate('Removed the answer', () => p.responses.splice(+d.k, 1)); break; }
+case 'poll-reopen': { const p = state.polls.find(x => x.id === d.id); if (p) mutate('Poll reopened', () => { p.closed = false; p.chosen = -1; }); break; }
+case 'poll-del': { const p = state.polls.find(x => x.id === d.id); if (p) mutate('Poll deleted', () => { state.polls = state.polls.filter(x => x !== p); }); break; }
+case 'vote-import': { const t = ($('[data-bind="vote-text"]') || {}).value || ui.voteText; const r = importVotes(t); ui.voteText = ''; render(); toast(r.total ? `Added ${r.ok} of ${r.total} answer${r.total === 1 ? '' : 's'}` : 'No answer links found in that text', r.ok > 0); break; }
 case 'color-open': ui.colorOpen = ui.colorOpen === +d.i ? null : +d.i; render(); break;
 case 'color-set': { const a = state.activities[+d.i]; ui.colorOpen = null; if (a) mutate(`Changed ${a.name} colour`, () => { a.color = d.color; }); else render(); break; }
 case 'view': ui.view = d.view; render(); window.scrollTo(0, 0); break;
@@ -1247,6 +1767,7 @@ if ($('#app').hidden || $('#modal-root').innerHTML) return;
 const typing = e.target.closest('input,textarea,select,[contenteditable="true"]');
 if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z' && !typing) { e.preventDefault(); undo(); return; }
 if (typing) return;
+if (e.target.matches('.cell.pickable') && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); e.target.click(); return; }
 if (e.target.matches('.card')) {
 if (e.key === 'Enter' || e.key === 'F2') { e.preventDefault(); startRename(e.target); return; }
 if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); const p = state.plans.find(x => x.id === e.target.dataset.id); if (p) mutate(`Deleted "${p.title}"`, () => { state.plans = state.plans.filter(x => x.id !== p.id); }); return; }
@@ -1258,6 +1779,7 @@ else if (e.key === 'ArrowRight') setWeek(addDays(ui.week, 7));
 });
 document.addEventListener('change', e => {
 const el = e.target, d = el.dataset;
+if (el.id === 'wx-file' && el.files && el.files[0]) { wxLoadFile(el.files[0]); return; }
 if (el.id === 'imp-input' && el.files && el.files[0]) { const f = el.files[0]; f.text().then(t => loadImportText(t, f.name)); return; }
 switch (d.bind) {
 case 'focus': mutate(null, () => { if (el.value) state.focus[ui.week] = el.value; else delete state.focus[ui.week]; }); break;
@@ -1269,6 +1791,9 @@ else mutate(null, () => { a[d.f] = d.f === 'target' ? Math.max(0, parseInt(el.va
 break; }
 case 'rt': mutate(null, () => { const r = state.routine[+d.i]; if (r) r[d.f] = el.value; }); break;
 case 'apply-weeks': ui.applyWeeks = +el.value; break;
+case 'org-hold': if (ui.org) ui.org.hold = el.checked; break;
+case 'setting': mutate(null, () => { state.settings[d.k] = el.value.trim(); }); if (d.k === 'weatherUrl') wxFetch(true); break;
+case 'msg': { const k = d.k; delete ui.msgDraft[k]; mutate(null, () => setMsg(k, el.value)); break; }
 case 'exp-past': ui.expPast = el.checked; render(); break;
 case 'imp-mode': ui.imp.mode = el.value; if (ui.imp.parsed) { ui.imp.diff = diffImport(ui.imp.parsed, ui.imp.mode); render(); } break;
 }
@@ -1276,6 +1801,11 @@ case 'imp-mode': ui.imp.mode = el.value; if (ui.imp.parsed) { ui.imp.diff = diff
 document.addEventListener('input', e => {
 const d = e.target.dataset;
 if (d.bind === 'search') { ui.search = e.target.value; const t = $('#people-table'); if (t) t.innerHTML = peopleTable(); }
+else if (d.bind === 'msg' && !d.k.includes(':') && d.k !== 'noDate') { ui.msgDraft[d.k] = e.target.value; const M = {...state.messages, ...ui.msgDraft}; const pv = $('#pv-' + d.k); if (pv) pv.textContent = msgSample(d.k, M); }
+else if (d.bind === 'vote-text') { ui.voteText = e.target.value; }
+else if (d.bind === 'org-place') { ui.org.place = e.target.value; const t = $('#org-send'); if (t) t.innerHTML = orgSendHTML(); }
+else if (d.bind === 'org-q') { ui.org.q = e.target.value; const t = $('#org-list'); if (t) t.innerHTML = orgListHTML(); }
+else if (d.bind === 'org-text') { ui.org.text = e.target.value; ui.org.touched = true; const t = $('#org-send'); if (t) t.innerHTML = orgSendHTML(); }
 else if (d.bind === 'psearch') { ui.psearch = e.target.value; const t = $('#plist'); if (t) t.innerHTML = plistHTML(); }
 else if (d.bind === 'imp-text') { ui.imp.text = e.target.value; }
 });
@@ -1381,7 +1911,27 @@ function showLogin() {
 pinBuf = ''; drawDots(); $('#pin-err').textContent = '';
 $('#app').hidden = true; $('#login').hidden = false; closeDialog();
 }
-function showApp() { $('#login').hidden = true; $('#app').hidden = false; render(); }
+let pendingVote = null;
+function showApp() {
+$('#login').hidden = true; $('#pollpage').hidden = true; $('#app').hidden = false;
+if (pendingVote) {
+const code = pendingVote; pendingVote = null;
+try { history.replaceState(null, '', location.href.split('#')[0]); } catch (e) {}
+const r = importVotes('#vote=' + code); ui.view = 'polls'; render();
+toast(r.ok ? `${r.last.name} answered the ${r.last.p.activity} poll` : 'That answer link could not be read', r.ok > 0);
+return;
+}
+render();
+wxFetch(false).then(() => {}, () => {});
+}
+function route() {
+const h = location.hash;
+const pm = h.match(/^#(?:poll|encuesta)=(.+)$/), vm = h.match(/^#(?:vote|respuesta)=(.+)$/);
+if (pm) { try { showPollPage(b64d(pm[1])); return true; } catch (e) { $('#login').hidden = true; $('#app').hidden = true; const pg = $('#pollpage'); pg.hidden = false; pg.innerHTML = '<div class="pp-card"><div class="t-title">Enlace no válido</div><div class="t-caption muted">Pide al organizador que te lo envíe de nuevo.</div></div>'; return true; } }
+if (vm) pendingVote = vm[1];
+return false;
+}
+window.addEventListener('hashchange', () => { if (route()) return; if (pendingVote && !$('#app').hidden) showApp(); });
 function initLogin() {
 $('#lk-ic').innerHTML = icon('lock', 18);
 $('#keypad').innerHTML = ['1','2','3','4','5','6','7','8','9','','0','back'].map(k => k === '' ? '<button class="blank" tabindex="-1" aria-hidden="true"></button>'
@@ -1395,6 +1945,7 @@ const t = store.get(THEME_KEY) || (window.matchMedia && matchMedia('(prefers-col
 setTheme(t, false);
 $('#undo-btn').innerHTML = icon('undo'); $('#lock-btn').innerHTML = icon('lock');
 initLogin();
+if (route()) return;
 if (store.get(SESSION_KEY, sessionStorage) === '1') showApp(); else showLogin();
 // keep "today" fresh if the app stays open overnight
 setInterval(() => { const t2 = ymd(new Date()); if (t2 !== TODAY && !$('#app').hidden && !$('#modal-root').innerHTML) render(); }, 60000);
